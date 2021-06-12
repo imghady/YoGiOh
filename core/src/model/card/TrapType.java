@@ -1,0 +1,15 @@
+package model.card;
+
+public enum TrapType {
+    MAGIC_CYLINDER,
+    MIRROR_FORCE,
+    TRAP_HOLE,
+    TORRENTIAL_TRIBUTE,
+    MIND_CRUSH,
+    NEGATE_ATTACK,
+    SOLEMN_WARNING,
+    MAGIC_JAMMER,
+    TIME_SEAL,
+    CALL_OF_THE_HAUNTED
+
+}
