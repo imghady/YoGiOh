@@ -29,7 +29,7 @@ public class Duel implements Screen {
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 960);
-        text = new BitmapFont(Gdx.files.internal("times.fnt"));
+        text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");

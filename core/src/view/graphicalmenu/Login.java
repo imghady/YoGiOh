@@ -34,7 +34,7 @@ public class Login implements Screen, Input.TextInputListener, InputProcessor {
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 960);
-        text = new BitmapFont(Gdx.files.internal("times.fnt"));
+        text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         login = new Texture("buttons/login.png");
         mute = new Texture("buttons/mute.png");
@@ -57,6 +57,7 @@ public class Login implements Screen, Input.TextInputListener, InputProcessor {
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600, 960);
+        text.getData().setScale(0.3f);
         text.draw(batch, "Login Menu", 150, 850);
         batch.draw(login, 800, 100, login.getWidth(), login.getHeight());
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());

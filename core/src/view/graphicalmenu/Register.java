@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
 
 public class Register implements Screen, Input.TextInputListener {
+
     SpriteBatch batch;
     final MyGdxGame game;
     OrthographicCamera camera;
@@ -29,6 +30,7 @@ public class Register implements Screen, Input.TextInputListener {
     boolean isHolderUsername = false;
     boolean isHolderPassword = false;
     boolean isHolderNickname = false;
+    Texture field;
 
     public Register(MyGdxGame game, boolean isMute) {
         this.isMute = isMute;
@@ -36,13 +38,14 @@ public class Register implements Screen, Input.TextInputListener {
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 960);
-        text = new BitmapFont(Gdx.files.internal("times.fnt"));
+        text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         register = new Texture("buttons/register.png");
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
         backButton = new Texture("buttons/back.png");
+        field = new Texture("buttons/registerfields.png");
     }
 
     @Override
@@ -56,9 +59,11 @@ public class Register implements Screen, Input.TextInputListener {
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600, 960);
+        text.getData().setScale(0.3f);
         text.draw(batch, "Register Menu", 150, 850);
         batch.draw(register, 800, 100, register.getWidth(), register.getHeight());
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
+        batch.draw(field, 100, 300, field.getWidth(), field.getHeight());
         batch.end();
 
         if (Gdx.input.justTouched()) {

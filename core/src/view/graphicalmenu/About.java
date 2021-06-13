@@ -26,7 +26,7 @@ public class About implements Screen {
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 960);
-        text = new BitmapFont(Gdx.files.internal("times.fnt"));
+        text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
@@ -44,6 +44,7 @@ public class About implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600,960);
+        text.getData().setScale(0.2f);
         text.draw(batch, "This game developed by team-27\nfor advance programming course project.\n\nDevelopers :\nAmirreza Ghadyani\nArad Maleki\nAli Rahimi Akbar", 250, 800);
         text.draw(batch, "Thanks for attention!", 250, 200);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
