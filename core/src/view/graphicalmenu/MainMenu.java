@@ -1,7 +1,6 @@
 package view.graphicalmenu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -9,28 +8,27 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
+import model.user.User;
 
-public class Register implements Screen, Input.TextInputListener {
+import java.awt.*;
+
+public class MainMenu implements Screen {
+
     SpriteBatch batch;
     final MyGdxGame game;
     OrthographicCamera camera;
     Texture wallpaper;
     BitmapFont text;
-    Texture register;
     Texture mute;
     Texture unmute;
     boolean isMute = false;
-    Music music;
     Texture backButton;
-    String username;
-    String password;
-    String nickname;
-    String holder;
-    boolean isHolderUsername = false;
-    boolean isHolderPassword = false;
-    boolean isHolderNickname = false;
+    User currentLoggedInUser;
+    Texture fields;
+    Texture play;
 
-    public Register(MyGdxGame game, boolean isMute) {
+    public MainMenu(MyGdxGame game, boolean isMute, User user) {
+        this.currentLoggedInUser = user;
         this.isMute = isMute;
         this.game = game;
         batch = new SpriteBatch();
@@ -38,12 +36,13 @@ public class Register implements Screen, Input.TextInputListener {
         camera.setToOrtho(false, 1600, 960);
         text = new BitmapFont(Gdx.files.internal("times.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
-        register = new Texture("buttons/register.png");
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
-        music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
         backButton = new Texture("buttons/back.png");
+        fields = new Texture("buttons/mainFields.png");
+        play = new Texture("buttons/play.png");
     }
+
 
     @Override
     public void show() {
@@ -56,9 +55,10 @@ public class Register implements Screen, Input.TextInputListener {
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600, 960);
-        text.draw(batch, "Register Menu", 150, 850);
-        batch.draw(register, 800, 100, register.getWidth(), register.getHeight());
+        text.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
+        batch.draw(fields, 170, 140, fields.getWidth(), fields.getHeight());
+        batch.draw(play, 1210, 170, 300, 300);
         batch.end();
 
         if (Gdx.input.justTouched()) {
@@ -74,6 +74,30 @@ public class Register implements Screen, Input.TextInputListener {
                     dispose();
                 }
             }
+
+            if (Gdx.input.getY() > 790 - play.getHeight() && Gdx.input.getY() < 790) {
+                if (Gdx.input.getX() > 1210 && Gdx.input.getX() < 1210 + play.getWidth()) {
+                    game.setScreen(new Duel(game, isMute, currentLoggedInUser));
+                    dispose();
+                }
+            }
+
+            if (Gdx.input.getX() > 170 && Gdx.input.getX() < 170 + fields.getWidth()) {
+                if (Gdx.input.getY() > 665 && Gdx.input.getY() < 820) {
+                    game.setScreen(new Shop(game, isMute, currentLoggedInUser));
+                    dispose();
+                } else if (Gdx.input.getY() > 510 && Gdx.input.getY() < 665) {
+                    game.setScreen(new Scoreboard(game, isMute, currentLoggedInUser));
+                    dispose();
+                } else if (Gdx.input.getY() > 355 && Gdx.input.getY() < 510) {
+                    game.setScreen(new Profile(game, isMute, currentLoggedInUser));
+                    dispose();
+                } else if (Gdx.input.getY() > 200 && Gdx.input.getY() < 335) {
+                    game.setScreen(new Decks(game, isMute, currentLoggedInUser));
+                    dispose();
+                }
+            }
+
         }
 
 
@@ -113,26 +137,6 @@ public class Register implements Screen, Input.TextInputListener {
 
     @Override
     public void dispose() {
-
-    }
-
-    @Override
-    public void input(String text) {
-        this.holder = text;
-
-        if (isHolderUsername) {
-            username = holder;
-            isHolderUsername = false;
-        }
-
-        if (isHolderPassword) {
-            password = holder;
-            isHolderPassword = false;
-        }
-    }
-
-    @Override
-    public void canceled() {
 
     }
 }

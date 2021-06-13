@@ -1,36 +1,29 @@
 package view.graphicalmenu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
+import model.user.User;
 
-public class Register implements Screen, Input.TextInputListener {
+public class Profile implements Screen {
+
     SpriteBatch batch;
     final MyGdxGame game;
     OrthographicCamera camera;
     Texture wallpaper;
     BitmapFont text;
-    Texture register;
     Texture mute;
     Texture unmute;
     boolean isMute = false;
-    Music music;
     Texture backButton;
-    String username;
-    String password;
-    String nickname;
-    String holder;
-    boolean isHolderUsername = false;
-    boolean isHolderPassword = false;
-    boolean isHolderNickname = false;
+    User currentLoggedInUser;
 
-    public Register(MyGdxGame game, boolean isMute) {
+    public Profile(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
+        this.currentLoggedInUser = currentLoggedInUser;
         this.isMute = isMute;
         this.game = game;
         batch = new SpriteBatch();
@@ -38,10 +31,8 @@ public class Register implements Screen, Input.TextInputListener {
         camera.setToOrtho(false, 1600, 960);
         text = new BitmapFont(Gdx.files.internal("times.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
-        register = new Texture("buttons/register.png");
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
-        music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
         backButton = new Texture("buttons/back.png");
     }
 
@@ -56,8 +47,8 @@ public class Register implements Screen, Input.TextInputListener {
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600, 960);
-        text.draw(batch, "Register Menu", 150, 850);
-        batch.draw(register, 800, 100, register.getWidth(), register.getHeight());
+        text.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
+        text.draw(batch, "Profile Menu", 150, 850);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.end();
 
@@ -70,10 +61,11 @@ public class Register implements Screen, Input.TextInputListener {
 
             if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
                 if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
-                    game.setScreen(new Start(game, isMute));
+                    game.setScreen(new MainMenu(game, isMute, currentLoggedInUser));
                     dispose();
                 }
             }
+
         }
 
 
@@ -88,7 +80,6 @@ public class Register implements Screen, Input.TextInputListener {
             MyGdxGame.music.play();
             batch.end();
         }
-
     }
 
     @Override
@@ -113,26 +104,6 @@ public class Register implements Screen, Input.TextInputListener {
 
     @Override
     public void dispose() {
-
-    }
-
-    @Override
-    public void input(String text) {
-        this.holder = text;
-
-        if (isHolderUsername) {
-            username = holder;
-            isHolderUsername = false;
-        }
-
-        if (isHolderPassword) {
-            password = holder;
-            isHolderPassword = false;
-        }
-    }
-
-    @Override
-    public void canceled() {
 
     }
 }

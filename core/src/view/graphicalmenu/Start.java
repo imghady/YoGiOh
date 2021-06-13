@@ -89,7 +89,6 @@ public class Start extends Game implements Screen,  Input.TextInputListener  {
             }
 
 
-
         }
 
 
