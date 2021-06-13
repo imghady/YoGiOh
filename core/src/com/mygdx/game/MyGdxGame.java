@@ -1,7 +1,9 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import view.graphicalmenu.Start;
@@ -9,12 +11,16 @@ import view.graphicalmenu.Start;
 public class MyGdxGame extends Game implements Screen {
 	public SpriteBatch batch;
 	public BitmapFont font;
+	public static Music music;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		font = new BitmapFont();
-		this.setScreen(new Start(this));
+		music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+		music.setLooping(true);
+		this.setScreen(new Start(this, true));
+
 	}
 
 	@Override

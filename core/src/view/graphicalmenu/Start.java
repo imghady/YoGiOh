@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.MyGdxGame;
 
 public class Start extends Game implements Screen,  Input.TextInputListener  {
+
     SpriteBatch batch;
     final MyGdxGame game;
     OrthographicCamera camera;
@@ -23,13 +24,12 @@ public class Start extends Game implements Screen,  Input.TextInputListener  {
     Texture mute;
     Texture unmute;
     boolean isMute = false;
-    Music music;
     Texture title;
     Texture about;
 
 
 
-    public Start(MyGdxGame game) {
+    public Start(MyGdxGame game, boolean isMute) {
         this.game = game;
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
@@ -42,7 +42,6 @@ public class Start extends Game implements Screen,  Input.TextInputListener  {
         unmute = new Texture("buttons/unmute.png");
         title = new Texture("buttons/title.png");
         about = new Texture("buttons/about.png");
-        music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
     }
 
 
@@ -67,27 +66,24 @@ public class Start extends Game implements Screen,  Input.TextInputListener  {
         if (Gdx.input.justTouched()) {
 
             if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + mute.getWidth()
-                    && Gdx.input.getY() < 150 && Gdx.input.getY() > 150 - mute.getHeight()) {
+                    && Gdx.input.getY() < 110 && Gdx.input.getY() > 110 - mute.getHeight()) {
                 isMute = !isMute;
             }
 
             if (Gdx.input.getX() > 110 && Gdx.input.getX() < 110 + login.getWidth()
                     && Gdx.input.getY() < 660 && Gdx.input.getY() > 660 - login.getHeight()) {
-                music.pause();
                 game.setScreen(new Login(game, isMute));
                 dispose();
             }
 
             if (Gdx.input.getX() > 110 && Gdx.input.getX() < 110 + register.getWidth()
                     && Gdx.input.getY() < 860 && Gdx.input.getY() > 860 - register.getHeight()) {
-                music.pause();
                 game.setScreen(new Register(game, isMute));
                 dispose();
             }
 
             if (Gdx.input.getX() > 1150 && Gdx.input.getX() < 1150 + about.getWidth()
                     && Gdx.input.getY() < 160 && Gdx.input.getY() > 160 - about.getHeight()) {
-                music.pause();
                 game.setScreen(new About(game, isMute));
                 dispose();
             }
@@ -100,12 +96,12 @@ public class Start extends Game implements Screen,  Input.TextInputListener  {
         if (isMute) {
             batch.begin();
             batch.draw(mute, 10, 850, mute.getWidth(), mute.getHeight());
-            music.pause();
+            MyGdxGame.music.pause();
             batch.end();
         } else {
             batch.begin();
             batch.draw(unmute, 10, 850, unmute.getWidth(), unmute.getHeight());
-            music.play();
+            MyGdxGame.music.play();
             batch.end();
         }
 

@@ -18,7 +18,6 @@ public class About implements Screen {
     Texture mute;
     Texture unmute;
     boolean isMute = false;
-    Music music;
     Texture backButton;
 
     public About(MyGdxGame game, boolean isMute) {
@@ -31,7 +30,6 @@ public class About implements Screen {
         wallpaper = new Texture("wallpaper.jpg");
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
-        music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
         backButton = new Texture("buttons/back.png");
     }
 
@@ -54,14 +52,13 @@ public class About implements Screen {
         if (Gdx.input.justTouched()) {
 
             if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + mute.getWidth()
-                    && Gdx.input.getY() < 150 && Gdx.input.getY() > 150 - mute.getHeight()) {
+                    && Gdx.input.getY() < 110 && Gdx.input.getY() > 110 - mute.getHeight()) {
                 isMute = !isMute;
             }
 
             if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
                 if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
-                    music.pause();
-                    game.setScreen(new Start(game));
+                    game.setScreen(new Start(game, isMute));
                     dispose();
                 }
             }
@@ -73,14 +70,15 @@ public class About implements Screen {
         if (isMute) {
             batch.begin();
             batch.draw(mute, 10, 850, mute.getWidth(), mute.getHeight());
-            music.pause();
+            MyGdxGame.music.pause();
             batch.end();
         } else {
             batch.begin();
             batch.draw(unmute, 10, 850, unmute.getWidth(), unmute.getHeight());
-            music.play();
+            MyGdxGame.music.play();
             batch.end();
         }
+
     }
 
     @Override

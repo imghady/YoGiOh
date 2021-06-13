@@ -64,14 +64,13 @@ public class Register implements Screen ,  Input.TextInputListener {
         if (Gdx.input.justTouched()) {
 
             if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + mute.getWidth()
-                    && Gdx.input.getY() < 150 && Gdx.input.getY() > 150 - mute.getHeight()) {
+                    && Gdx.input.getY() < 110 && Gdx.input.getY() > 110 - mute.getHeight()) {
                 isMute = !isMute;
             }
 
             if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
                 if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
-                    music.pause();
-                    game.setScreen(new Start(game));
+                    game.setScreen(new Start(game, isMute));
                     dispose();
                 }
             }
@@ -81,12 +80,12 @@ public class Register implements Screen ,  Input.TextInputListener {
         if (isMute) {
             batch.begin();
             batch.draw(mute, 10, 850, mute.getWidth(), mute.getHeight());
-            music.pause();
+            MyGdxGame.music.pause();
             batch.end();
         } else {
             batch.begin();
             batch.draw(unmute, 10, 850, unmute.getWidth(), unmute.getHeight());
-            music.play();
+            MyGdxGame.music.play();
             batch.end();
         }
 
