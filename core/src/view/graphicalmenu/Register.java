@@ -4,11 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
+import controller.LoginMenu;
+import model.Finisher;
+import model.user.User;
+
+import javax.print.attribute.standard.Finishings;
+import java.io.IOException;
 
 public class Register implements Screen, Input.TextInputListener {
 
@@ -16,6 +23,7 @@ public class Register implements Screen, Input.TextInputListener {
     final MyGdxGame game;
     OrthographicCamera camera;
     Texture wallpaper;
+    BitmapFont title;
     BitmapFont text;
     Texture register;
     Texture mute;
@@ -31,6 +39,7 @@ public class Register implements Screen, Input.TextInputListener {
     boolean isHolderPassword = false;
     boolean isHolderNickname = false;
     Texture field;
+    int message = 0;
 
     public Register(MyGdxGame game, boolean isMute) {
         this.isMute = isMute;
@@ -38,6 +47,7 @@ public class Register implements Screen, Input.TextInputListener {
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 960);
+        title = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         register = new Texture("buttons/register.png");
@@ -59,11 +69,13 @@ public class Register implements Screen, Input.TextInputListener {
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600, 960);
-        text.getData().setScale(0.3f);
-        text.draw(batch, "Register Menu", 150, 850);
+        title.getData().setScale(0.3f);
+        text.getData().setScale(0.2f);
+        title.draw(batch, "Register Menu", 150, 850);
         batch.draw(register, 800, 100, register.getWidth(), register.getHeight());
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(field, 100, 300, field.getWidth(), field.getHeight());
+        text.draw(batch, username + "\n\n" + password + "\n\n" + nickname, 380, 620);
         batch.end();
 
         if (Gdx.input.justTouched()) {
@@ -73,14 +85,68 @@ public class Register implements Screen, Input.TextInputListener {
                 isMute = !isMute;
             }
 
-            if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
-                if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
-                    game.setScreen(new Start(game, isMute));
-                    dispose();
+            backHandle();
+
+            if (Gdx.input.getX() > 100 && Gdx.input.getX() < 100 + field.getWidth()) {
+                if (Gdx.input.getY() > 660 - field.getHeight() / 3 && Gdx.input.getY() < 660) {
+                    isHolderNickname = true;
+                    Gdx.input.getTextInput(this, "nickname", "", "");
+                } else if (Gdx.input.getY() > 660 - 2 * field.getHeight() / 3 && Gdx.input.getY() < 660 - field.getHeight() / 3) {
+                    isHolderPassword = true;
+                    Gdx.input.getTextInput(this, "password", "", "");
+                } else if (Gdx.input.getY() > 660 - field.getHeight() && Gdx.input.getY() < 660 - 2 * field.getHeight() / 3) {
+                    isHolderUsername = true;
+                    Gdx.input.getTextInput(this, "username", "", "");
                 }
             }
+
+            if (Gdx.input.getY() > 860 - register.getHeight() && Gdx.input.getY() < 860) {
+                if (Gdx.input.getX() > 800 && Gdx.input.getX() < 800 + register.getWidth()) {
+                    if (username != null && password != null && nickname != null) {
+                        if (User.getUserByUsername(username) == null) {
+                            if (User.getUserByNickname(nickname) == null) {
+                                message = 4;
+                                LoginMenu loginMenu = new LoginMenu();
+                                loginMenu.registerNewUser(username, nickname, password);
+                                try {
+                                    Finisher.finish();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                message = 3;
+                            }
+                        } else {
+                            message = 2;
+                        }
+                    } else {
+                        message = 1;
+                    }
+                }
+            }
+
         }
 
+        if (message == 1) {
+            batch.begin();
+            text.draw(batch, "please complete all fields.", 130, 280);
+            batch.end();
+        } else if (message == 2) {
+            batch.begin();
+            text.setColor(com.badlogic.gdx.graphics.Color.RED);
+            text.draw(batch, "user with username " + username + " already exists", 130, 280);
+            batch.end();
+        } else if (message == 3) {
+            batch.begin();
+            text.setColor(Color.RED);
+            text.draw(batch, "user with nickname " + nickname + " already exists", 130, 280);
+            batch.end();
+        } else if (message == 4) {
+            batch.begin();
+            text.setColor(Color.GREEN);
+            text.draw(batch, "user created successfully!", 130, 280);
+            batch.end();
+        }
 
         if (isMute) {
             batch.begin();
@@ -94,6 +160,15 @@ public class Register implements Screen, Input.TextInputListener {
             batch.end();
         }
 
+    }
+
+    private void backHandle() {
+        if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
+            if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
+                game.setScreen(new Start(game, isMute));
+                dispose();
+            }
+        }
     }
 
     @Override
@@ -133,6 +208,11 @@ public class Register implements Screen, Input.TextInputListener {
         if (isHolderPassword) {
             password = holder;
             isHolderPassword = false;
+        }
+
+        if (isHolderNickname) {
+            nickname = holder;
+            isHolderNickname = false;
         }
     }
 

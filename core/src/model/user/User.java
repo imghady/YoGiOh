@@ -40,7 +40,7 @@ public class User {
         newUser.put("nickname", nickname);
         JSONObject userDecks = new JSONObject();
         newUser.put("decks", userDecks);
-        String fileAddress = "src/main/resources/users/" + username + ".json";
+        String fileAddress = "resources/users/" + username + ".json";
         try (FileWriter file = new FileWriter(fileAddress)) {
             file.write(newUser.toJSONString());
             file.flush();

@@ -2,22 +2,28 @@ package view.graphicalmenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
+import controller.LoginMenu;
+import model.Finisher;
+import model.user.User;
 
 import java.awt.*;
+import java.io.IOException;
+import java.util.Objects;
 
-public class Login implements Screen, Input.TextInputListener, InputProcessor {
+public class Login implements Screen, Input.TextInputListener {
     SpriteBatch batch;
     final MyGdxGame game;
     OrthographicCamera camera;
     Texture wallpaper;
+    BitmapFont title;
     BitmapFont text;
     Texture login;
     Texture mute;
@@ -26,7 +32,15 @@ public class Login implements Screen, Input.TextInputListener, InputProcessor {
     Music music;
     Texture backButton;
     Texture field;
-    TextField username;
+    TextField usernameButton;
+
+    String username;
+    String password;
+    String holder;
+    boolean isHolderUsername = false;
+    boolean isHolderPassword = false;
+
+    int message = 0;
 
     public Login(MyGdxGame game, boolean isMute) {
         this.isMute = isMute;
@@ -34,6 +48,7 @@ public class Login implements Screen, Input.TextInputListener, InputProcessor {
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 960);
+        title = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         login = new Texture("buttons/login.png");
@@ -42,7 +57,7 @@ public class Login implements Screen, Input.TextInputListener, InputProcessor {
         music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
         backButton = new Texture("buttons/back.png");
         field = new Texture("buttons/loginfields.png");
-        username = new TextField();
+        usernameButton = new TextField();
     }
 
     @Override
@@ -57,11 +72,13 @@ public class Login implements Screen, Input.TextInputListener, InputProcessor {
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600, 960);
-        text.getData().setScale(0.3f);
-        text.draw(batch, "Login Menu", 150, 850);
+        title.getData().setScale(0.3f);
+        text.getData().setScale(0.2f);
+        title.draw(batch, "Login Menu", 150, 850);
         batch.draw(login, 800, 100, login.getWidth(), login.getHeight());
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(field, 100, 350, field.getWidth(), field.getHeight());
+        text.draw(batch, username + "\n\n" + password, 380, 550);
         batch.end();
 
         if (Gdx.input.justTouched()) {
@@ -80,9 +97,35 @@ public class Login implements Screen, Input.TextInputListener, InputProcessor {
 
             if (Gdx.input.getX() > 800 && Gdx.input.getX() < 800 + login.getWidth()
                     && Gdx.input.getY() < 860 && Gdx.input.getY() > 860 - login.getHeight()) {
-                game.setScreen(new MainMenu(game, isMute, null));
-                dispose();
+                if (username != null && password != null) {
+                    if (User.getUserByUsername(username) != null) {
+                        LoginMenu loginMenu = new LoginMenu();
+                        if (loginMenu.isUsernameAndPasswordMatch(username, password)) {
+                            Objects.requireNonNull(User.getUserByUsername(username)).setUserLoggedIn(true);
+                            message = 4;
+                            game.setScreen(new MainMenu(game, isMute, User.getUserByUsername(username)));
+                            dispose();
+                        } else {
+                            message = 3;
+                        }
+                    } else {
+                        message = 2;
+                    }
+                } else {
+                    message = 1;
+                }
             }
+
+            if (Gdx.input.getX() > 100 && Gdx.input.getX() < 100 + field.getWidth()) {
+                if (Gdx.input.getY() > 610 - field.getHeight() / 2 && Gdx.input.getY() < 610) {
+                    isHolderPassword = true;
+                    Gdx.input.getTextInput(this, "password", "", "");
+                } else if (Gdx.input.getY() > 610 - field.getHeight() && Gdx.input.getY() < 610 - field.getHeight() / 2) {
+                    isHolderUsername = true;
+                    Gdx.input.getTextInput(this, "username", "", "");
+                }
+            }
+
 
         }
 
@@ -96,6 +139,28 @@ public class Login implements Screen, Input.TextInputListener, InputProcessor {
             batch.begin();
             batch.draw(unmute, 10, 850, unmute.getWidth(), unmute.getHeight());
             MyGdxGame.music.play();
+            batch.end();
+        }
+
+
+        if (message == 1) {
+            batch.begin();
+            text.draw(batch, "please complete all fields.", 130, 280);
+            batch.end();
+        } else if (message == 2) {
+            batch.begin();
+            text.setColor(com.badlogic.gdx.graphics.Color.RED);
+            text.draw(batch, "user with username " + username + " does not exists!", 130, 280);
+            batch.end();
+        } else if (message == 3) {
+            batch.begin();
+            text.setColor(Color.RED);
+            text.draw(batch, "Username and password didnt match!", 130, 280);
+            batch.end();
+        } else if (message == 4) {
+            batch.begin();
+            text.setColor(Color.GREEN);
+            text.draw(batch, "user logged in successfully!", 130, 280);
             batch.end();
         }
 
@@ -128,52 +193,23 @@ public class Login implements Screen, Input.TextInputListener, InputProcessor {
 
     @Override
     public void input(String text) {
+        this.holder = text;
+
+        if (isHolderUsername) {
+            username = holder;
+            isHolderUsername = false;
+        }
+
+        if (isHolderPassword) {
+            password = holder;
+            isHolderPassword = false;
+        }
 
     }
 
     @Override
     public void canceled() {
 
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(float amountX, float amountY) {
-        return false;
     }
 
 }

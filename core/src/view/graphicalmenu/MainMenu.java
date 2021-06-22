@@ -2,7 +2,6 @@ package view.graphicalmenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -10,14 +9,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
 import model.user.User;
 
-import java.awt.*;
-
 public class MainMenu implements Screen {
 
     SpriteBatch batch;
     final MyGdxGame game;
     OrthographicCamera camera;
     Texture wallpaper;
+    BitmapFont title;
     BitmapFont text;
     Texture mute;
     Texture unmute;
@@ -34,7 +32,8 @@ public class MainMenu implements Screen {
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 960);
-        text = new BitmapFont(Gdx.files.internal("times.fnt"));
+        title = new BitmapFont(Gdx.files.internal("times.fnt"));
+        text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
@@ -54,9 +53,11 @@ public class MainMenu implements Screen {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
+        text.getData().setScale(0.2f);
         batch.draw(wallpaper, 0, 0, 1600, 960);
-        text.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
+        title.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
+        text.draw(batch, "hi " + currentLoggedInUser.getUsername(), 910, 910);
         batch.draw(fields, 170, 140, fields.getWidth(), fields.getHeight());
         batch.draw(play, 1210, 170, 300, 300);
         batch.end();
