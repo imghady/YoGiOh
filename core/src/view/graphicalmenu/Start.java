@@ -30,6 +30,7 @@ public class Start extends Game implements Screen,  Input.TextInputListener  {
 
 
     public Start(MyGdxGame game, boolean isMute) {
+        this.isMute = isMute;
         this.game = game;
         batch = new SpriteBatch();
         camera = new OrthographicCamera();

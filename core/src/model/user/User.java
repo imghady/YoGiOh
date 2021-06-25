@@ -126,11 +126,11 @@ public class User {
         setCredit(this.credit - card.getPrice());
     }
 
-    public void addDeck(String name, Deck deck){
+    public void addDeck(String name, Deck deck) {
         this.decks.put(name, deck);
     }
 
-    public void deleteDeck(String name){
+    public void deleteDeck(String name) {
         this.decks.remove(name);
     }
 
@@ -145,7 +145,6 @@ public class User {
     public HashMap<String, Deck> getDecks() {
         return decks;
     }
-
 
 
     public boolean isUserLoggedIn() {
