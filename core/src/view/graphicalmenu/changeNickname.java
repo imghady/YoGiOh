@@ -9,8 +9,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
+import model.Finisher;
 import model.user.User;
 import view.TerminalOutput;
+
+import java.io.IOException;
 
 public class changeNickname implements Screen, Input.TextInputListener {
 
@@ -21,6 +24,7 @@ public class changeNickname implements Screen, Input.TextInputListener {
     BitmapFont text;
     BitmapFont text1;
     BitmapFont text2;
+    BitmapFont text3;
     Texture mute;
     Texture unmute;
     boolean isMute = false;
@@ -40,6 +44,7 @@ public class changeNickname implements Screen, Input.TextInputListener {
         camera.setToOrtho(false, 1600, 960);
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        text3 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         mute = new Texture("buttons/mute.png");
@@ -63,7 +68,9 @@ public class changeNickname implements Screen, Input.TextInputListener {
         batch.draw(wallpaper, 0, 0, 1600, 960);
         text.getData().setScale(0.2f);
         text2.getData().setScale(0.3f);
+        text3.getData().setScale(0.2f);
         text.setColor(Color.GREEN);
+        text3.setColor(Color.RED);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         text.draw(batch, "Change nickname", 150, 850);
         text.draw(batch, "enter your new nickname:", 150, 540);
@@ -71,6 +78,11 @@ public class changeNickname implements Screen, Input.TextInputListener {
         batch.draw(change, 100, 300, change.getWidth(), change.getHeight());
         text2.draw(batch, nickname, 550, 425);
         batch.draw(agree, 650, 100, agree.getWidth(), agree.getHeight());
+        if (message == 1) {
+            text3.draw(batch, nickname + " already taken!", 150, 250);
+        } else if (message == 2) {
+            text.draw(batch, "nickname changed successfully", 140, 250);
+        }
         batch.end();
 
         if (Gdx.input.justTouched()) {
@@ -89,6 +101,7 @@ public class changeNickname implements Screen, Input.TextInputListener {
 
             if (Gdx.input.getY() > 660 - change.getHeight() && Gdx.input.getY() < 660) {
                 if (Gdx.input.getX() > 100 && Gdx.input.getX() < 100 + change.getWidth()) {
+                    message = 0;
                     Gdx.input.getTextInput(this, "nickname", "", "");
                 }
             }
@@ -96,13 +109,16 @@ public class changeNickname implements Screen, Input.TextInputListener {
             if (Gdx.input.getY() > 860 - agree.getHeight() && Gdx.input.getY() < 860) {
                 if (Gdx.input.getX() > 650 && Gdx.input.getX() < 650 + agree.getWidth()) {
                     if (!canChangeNickname(nickname)) {
-                        TerminalOutput.output("user with nickname " + nickname + " already exists");
                         message = 1;
                     } else {
-
+                        message = 2;
+                        currentLoggedInUser.setNickname(nickname);
+                        try {
+                            Finisher.finish();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
-                } else {
-
                 }
             }
 

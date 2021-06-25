@@ -53,7 +53,7 @@ public class MainMenu implements Screen {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        text.getData().setScale(0.2f);
+        text.getData().setScale(0.3f);
         batch.draw(wallpaper, 0, 0, 1600, 960);
         title.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());

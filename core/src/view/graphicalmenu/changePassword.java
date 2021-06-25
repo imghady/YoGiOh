@@ -19,6 +19,7 @@ public class changePassword implements Screen {
     BitmapFont text1;
     Texture mute;
     Texture unmute;
+    Texture change;
     boolean isMute = false;
     Texture backButton;
     User currentLoggedInUser;
@@ -36,6 +37,7 @@ public class changePassword implements Screen {
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
+        change = new Texture("buttons/changePassword.png");
     }
 
     @Override

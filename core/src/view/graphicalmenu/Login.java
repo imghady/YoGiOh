@@ -73,13 +73,13 @@ public class Login implements Screen, Input.TextInputListener {
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600, 960);
         title.getData().setScale(0.35f);
-        text.getData().setScale(0.25f);
+        text.getData().setScale(0.21f);
         title.draw(batch, "Login Menu", 150, 850);
         batch.draw(login, 800, 100, login.getWidth(), login.getHeight());
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(field, 100, 350, field.getWidth(), field.getHeight());
-        text.draw(batch, username, 380, 565);
-        text.draw(batch, password, 380, 435);
+        text.draw(batch, username, 370, 560);
+        text.draw(batch, password, 370, 430);
         batch.end();
 
         if (Gdx.input.justTouched()) {
@@ -119,9 +119,11 @@ public class Login implements Screen, Input.TextInputListener {
 
             if (Gdx.input.getX() > 100 && Gdx.input.getX() < 100 + field.getWidth()) {
                 if (Gdx.input.getY() > 610 - field.getHeight() / 2 && Gdx.input.getY() < 610) {
+                    message = 0;
                     isHolderPassword = true;
                     Gdx.input.getTextInput(this, "password", "", "");
                 } else if (Gdx.input.getY() > 610 - field.getHeight() && Gdx.input.getY() < 610 - field.getHeight() / 2) {
+                    message = 0;
                     isHolderUsername = true;
                     Gdx.input.getTextInput(this, "username", "", "");
                 }
