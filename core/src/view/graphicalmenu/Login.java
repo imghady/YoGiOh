@@ -34,9 +34,9 @@ public class Login implements Screen, Input.TextInputListener {
     Texture field;
     TextField usernameButton;
 
-    String username;
-    String password;
-    String holder;
+    String username = "";
+    String password = "";
+    String holder = "";
     boolean isHolderUsername = false;
     boolean isHolderPassword = false;
 
@@ -72,13 +72,14 @@ public class Login implements Screen, Input.TextInputListener {
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600, 960);
-        title.getData().setScale(0.3f);
-        text.getData().setScale(0.2f);
+        title.getData().setScale(0.35f);
+        text.getData().setScale(0.25f);
         title.draw(batch, "Login Menu", 150, 850);
         batch.draw(login, 800, 100, login.getWidth(), login.getHeight());
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(field, 100, 350, field.getWidth(), field.getHeight());
-        text.draw(batch, username + "\n\n" + password, 380, 550);
+        text.draw(batch, username, 380, 565);
+        text.draw(batch, password, 380, 435);
         batch.end();
 
         if (Gdx.input.justTouched()) {
@@ -97,7 +98,7 @@ public class Login implements Screen, Input.TextInputListener {
 
             if (Gdx.input.getX() > 800 && Gdx.input.getX() < 800 + login.getWidth()
                     && Gdx.input.getY() < 860 && Gdx.input.getY() > 860 - login.getHeight()) {
-                if (username != null && password != null) {
+                if (username != null && password != null && !username.equals("") && !password.equals("")) {
                     if (User.getUserByUsername(username) != null) {
                         LoginMenu loginMenu = new LoginMenu();
                         if (loginMenu.isUsernameAndPasswordMatch(username, password)) {

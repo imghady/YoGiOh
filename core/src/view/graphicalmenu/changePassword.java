@@ -52,7 +52,7 @@ public class changePassword implements Screen {
         batch.draw(wallpaper, 0, 0, 1600, 960);
         text.getData().setScale(0.2f);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "Change your password", 150, 850);
+        text.draw(batch, "Change password", 150, 850);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.end();
 

@@ -1,15 +1,18 @@
 package view.graphicalmenu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
 import model.user.User;
+import view.TerminalOutput;
 
-public class changeNickname implements Screen {
+public class changeNickname implements Screen, Input.TextInputListener {
 
     SpriteBatch batch;
     final MyGdxGame game;
@@ -17,11 +20,16 @@ public class changeNickname implements Screen {
     Texture wallpaper;
     BitmapFont text;
     BitmapFont text1;
+    BitmapFont text2;
     Texture mute;
     Texture unmute;
     boolean isMute = false;
     Texture backButton;
+    Texture change;
+    Texture agree;
     User currentLoggedInUser;
+    String nickname = "";
+    int message = 0;
 
     public changeNickname(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
@@ -31,11 +39,14 @@ public class changeNickname implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 960);
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        text2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
+        change = new Texture("buttons/changeNickname.png");
+        agree = new Texture("buttons/agree.png");
     }
 
     @Override
@@ -51,9 +62,15 @@ public class changeNickname implements Screen {
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600, 960);
         text.getData().setScale(0.2f);
+        text2.getData().setScale(0.3f);
+        text.setColor(Color.GREEN);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "Change your nickname:", 150, 850);
+        text.draw(batch, "Change nickname", 150, 850);
+        text.draw(batch, "enter your new nickname:", 150, 540);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
+        batch.draw(change, 100, 300, change.getWidth(), change.getHeight());
+        text2.draw(batch, nickname, 550, 425);
+        batch.draw(agree, 650, 100, agree.getWidth(), agree.getHeight());
         batch.end();
 
         if (Gdx.input.justTouched()) {
@@ -67,6 +84,25 @@ public class changeNickname implements Screen {
                 if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
                     game.setScreen(new Profile(game, isMute, currentLoggedInUser));
                     dispose();
+                }
+            }
+
+            if (Gdx.input.getY() > 660 - change.getHeight() && Gdx.input.getY() < 660) {
+                if (Gdx.input.getX() > 100 && Gdx.input.getX() < 100 + change.getWidth()) {
+                    Gdx.input.getTextInput(this, "nickname", "", "");
+                }
+            }
+
+            if (Gdx.input.getY() > 860 - agree.getHeight() && Gdx.input.getY() < 860) {
+                if (Gdx.input.getX() > 650 && Gdx.input.getX() < 650 + agree.getWidth()) {
+                    if (!canChangeNickname(nickname)) {
+                        TerminalOutput.output("user with nickname " + nickname + " already exists");
+                        message = 1;
+                    } else {
+
+                    }
+                } else {
+
                 }
             }
 
@@ -85,6 +121,10 @@ public class changeNickname implements Screen {
             batch.end();
         }
 
+    }
+
+    public boolean canChangeNickname(String nickname) {
+        return User.getUserByNickname(nickname) == null;
     }
 
     @Override
@@ -109,6 +149,16 @@ public class changeNickname implements Screen {
 
     @Override
     public void dispose() {
+
+    }
+
+    @Override
+    public void input(String text) {
+        nickname = text;
+    }
+
+    @Override
+    public void canceled() {
 
     }
 }
