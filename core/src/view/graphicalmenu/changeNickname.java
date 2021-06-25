@@ -9,13 +9,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
 import model.user.User;
 
-public class Profile implements Screen {
+public class changeNickname implements Screen {
 
     SpriteBatch batch;
     final MyGdxGame game;
     OrthographicCamera camera;
     Texture wallpaper;
-    Texture changes;
     BitmapFont text;
     BitmapFont text1;
     Texture mute;
@@ -24,7 +23,7 @@ public class Profile implements Screen {
     Texture backButton;
     User currentLoggedInUser;
 
-    public Profile(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
+    public changeNickname(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
         this.isMute = isMute;
         this.game = game;
@@ -37,7 +36,6 @@ public class Profile implements Screen {
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
-        changes = new Texture("buttons/changes.png");
     }
 
     @Override
@@ -47,15 +45,15 @@ public class Profile implements Screen {
 
     @Override
     public void render(float delta) {
+
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600, 960);
         text.getData().setScale(0.2f);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "Profile Menu", 150, 850);
+        text.draw(batch, "Change your nickname:", 150, 850);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
-        batch.draw(changes, 150, 200, changes.getWidth(), changes.getHeight());
         batch.end();
 
         if (Gdx.input.justTouched()) {
@@ -67,17 +65,7 @@ public class Profile implements Screen {
 
             if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
                 if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
-                    game.setScreen(new MainMenu(game, isMute, currentLoggedInUser));
-                    dispose();
-                }
-            }
-
-            if (Gdx.input.getX() > 150 && Gdx.input.getX() < 150 + changes.getWidth()) {
-                if (Gdx.input.getY() > 760 - changes.getHeight() / 2 && Gdx.input.getY() < 760) {
-                    game.setScreen(new changePassword(game, isMute, currentLoggedInUser));
-                    dispose();
-                } else if (Gdx.input.getY() > 760 - changes.getHeight() && Gdx.input.getY() < 760 - changes.getHeight() / 2) {
-                    game.setScreen(new changeNickname(game, isMute, currentLoggedInUser));
+                    game.setScreen(new Profile(game, isMute, currentLoggedInUser));
                     dispose();
                 }
             }
@@ -96,6 +84,7 @@ public class Profile implements Screen {
             MyGdxGame.music.play();
             batch.end();
         }
+
     }
 
     @Override
