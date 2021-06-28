@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
 import model.user.User;
 
-public class ShowAllCards1 implements Screen {
+public class ShowAllCards2 implements Screen {
 
     SpriteBatch batch;
     final MyGdxGame game;
@@ -22,12 +22,12 @@ public class ShowAllCards1 implements Screen {
     Texture backButton;
     Texture next;
     Texture pre;
-    Texture alexandriteDragon;
-    Texture axeRaider;
-    Texture babyDragon;
+    Texture battleOx;
+    Texture battleWarrior;
+    Texture beastKingBarbaros;
     User currentLoggedInUser;
 
-    public ShowAllCards1(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
+    public ShowAllCards2(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
         this.isMute = isMute;
         this.game = game;
@@ -41,11 +41,10 @@ public class ShowAllCards1 implements Screen {
         backButton = new Texture("buttons/back.png");
         next = new Texture("buttons/next.png");
         pre = new Texture("buttons/pre.png");
-        alexandriteDragon = new Texture("Cards/Monsters/AlexandriteDragon.jpg");
-        axeRaider = new Texture("Cards/Monsters/AxeRaider.jpg");
-        babyDragon = new Texture("Cards/Monsters/BabyDragon.jpg");
+        battleOx = new Texture("Cards/Monsters/BattleOx.jpg");
+        battleWarrior = new Texture("Cards/Monsters/BattleWarrior.jpg");
+        beastKingBarbaros = new Texture("Cards/Monsters/BeastKingBarbaros.jpg");
     }
-
 
     @Override
     public void show() {
@@ -59,13 +58,13 @@ public class ShowAllCards1 implements Screen {
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600,960);
         text.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "show all cards 1", 700, 900);
+        text.draw(batch, "show all cards 2", 700, 900);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(next, 800, 30, next.getWidth(), next.getHeight());
         batch.draw(pre, 700, 30, pre.getWidth(), pre.getHeight());
-        batch.draw(alexandriteDragon, 100, 150, alexandriteDragon.getWidth(), alexandriteDragon.getHeight());
-        batch.draw(axeRaider, 600, 150, axeRaider.getWidth(), axeRaider.getHeight());
-        batch.draw(babyDragon, 1100, 150, babyDragon.getWidth(), babyDragon.getHeight());
+        batch.draw(battleOx, 100, 150, battleOx.getWidth(), battleOx.getHeight());
+        batch.draw(battleWarrior, 600, 150, battleWarrior.getWidth(), battleWarrior.getHeight());
+        batch.draw(beastKingBarbaros, 1100, 150, beastKingBarbaros.getWidth(), beastKingBarbaros.getHeight());
         batch.end();
 
         if (Gdx.input.justTouched()) {
@@ -84,14 +83,15 @@ public class ShowAllCards1 implements Screen {
 
             if (Gdx.input.getY() > 930 - next.getHeight() && Gdx.input.getY() < 930) {
                 if (Gdx.input.getX() > 800 && Gdx.input.getX() < 800 + next.getWidth()) {
-                    game.setScreen(new ShowAllCards2(game, isMute, currentLoggedInUser));
+                    game.setScreen(new ShowAllCards3(game, isMute, currentLoggedInUser));
                     dispose();
                 }
             }
 
             if (Gdx.input.getY() > 930 - pre.getHeight() && Gdx.input.getY() < 930) {
                 if (Gdx.input.getX() > 700 && Gdx.input.getX() < 700 + pre.getWidth()) {
-
+                    game.setScreen(new ShowAllCards1(game, isMute, currentLoggedInUser));
+                    dispose();
                 }
             }
 
