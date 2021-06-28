@@ -22,9 +22,9 @@ public class ShowAllCards16 implements Screen {
     Texture backButton;
     Texture next;
     Texture pre;
-    Texture alexandriteDragon;
-    Texture axeRaider;
-    Texture babyDragon;
+    Texture changeOfHeart;
+    Texture closedForest;
+    Texture darkHole;
     User currentLoggedInUser;
 
     public ShowAllCards16(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
@@ -42,9 +42,9 @@ public class ShowAllCards16 implements Screen {
         backButton = new Texture("buttons/back.png");
         next = new Texture("buttons/next.png");
         pre = new Texture("buttons/pre.png");
-        alexandriteDragon = new Texture("Cards/Monsters/AlexandriteDragon.jpg");
-        axeRaider = new Texture("Cards/Monsters/AxeRaider.jpg");
-        babyDragon = new Texture("Cards/Monsters/BabyDragon.jpg");
+        changeOfHeart = new Texture("Cards/Monsters/ChangeOfHeart.jpg");
+        closedForest = new Texture("Cards/Monsters/ClosedForest.jpg");
+        darkHole = new Texture("Cards/Monsters/DarkHole.jpg");
     }
 
 
@@ -65,9 +65,9 @@ public class ShowAllCards16 implements Screen {
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(next, 800, 30, next.getWidth(), next.getHeight());
         batch.draw(pre, 700, 30, pre.getWidth(), pre.getHeight());
-        batch.draw(alexandriteDragon, 100, 150, alexandriteDragon.getWidth(), alexandriteDragon.getHeight());
-        batch.draw(axeRaider, 600, 150, axeRaider.getWidth(), axeRaider.getHeight());
-        batch.draw(babyDragon, 1100, 150, babyDragon.getWidth(), babyDragon.getHeight());
+        batch.draw(changeOfHeart, 100, 150, changeOfHeart.getWidth(), changeOfHeart.getHeight());
+        batch.draw(closedForest, 600, 150, closedForest.getWidth(), closedForest.getHeight());
+        batch.draw(darkHole, 1100, 150, darkHole.getWidth(), darkHole.getHeight());
         batch.end();
 
         if (Gdx.input.justTouched()) {

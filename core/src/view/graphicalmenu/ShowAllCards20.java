@@ -22,9 +22,9 @@ public class ShowAllCards20 implements Screen {
     Texture backButton;
     Texture next;
     Texture pre;
-    Texture alexandriteDragon;
-    Texture axeRaider;
-    Texture babyDragon;
+    Texture mysticalSpaceTyphoon;
+    Texture negateAttack;
+    Texture potOfGreed;
     User currentLoggedInUser;
 
     public ShowAllCards20(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
@@ -42,9 +42,9 @@ public class ShowAllCards20 implements Screen {
         backButton = new Texture("buttons/back.png");
         next = new Texture("buttons/next.png");
         pre = new Texture("buttons/pre.png");
-        alexandriteDragon = new Texture("Cards/Monsters/AlexandriteDragon.jpg");
-        axeRaider = new Texture("Cards/Monsters/AxeRaider.jpg");
-        babyDragon = new Texture("Cards/Monsters/BabyDragon.jpg");
+        mysticalSpaceTyphoon = new Texture("Cards/Monsters/MysticalSpaceTyphoon.jpg");
+        negateAttack = new Texture("Cards/Monsters/NegateAttack.jpg");
+        potOfGreed = new Texture("Cards/Monsters/PotOfGreed.jpg");
     }
 
 
@@ -65,9 +65,9 @@ public class ShowAllCards20 implements Screen {
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(next, 800, 30, next.getWidth(), next.getHeight());
         batch.draw(pre, 700, 30, pre.getWidth(), pre.getHeight());
-        batch.draw(alexandriteDragon, 100, 150, alexandriteDragon.getWidth(), alexandriteDragon.getHeight());
-        batch.draw(axeRaider, 600, 150, axeRaider.getWidth(), axeRaider.getHeight());
-        batch.draw(babyDragon, 1100, 150, babyDragon.getWidth(), babyDragon.getHeight());
+        batch.draw(mysticalSpaceTyphoon, 100, 150, mysticalSpaceTyphoon.getWidth(), mysticalSpaceTyphoon.getHeight());
+        batch.draw(negateAttack, 600, 150, negateAttack.getWidth(), negateAttack.getHeight());
+        batch.draw(potOfGreed, 1100, 150, potOfGreed.getWidth(), potOfGreed.getHeight());
         batch.end();
 
         if (Gdx.input.justTouched()) {
