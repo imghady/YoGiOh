@@ -1,5 +1,7 @@
 package model.card;
 
+import com.badlogic.gdx.graphics.Texture;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -18,6 +20,7 @@ public class Card {
     protected int defence;
     protected boolean isFirstEffectUse = true;
     protected boolean isFirstTimeFlipping = false;
+
 
     public boolean isFirstTimeFlipping() {
         return isFirstTimeFlipping;

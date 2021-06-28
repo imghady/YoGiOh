@@ -18,7 +18,7 @@ public class Decks implements Screen {
     BitmapFont text;
     Texture mute;
     Texture unmute;
-    boolean isMute = false;
+    boolean isMute;
     Texture backButton;
     User currentLoggedInUser;
 

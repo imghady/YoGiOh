@@ -1,5 +1,7 @@
 package model.card;
 
+import com.badlogic.gdx.graphics.Texture;
+
 import java.util.ArrayList;
 
 public class Monster extends Card{
