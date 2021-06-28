@@ -16,6 +16,7 @@ public class Duel implements Screen {
     OrthographicCamera camera;
     Texture wallpaper;
     BitmapFont text;
+    BitmapFont text1;
     Texture mute;
     Texture unmute;
     boolean isMute = false;
@@ -30,6 +31,7 @@ public class Duel implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 960);
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
@@ -47,7 +49,7 @@ public class Duel implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600, 960);
-        text.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
+        text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         text.draw(batch, "Duel", 150, 850);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.end();

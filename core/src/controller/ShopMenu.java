@@ -10,21 +10,21 @@ public class ShopMenu {
 
     private User currentUser;
 
-    public ShopMenu (String username){
-        this.currentUser=User.getUserByUsername(username);
+    public ShopMenu(String username) {
+        this.currentUser = User.getUserByUsername(username);
     }
 
-    public ShopMenu (){
+    public ShopMenu() {
 
     }
 
-    public void buyCard(String cardName){
-        if (Card.getCardByName(cardName) == null){
+    public void buyCard(String cardName) {
+        if (Card.getCardByName(cardName) == null) {
             TerminalOutput.output("There is no card with this name");
             return;
         }
-        Card card=Card.getCardByName(cardName);
-        if (card.getPrice()>currentUser.getCredit()){
+        Card card = Card.getCardByName(cardName);
+        if (card.getPrice() > currentUser.getCredit()) {
             TerminalOutput.output("not enough money");
             return;
         }
@@ -32,11 +32,11 @@ public class ShopMenu {
         TerminalOutput.output("Card Buy Successful.");
     }
 
-    public void showAllCard(){
-        ArrayList<Card> allCard=Card.getAllCards();
-        Card[] allCardForSort=new Card[allCard.size()];
+    public void showAllCard() {
+        ArrayList<Card> allCard = Card.getAllCards();
+        Card[] allCardForSort = new Card[allCard.size()];
         for (int i = 0; i < allCard.size(); i++) {
-            allCardForSort[i]=allCard.get(i);
+            allCardForSort[i] = allCard.get(i);
         }
         sortCardByName(allCardForSort);
         for (Card card : allCardForSort) {
@@ -44,11 +44,11 @@ public class ShopMenu {
         }
     }
 
-    public void sortCardByName(Card[] allCard){
+    public void sortCardByName(Card[] allCard) {
         for (int i = 0; i < allCard.length; i++) {
             int flagForEnd = 0;
             for (int j = i; j < allCard.length - 1; j++) {
-                if (allCard[j].getName().compareTo(allCard[j+1].getName()) > 0) {
+                if (allCard[j].getName().compareTo(allCard[j + 1].getName()) > 0) {
                     Card holderUser = allCard[j];
                     allCard[j] = allCard[j + 1];
                     allCard[j + 1] = holderUser;

@@ -19,7 +19,7 @@ public class MyGdxGame extends Game implements Screen {
 		font = new BitmapFont();
 		music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
 		music.setLooping(true);
-		this.setScreen(new Start(this, true));
+		this.setScreen(new Start(this, false));
 
 	}
 
