@@ -94,7 +94,8 @@ public class ShowAllCards1 implements Screen {
 
             if (Gdx.input.getY() > 930 - pre.getHeight() && Gdx.input.getY() < 930) {
                 if (Gdx.input.getX() > 700 && Gdx.input.getX() < 700 + pre.getWidth()) {
-
+                    game.setScreen(new ShowAllCards26(game, isMute, currentLoggedInUser));
+                    dispose();
                 }
             }
 

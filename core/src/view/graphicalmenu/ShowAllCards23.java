@@ -61,7 +61,7 @@ public class ShowAllCards23 implements Screen {
         batch.draw(wallpaper, 0, 0, 1600,960);
         text.getData().setScale(0.3f);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "show all cards 1 - Monsters", 500, 900);
+        text.draw(batch, "show all cards 23 - Spells and Traps", 500, 900);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(next, 800, 30, next.getWidth(), next.getHeight());
         batch.draw(pre, 700, 30, pre.getWidth(), pre.getHeight());
@@ -86,14 +86,15 @@ public class ShowAllCards23 implements Screen {
 
             if (Gdx.input.getY() > 930 - next.getHeight() && Gdx.input.getY() < 930) {
                 if (Gdx.input.getX() > 800 && Gdx.input.getX() < 800 + next.getWidth()) {
-                    game.setScreen(new ShowAllCards2(game, isMute, currentLoggedInUser));
+                    game.setScreen(new ShowAllCards24(game, isMute, currentLoggedInUser));
                     dispose();
                 }
             }
 
             if (Gdx.input.getY() > 930 - pre.getHeight() && Gdx.input.getY() < 930) {
                 if (Gdx.input.getX() > 700 && Gdx.input.getX() < 700 + pre.getWidth()) {
-
+                    game.setScreen(new ShowAllCards22(game, isMute, currentLoggedInUser));
+                    dispose();
                 }
             }
 
