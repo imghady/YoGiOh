@@ -16,12 +16,16 @@ public class ShowAllCards10 implements Screen {
     OrthographicCamera camera;
     Texture wallpaper;
     BitmapFont text;
+    BitmapFont text1;
     Texture mute;
     Texture unmute;
     boolean isMute;
     Texture backButton;
     Texture next;
     Texture pre;
+    Texture scanner;
+    Texture silverFang;
+    Texture skullGuardian;
     User currentLoggedInUser;
 
     public ShowAllCards10(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
@@ -31,13 +35,17 @@ public class ShowAllCards10 implements Screen {
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 960);
-        text = new BitmapFont(Gdx.files.internal("times.fnt"));
+        text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
         next = new Texture("buttons/next.png");
         pre = new Texture("buttons/pre.png");
+        scanner = new Texture("Cards/Monsters/Scanner.jpg");
+        silverFang = new Texture("Cards/Monsters/SilverFang.jpg");
+        skullGuardian = new Texture("Cards/Monsters/SkullGuardian.jpg");
     }
 
 
@@ -52,11 +60,15 @@ public class ShowAllCards10 implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600,960);
-        text.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "show all cards 10", 700, 900);
+        text.getData().setScale(0.3f);
+        text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
+        text.draw(batch, "show all cards 10 - Monsters", 500, 900);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(next, 800, 30, next.getWidth(), next.getHeight());
         batch.draw(pre, 700, 30, pre.getWidth(), pre.getHeight());
+        batch.draw(scanner, 100, 150, scanner.getWidth(), scanner.getHeight());
+        batch.draw(silverFang, 600, 150, silverFang.getWidth(), silverFang.getHeight());
+        batch.draw(skullGuardian, 1100, 150, skullGuardian.getWidth(), skullGuardian.getHeight());
         batch.end();
 
         if (Gdx.input.justTouched()) {

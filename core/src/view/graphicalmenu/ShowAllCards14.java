@@ -16,12 +16,15 @@ public class ShowAllCards14 implements Screen {
     OrthographicCamera camera;
     Texture wallpaper;
     BitmapFont text;
+    BitmapFont text1;
     Texture mute;
     Texture unmute;
     boolean isMute;
     Texture backButton;
     Texture next;
     Texture pre;
+    Texture wattkid;
+    Texture yomiShip;
     User currentLoggedInUser;
 
     public ShowAllCards14(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
@@ -31,13 +34,16 @@ public class ShowAllCards14 implements Screen {
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 960);
-        text = new BitmapFont(Gdx.files.internal("times.fnt"));
+        text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
         next = new Texture("buttons/next.png");
         pre = new Texture("buttons/pre.png");
+        wattkid = new Texture("Cards/Monsters/Wattkid.jpg");
+        yomiShip = new Texture("Cards/Monsters/YomiShip.jpg");
     }
 
 
@@ -53,11 +59,14 @@ public class ShowAllCards14 implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600,960);
-        text.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "show all cards 14", 700, 900);
+        text.getData().setScale(0.3f);
+        text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
+        text.draw(batch, "Show all cards 14 - Monsters", 500, 900);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(next, 800, 30, next.getWidth(), next.getHeight());
         batch.draw(pre, 700, 30, pre.getWidth(), pre.getHeight());
+        batch.draw(wattkid, 100, 150, wattkid.getWidth(), wattkid.getHeight());
+        batch.draw(yomiShip, 600, 150, yomiShip.getWidth(), yomiShip.getHeight());
         batch.end();
 
         if (Gdx.input.justTouched()) {

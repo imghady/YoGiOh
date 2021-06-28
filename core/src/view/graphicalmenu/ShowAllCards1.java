@@ -16,6 +16,7 @@ public class ShowAllCards1 implements Screen {
     OrthographicCamera camera;
     Texture wallpaper;
     BitmapFont text;
+    BitmapFont text1;
     Texture mute;
     Texture unmute;
     boolean isMute;
@@ -34,7 +35,8 @@ public class ShowAllCards1 implements Screen {
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 960);
-        text = new BitmapFont(Gdx.files.internal("times.fnt"));
+        text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
@@ -58,8 +60,9 @@ public class ShowAllCards1 implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600,960);
-        text.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "show all cards 1", 700, 900);
+        text.getData().setScale(0.3f);
+        text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
+        text.draw(batch, "show all cards 1 - Monsters", 500, 900);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(next, 800, 30, next.getWidth(), next.getHeight());
         batch.draw(pre, 700, 30, pre.getWidth(), pre.getHeight());
