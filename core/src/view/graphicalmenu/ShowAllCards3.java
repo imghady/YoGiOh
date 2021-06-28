@@ -22,6 +22,9 @@ public class ShowAllCards3 implements Screen {
     Texture backButton;
     Texture next;
     Texture pre;
+    Texture bitron;
+    Texture blueEyesWhiteDragon;
+    Texture commandKnight;
     User currentLoggedInUser;
 
     public ShowAllCards3(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
@@ -38,6 +41,9 @@ public class ShowAllCards3 implements Screen {
         backButton = new Texture("buttons/back.png");
         next = new Texture("buttons/next.png");
         pre = new Texture("buttons/pre.png");
+        bitron = new Texture("Cards/Monsters/Bitron.jpg");
+        blueEyesWhiteDragon = new Texture("Cards/Monsters/BlueEyesWhiteDragon.jpg");
+        commandKnight = new Texture("Cards/Monsters/CommandKnight.jpg");
     }
 
     @Override
@@ -56,6 +62,9 @@ public class ShowAllCards3 implements Screen {
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(next, 800, 30, next.getWidth(), next.getHeight());
         batch.draw(pre, 700, 30, pre.getWidth(), pre.getHeight());
+        batch.draw(bitron, 100, 150, bitron.getWidth(), bitron.getHeight());
+        batch.draw(blueEyesWhiteDragon, 600, 150, blueEyesWhiteDragon.getWidth(), blueEyesWhiteDragon.getHeight());
+        batch.draw(commandKnight, 1100, 150, commandKnight.getWidth(), commandKnight.getHeight());
         batch.end();
 
         if (Gdx.input.justTouched()) {

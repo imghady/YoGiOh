@@ -22,6 +22,9 @@ public class ShowAllCards5 implements Screen {
     Texture backButton;
     Texture next;
     Texture pre;
+    Texture darkBlade;
+    Texture darkMagician;
+    Texture exploderDragon;
     User currentLoggedInUser;
 
     public ShowAllCards5(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
@@ -38,6 +41,9 @@ public class ShowAllCards5 implements Screen {
         backButton = new Texture("buttons/back.png");
         next = new Texture("buttons/next.png");
         pre = new Texture("buttons/pre.png");
+        darkBlade = new Texture("Cards/Monsters/DarkBlade.jpg");
+        darkMagician = new Texture("Cards/Monsters/DarkMagician.jpg");
+        exploderDragon = new Texture("Cards/Monsters/ExploderDragon.jpg");
     }
 
 
@@ -58,6 +64,9 @@ public class ShowAllCards5 implements Screen {
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(next, 800, 30, next.getWidth(), next.getHeight());
         batch.draw(pre, 700, 30, pre.getWidth(), pre.getHeight());
+        batch.draw(darkBlade, 100, 150, darkBlade.getWidth(), darkBlade.getHeight());
+        batch.draw(darkMagician, 600, 150, darkMagician.getWidth(), darkMagician.getHeight());
+        batch.draw(exploderDragon, 1100, 150, exploderDragon.getWidth(), exploderDragon.getHeight());
         batch.end();
 
         if (Gdx.input.justTouched()) {

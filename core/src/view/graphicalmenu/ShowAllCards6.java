@@ -22,6 +22,9 @@ public class ShowAllCards6 implements Screen {
     Texture backButton;
     Texture next;
     Texture pre;
+    Texture feralImp;
+    Texture fireyarou;
+    Texture flameManipulator;
     User currentLoggedInUser;
 
     public ShowAllCards6(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
@@ -38,6 +41,10 @@ public class ShowAllCards6 implements Screen {
         backButton = new Texture("buttons/back.png");
         next = new Texture("buttons/next.png");
         pre = new Texture("buttons/pre.png");
+        feralImp = new Texture("Cards/Monsters/FeralImp.jpg");
+        fireyarou = new Texture("Cards/Monsters/Fireyarou.jpg");
+        flameManipulator = new Texture("Cards/Monsters/FlameManipulator.jpg");
+
     }
 
 
@@ -57,6 +64,9 @@ public class ShowAllCards6 implements Screen {
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(next, 800, 30, next.getWidth(), next.getHeight());
         batch.draw(pre, 700, 30, pre.getWidth(), pre.getHeight());
+        batch.draw(feralImp, 100, 150, feralImp.getWidth(), feralImp.getHeight());
+        batch.draw(fireyarou, 600, 150, fireyarou.getWidth(), fireyarou.getHeight());
+        batch.draw(flameManipulator, 1100, 150, flameManipulator.getWidth(), flameManipulator.getHeight());
         batch.end();
 
         if (Gdx.input.justTouched()) {

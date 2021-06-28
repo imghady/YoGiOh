@@ -22,6 +22,9 @@ public class ShowAllCards4 implements Screen {
     Texture backButton;
     Texture next;
     Texture pre;
+    Texture crabTurtle;
+    Texture crawlingDragon;
+    Texture curtainOfTheDarkOnes;
     User currentLoggedInUser;
 
     public ShowAllCards4(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
@@ -38,6 +41,9 @@ public class ShowAllCards4 implements Screen {
         backButton = new Texture("buttons/back.png");
         next = new Texture("buttons/next.png");
         pre = new Texture("buttons/pre.png");
+        crabTurtle = new Texture("Cards/Monsters/CrabTurtle.jpg");
+        crawlingDragon = new Texture("Cards/Monsters/CrawlingDragon.jpg");
+        curtainOfTheDarkOnes = new Texture("Cards/Monsters/CurtainOfTheDarkOnes.jpg");
     }
 
 
@@ -58,6 +64,9 @@ public class ShowAllCards4 implements Screen {
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(next, 800, 30, next.getWidth(), next.getHeight());
         batch.draw(pre, 700, 30, pre.getWidth(), pre.getHeight());
+        batch.draw(crabTurtle, 100, 150, crabTurtle.getWidth(), crabTurtle.getHeight());
+        batch.draw(crawlingDragon, 600, 150, crawlingDragon.getWidth(), crawlingDragon.getHeight());
+        batch.draw(curtainOfTheDarkOnes, 1100, 150, curtainOfTheDarkOnes.getWidth(), curtainOfTheDarkOnes.getHeight());
         batch.end();
 
         if (Gdx.input.justTouched()) {
