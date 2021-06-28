@@ -42,9 +42,9 @@ public class ShowAllCards19 implements Screen {
         backButton = new Texture("buttons/back.png");
         next = new Texture("buttons/next.png");
         pre = new Texture("buttons/pre.png");
-        mindCrush = new Texture("Cards/Monsters/MindCrush.jpg");
-        mirrorForce = new Texture("Cards/Monsters/MirrorForce.jpg");
-        monsterReborn = new Texture("Cards/Monsters/MonsterReborn.jpg");
+        mindCrush = new Texture("Cards/SpellTrap/MindCrush.jpg");
+        mirrorForce = new Texture("Cards/SpellTrap/MirrorForce.jpg");
+        monsterReborn = new Texture("Cards/SpellTrap/MonsterReborn.jpg");
     }
 
 

@@ -42,9 +42,9 @@ public class ShowAllCards20 implements Screen {
         backButton = new Texture("buttons/back.png");
         next = new Texture("buttons/next.png");
         pre = new Texture("buttons/pre.png");
-        mysticalSpaceTyphoon = new Texture("Cards/Monsters/MysticalSpaceTyphoon.jpg");
-        negateAttack = new Texture("Cards/Monsters/NegateAttack.jpg");
-        potOfGreed = new Texture("Cards/Monsters/PotOfGreed.jpg");
+        mysticalSpaceTyphoon = new Texture("Cards/SpellTrap/MysticalSpaceTyphoon.jpg");
+        negateAttack = new Texture("Cards/SpellTrap/NegateAttack.jpg");
+        potOfGreed = new Texture("Cards/SpellTrap/PotOfGreed.jpg");
     }
 
 

@@ -42,9 +42,9 @@ public class ShowAllCards15 implements Screen {
         backButton = new Texture("buttons/back.png");
         next = new Texture("buttons/next.png");
         pre = new Texture("buttons/pre.png");
-        advancedRitualArt = new Texture("Cards/Monsters/AdvancedRitualArt.jpg");
-        blackPendant = new Texture("Cards/Monsters/BlackPendant.jpg");
-        callOfTheHunted = new Texture("Cards/Monsters/Call of the Hunted.jpg");
+        advancedRitualArt = new Texture("Cards/SpellTrap/AdvancedRitualArt.jpg");
+        blackPendant = new Texture("Cards/SpellTrap/BlackPendant.jpg");
+        callOfTheHunted = new Texture("Cards/SpellTrap/Call of the Hunted.jpg");
     }
 
 

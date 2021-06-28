@@ -22,9 +22,9 @@ public class ShowAllCards22 implements Screen {
     Texture backButton;
     Texture next;
     Texture pre;
-    Texture alexandriteDragon;
-    Texture axeRaider;
-    Texture babyDragon;
+    Texture spellAbsorption;
+    Texture supplySquad;
+    Texture swordOfDarkDestruction;
     User currentLoggedInUser;
 
     public ShowAllCards22(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
@@ -42,9 +42,9 @@ public class ShowAllCards22 implements Screen {
         backButton = new Texture("buttons/back.png");
         next = new Texture("buttons/next.png");
         pre = new Texture("buttons/pre.png");
-        alexandriteDragon = new Texture("Cards/Monsters/AlexandriteDragon.jpg");
-        axeRaider = new Texture("Cards/Monsters/AxeRaider.jpg");
-        babyDragon = new Texture("Cards/Monsters/BabyDragon.jpg");
+        spellAbsorption = new Texture("Cards/SpellTrap/SpellAbsorption.jpg");
+        supplySquad = new Texture("Cards/SpellTrap/SupplySquad.jpg");
+        swordOfDarkDestruction = new Texture("Cards/SpellTrap/SwordOfDarkDestruction.jpg");
     }
 
 
@@ -65,9 +65,9 @@ public class ShowAllCards22 implements Screen {
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(next, 800, 30, next.getWidth(), next.getHeight());
         batch.draw(pre, 700, 30, pre.getWidth(), pre.getHeight());
-        batch.draw(alexandriteDragon, 100, 150, alexandriteDragon.getWidth(), alexandriteDragon.getHeight());
-        batch.draw(axeRaider, 600, 150, axeRaider.getWidth(), axeRaider.getHeight());
-        batch.draw(babyDragon, 1100, 150, babyDragon.getWidth(), babyDragon.getHeight());
+        batch.draw(spellAbsorption, 100, 150, spellAbsorption.getWidth(), spellAbsorption.getHeight());
+        batch.draw(supplySquad, 600, 150, supplySquad.getWidth(), supplySquad.getHeight());
+        batch.draw(swordOfDarkDestruction, 1100, 150, swordOfDarkDestruction.getWidth(), swordOfDarkDestruction.getHeight());
         batch.end();
 
         if (Gdx.input.justTouched()) {

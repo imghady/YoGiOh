@@ -42,9 +42,9 @@ public class ShowAllCards17 implements Screen {
         backButton = new Texture("buttons/back.png");
         next = new Texture("buttons/next.png");
         pre = new Texture("buttons/pre.png");
-        forest = new Texture("Cards/Monsters/Forest.jpg");
-        harpiesFeatherDuster = new Texture("Cards/Monsters/HarpiesFeatherDuster.jpg");
-        magicCylinder = new Texture("Cards/Monsters/MagicCylinder.jpg");
+        forest = new Texture("Cards/SpellTrap/Forest.jpg");
+        harpiesFeatherDuster = new Texture("Cards/SpellTrap/HarpiesFeatherDuster.jpg");
+        magicCylinder = new Texture("Cards/SpellTrap/MagicCylinder.jpg");
     }
 
 

@@ -42,9 +42,9 @@ public class ShowAllCards16 implements Screen {
         backButton = new Texture("buttons/back.png");
         next = new Texture("buttons/next.png");
         pre = new Texture("buttons/pre.png");
-        changeOfHeart = new Texture("Cards/Monsters/ChangeOfHeart.jpg");
-        closedForest = new Texture("Cards/Monsters/ClosedForest.jpg");
-        darkHole = new Texture("Cards/Monsters/DarkHole.jpg");
+        changeOfHeart = new Texture("Cards/SpellTrap/ChangeOfHeart.jpg");
+        closedForest = new Texture("Cards/SpellTrap/ClosedForest.jpg");
+        darkHole = new Texture("Cards/SpellTrap/DarkHole.jpg");
     }
 
 

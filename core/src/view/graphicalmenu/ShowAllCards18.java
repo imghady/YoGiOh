@@ -42,9 +42,9 @@ public class ShowAllCards18 implements Screen {
         backButton = new Texture("buttons/back.png");
         next = new Texture("buttons/next.png");
         pre = new Texture("buttons/pre.png");
-        magicJammer = new Texture("Cards/Monsters/MagicJammer.jpg");
-        magnumShield = new Texture("Cards/Monsters/MagnumShield.jpg");
-        messengerOfPeace = new Texture("Cards/Monsters/MessengerOfPeace.jpg");
+        magicJammer = new Texture("Cards/SpellTrap/MagicJammer.jpg");
+        magnumShield = new Texture("Cards/SpellTrap/MagnumShield.jpg");
+        messengerOfPeace = new Texture("Cards/SpellTrap/MessengerOfPeace.jpg");
     }
 
 

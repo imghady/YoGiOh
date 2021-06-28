@@ -42,9 +42,9 @@ public class ShowAllCards21 implements Screen {
         backButton = new Texture("buttons/back.png");
         next = new Texture("buttons/next.png");
         pre = new Texture("buttons/pre.png");
-        raigeki = new Texture("Cards/Monsters/Raigeki.jpg");
-        ringOfDefense = new Texture("Cards/Monsters/RingOfDefense.jpg");
-        solemnWarning = new Texture("Cards/Monsters/SolemnWarning.jpg");
+        raigeki = new Texture("Cards/SpellTrap/Raigeki.jpg");
+        ringOfDefense = new Texture("Cards/SpellTrap/RingOfDefense.jpg");
+        solemnWarning = new Texture("Cards/SpellTrap/SolemnWarning.jpg");
     }
 
 
