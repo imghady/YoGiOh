@@ -24,6 +24,7 @@ public class User {
     private ArrayList<Card> cards;
     private int credit;
     private boolean isUserLoggedIn = false;
+    public String characterFileAddress = "characters/Char4.png";
 
     public User(String username, String nickname, String password) {
         setUsername(username);
@@ -153,5 +154,13 @@ public class User {
 
     public void setUserLoggedIn(boolean userLoggedIn) {
         isUserLoggedIn = userLoggedIn;
+    }
+
+    public String getCharacterFileAddress() {
+        return characterFileAddress;
+    }
+
+    public void setCharacterFileAddress(String characterFileAddress) {
+        this.characterFileAddress = characterFileAddress;
     }
 }

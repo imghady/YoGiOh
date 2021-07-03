@@ -118,6 +118,8 @@ public class Register implements Screen, Input.TextInputListener {
                                 message = 4;
                                 LoginMenu loginMenu = new LoginMenu();
                                 loginMenu.registerNewUser(username, nickname, password);
+                                game.setScreen(new ChooseCharacter(game, isMute, User.getUserByUsername(username)));
+                                dispose();
                                 try {
                                     Finisher.finish();
                                 } catch (IOException e) {
