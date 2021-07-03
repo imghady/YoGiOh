@@ -229,75 +229,75 @@ public class ShowOneCard implements Screen, Input.TextInputListener {
         if (input.equals("Command Knight"))
             return "cards/monsters/CommandKnight";
         if (input.equals("Trap Hole"))
-            return "cards/traps/TrapHole";
+            return "cards/SpellTrap/TrapHole";
         if (input.equals("Mirror Force"))
-            return "cards/traps/MirrorForce";
+            return "cards/SpellTrap/MirrorForce";
         if (input.equals("Magic Cylinder"))
-            return "cards/traps/MagicCylinder";
+            return "cards/SpellTrap/MagicCylinder";
         if (input.equals("Mind Crush"))
-            return "cards/traps/MindCrush";
+            return "cards/SpellTrap/MindCrush";
         if (input.equals("Torrential Tribute"))
-            return "cards/traps/TorrentialTribute";
+            return "cards/SpellTrap/TorrentialTribute";
         if (input.equals("Time Seal"))
-            return "cards/traps/TimeSeal";
+            return "cards/SpellTrap/TimeSeal";
         if (input.equals("Negate Attack"))
-            return "cards/traps/NegateAttack";
+            return "cards/SpellTrap/NegateAttack";
         if (input.equals("Solemn Warning"))
-            return "cards/traps/SolemnWarning";
+            return "cards/SpellTrap/SolemnWarning";
         if (input.equals("Magic Jamamer") || input.equals("Magic Jammer"))
-            return "cards/traps/Magic Jammer";
+            return "cards/SpellTrap/Magic Jammer";
         if (input.equals("Call of The Haunted"))
-            return "cards/traps/Call of the Hunted";
+            return "cards/SpellTrap/Call of the Hunted";
         if (input.equals("Vanity's Emptiness"))
-            return "cards/traps/VanitysEmptiness";
+            return "cards/SpellTrap/VanitysEmptiness";
         if (input.equals("Wall of Revealing Light"))
-            return "cards/traps/WallOfRevealingLight";
+            return "cards/SpellTrap/WallOfRevealingLight";
         if (input.equals("Monster Reborn"))
-            return "cards/spells/MonsterReborn";
+            return "cards/SpellTrap/MonsterReborn";
         if (input.equals("Terraforming"))
-            return "cards/spells/Terraforming";
+            return "cards/SpellTrap/Terraforming";
         if (input.equals("Pot of Greed"))
-            return "cards/spells/PotOfGreed";
+            return "cards/SpellTrap/PotOfGreed";
         if (input.equals("Raigeki"))
-            return "cards/spells/Raigeki";
+            return "cards/SpellTrap/Raigeki";
         if (input.equals("Change of Heart"))
-            return "cards/spells/ChangeOfHeart";
+            return "cards/SpellTrap/ChangeOfHeart";
         if (input.equals("Swords of Revealing Light"))
-            return "cards/spells/SwordOfRevealingLight";
+            return "cards/SpellTrap/SwordOfRevealingLight";
         if (input.equals("Harpie's Feather Duster"))
-            return "cards/spells/HarpiesFeatherDuster";
+            return "cards/SpellTrap/HarpiesFeatherDuster";
         if (input.equals("Dark Hole"))
-            return "cards/spells/DarkHole";
+            return "cards/SpellTrap/DarkHole";
         if (input.equals("Supply Squad"))
-            return "cards/spells/SupplySquad";
+            return "cards/SpellTrap/SupplySquad";
         if (input.equals("Spell Absorption"))
-            return "cards/spells/SpellAbsorption";
+            return "cards/SpellTrap/SpellAbsorption";
         if (input.equals("Messenger of peace"))
-            return "cards/spells/MessengerOfPeace";
+            return "cards/SpellTrap/MessengerOfPeace";
         if (input.equals("Twin Twisters"))
-            return "cards/spells/TwinTwisters";
+            return "cards/SpellTrap/TwinTwisters";
         if (input.equals("Mystical space typhoon"))
-            return "cards/spells/MysticalSpaceTyphoon";
+            return "cards/SpellTrap/MysticalSpaceTyphoon";
         if (input.equals("Ring of defense"))
-            return "cards/spells/RingOfDefense";
+            return "cards/SpellTrap/RingOfDefense";
         if (input.equals("Yami"))
-            return "cards/spells/Yami";
+            return "cards/SpellTrap/Yami";
         if (input.equals("Forest"))
-            return "cards/spells/Forest";
+            return "cards/SpellTrap/Forest";
         if (input.equals("Closed Forest"))
-            return "cards/spells/ClosedForest";
+            return "cards/SpellTrap/ClosedForest";
         if (input.equals("Umiiruka"))
-            return "cards/spells/Umiiruka";
+            return "cards/SpellTrap/Umiiruka";
         if (input.equals("Sword of dark destruction"))
-            return "cards/spells/SwordOfDarkDestruction";
+            return "cards/SpellTrap/SwordOfDarkDestruction";
         if (input.equals("Black Pendant"))
-            return "cards/spells/BlackPendant";
+            return "cards/SpellTrap/BlackPendant";
         if (input.equals("United We Stand"))
-            return "cards/spells/UnitedWeStand";
+            return "cards/SpellTrap/UnitedWeStand";
         if (input.equals("Magnum Shield"))
-            return "cards/spells/MagnumShield";
+            return "cards/SpellTrap/MagnumShield";
         if (input.equals("Advanced Ritual Art"))
-            return "cards/spells/AdvancedRitualArt";
+            return "cards/SpellTrap/AdvancedRitualArt";
         return null;
     }
 
