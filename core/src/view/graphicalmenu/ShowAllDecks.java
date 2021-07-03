@@ -2,12 +2,17 @@ package view.graphicalmenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
+import model.user.Deck;
 import model.user.User;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ShowAllDecks implements Screen {
     SpriteBatch batch;
@@ -17,11 +22,14 @@ public class ShowAllDecks implements Screen {
     BitmapFont text;
     BitmapFont text1;
     BitmapFont text2;
+    BitmapFont text3;
     Texture mute;
     Texture unmute;
     boolean isMute;
     Texture backButton;
     User currentLoggedInUser;
+    String activeDecks = "";
+    String deActiveDecks = "";
 
     public ShowAllDecks(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
@@ -32,6 +40,7 @@ public class ShowAllDecks implements Screen {
         camera.setToOrtho(false, 1600, 960);
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        text3 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         mute = new Texture("buttons/mute.png");
@@ -51,9 +60,25 @@ public class ShowAllDecks implements Screen {
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600, 960);
         text.getData().setScale(0.3f);
-        text2.getData().setScale(0.25f);
+        text2.getData().setScale(0.17f);
+        text3.getData().setScale(0.17f);
+        text2.setColor(Color.GREEN);
+        text3.setColor(Color.YELLOW);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "All Decks", 150, 850);
+        text.draw(batch, "All Decks", 150, 900);
+        activeDecks = "Active deck:\n";
+        HashMap<String, Deck> decks = currentLoggedInUser.getDecks();
+        Deck activeDeck = currentLoggedInUser.getActiveDeck();
+        if (activeDeck != null)
+            printDeckForAllDeck(activeDeck);
+        deActiveDecks = "other decks:\n";
+        for (Map.Entry<String, Deck> entry : decks.entrySet()) {
+            Deck deck = entry.getValue();
+            if (!deck.isActiveDeck())
+                printOtherDeckForAllDeck(deck);
+        }
+        text2.draw(batch, activeDecks, 300, 780);
+        text3.draw(batch, deActiveDecks, 300, 730);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.end();
 
@@ -85,6 +110,24 @@ public class ShowAllDecks implements Screen {
             MyGdxGame.music.play();
             batch.end();
         }
+    }
+
+    private void printDeckForAllDeck(Deck deck) {
+        activeDecks += deck.getName() + ": main deck " + deck.getMainDeck().getMainDeckSize() +
+                ", side deck " + deck.getSideDeck().getSideDeckSize() + ", ";
+        if (deck.isValid())
+            activeDecks += "valid\n";
+        else
+            activeDecks += "invalid\n";
+    }
+
+    private void printOtherDeckForAllDeck(Deck deck) {
+        deActiveDecks += deck.getName() + ": main deck " + deck.getMainDeck().getMainDeckSize() +
+                ", side deck " + deck.getSideDeck().getSideDeckSize() + ", ";
+        if (deck.isValid())
+            deActiveDecks += "valid\n";
+        else
+            deActiveDecks += "invalid\n";
     }
 
     @Override
