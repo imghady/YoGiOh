@@ -57,11 +57,13 @@ public class MainMenu implements Screen {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        text.getData().setScale(0.3f);
+        text.getData().setScale(0.27f);
         batch.draw(wallpaper, 0, 0, 1600, 960);
         title.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
-        text.draw(batch, "hi " + currentLoggedInUser.getUsername() + "\nyour credit: " + currentLoggedInUser.getCredit() + "\nyour score: " + currentLoggedInUser.getScore(), 720, 910);
+        text.draw(batch, "hi " + currentLoggedInUser.getUsername() + "\nyour credit: " +
+                currentLoggedInUser.getCredit() + "\nyour score: " + currentLoggedInUser.getScore() +
+                "\nyour nickname: " + currentLoggedInUser.getNickname(), 720, 910);
         batch.draw(fields, 170, 140, fields.getWidth(), fields.getHeight());
         batch.draw(character, 1250, 400, character.getWidth(), character.getHeight());
         batch.draw(play, 1210, 170, 300, 300);

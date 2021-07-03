@@ -26,8 +26,10 @@ public class ShowAllCards19 implements Screen {
     Texture mirrorForce;
     Texture monsterReborn;
     User currentLoggedInUser;
+    String backAddress;
 
-    public ShowAllCards19(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
+    public ShowAllCards19(MyGdxGame game, boolean isMute, User currentLoggedInUser, String backAddress) {
+        this.backAddress = backAddress;
         this.currentLoggedInUser = currentLoggedInUser;
         this.isMute = isMute;
         this.game = game;
@@ -79,21 +81,26 @@ public class ShowAllCards19 implements Screen {
 
             if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
                 if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
-                    game.setScreen(new Shop(game, isMute, currentLoggedInUser));
-                    dispose();
+                    if (backAddress.equals("shop")) {
+                        game.setScreen(new Shop(game, isMute, currentLoggedInUser));
+                        dispose();
+                    } else if (backAddress.equals("decks")) {
+                        game.setScreen(new Decks(game, isMute, currentLoggedInUser));
+                        dispose();
+                    }
                 }
             }
 
             if (Gdx.input.getY() > 930 - next.getHeight() && Gdx.input.getY() < 930) {
                 if (Gdx.input.getX() > 800 && Gdx.input.getX() < 800 + next.getWidth()) {
-                    game.setScreen(new ShowAllCards20(game, isMute, currentLoggedInUser));
+                    game.setScreen(new ShowAllCards20(game, isMute, currentLoggedInUser, backAddress));
                     dispose();
                 }
             }
 
             if (Gdx.input.getY() > 930 - pre.getHeight() && Gdx.input.getY() < 930) {
                 if (Gdx.input.getX() > 700 && Gdx.input.getX() < 700 + pre.getWidth()) {
-                    game.setScreen(new ShowAllCards18(game, isMute, currentLoggedInUser));
+                    game.setScreen(new ShowAllCards18(game, isMute, currentLoggedInUser, backAddress));
                     dispose();
                 }
             }

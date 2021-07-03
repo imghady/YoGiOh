@@ -78,7 +78,7 @@ public class Shop implements Screen {
 
             if (Gdx.input.getX() > 200 && Gdx.input.getX() < 200 + buttons.getWidth()) {
                 if (Gdx.input.getY() > 810 - buttons.getHeight() / 3 && Gdx.input.getY() < 810) {
-                    game.setScreen(new ShowAllCards1(game, isMute, currentLoggedInUser));
+                    game.setScreen(new ShowAllCards1(game, isMute, currentLoggedInUser, "shop"));
                     dispose();
                 } else if (Gdx.input.getY() > 810 - 2 * buttons.getHeight() / 3 && Gdx.input.getY() < 810 - buttons.getHeight() / 3) {
                     game.setScreen(new ShowOneCard(game, isMute, currentLoggedInUser));

@@ -2,7 +2,6 @@ package view.graphicalmenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -10,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
 import model.user.User;
 
-public class Decks implements Screen {
+public class ShowAllDecks implements Screen {
     SpriteBatch batch;
     final MyGdxGame game;
     OrthographicCamera camera;
@@ -21,10 +20,9 @@ public class Decks implements Screen {
     Texture unmute;
     boolean isMute;
     Texture backButton;
-    Texture buttons;
     User currentLoggedInUser;
 
-    public Decks(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
+    public ShowAllDecks(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
         this.isMute = isMute;
         this.game = game;
@@ -37,7 +35,6 @@ public class Decks implements Screen {
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
-        buttons = new Texture("buttons/deckButtons.png");
     }
 
     @Override
@@ -50,12 +47,11 @@ public class Decks implements Screen {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        batch.draw(wallpaper, 0, 0, 1600,960);
+        batch.draw(wallpaper, 0, 0, 1600, 960);
         text.getData().setScale(0.3f);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "Deck Menu", 150, 850);
+        text.draw(batch, "All Decks", 150, 850);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
-        batch.draw(buttons, 100, 150, buttons.getWidth(), buttons.getHeight());
         batch.end();
 
         if (Gdx.input.justTouched()) {
@@ -67,23 +63,7 @@ public class Decks implements Screen {
 
             if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
                 if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
-                    game.setScreen(new MainMenu(game, isMute, currentLoggedInUser));
-                    dispose();
-                }
-            }
-
-            if (Gdx.input.getX() > 100 && Gdx.input.getX() < 100 + buttons.getWidth()) {
-                if (Gdx.input.getY() > 810 - buttons.getHeight() / 4 && Gdx.input.getY() < 810) {
-                    game.setScreen(new AddCardToDeck(game, isMute, currentLoggedInUser));
-                    dispose();
-                } else if (Gdx.input.getY() > 810 - 2 * buttons.getHeight() / 4 && Gdx.input.getY() < 810 - buttons.getHeight() / 4) {
-                    game.setScreen(new ShowAllCards1(game, isMute, currentLoggedInUser, "decks"));
-                    dispose();
-                } else if (Gdx.input.getY() > 810 - 3 * buttons.getHeight() / 4 && Gdx.input.getY() < 810 - 2 * buttons.getHeight() / 4) {
-                    game.setScreen(new CreateNewDeck(game, isMute, currentLoggedInUser));
-                    dispose();
-                } else if (Gdx.input.getY() > 810 - buttons.getHeight() && Gdx.input.getY() < 810 - 3 * buttons.getHeight() / 4) {
-                    game.setScreen(new ShowAllDecks(game, isMute, currentLoggedInUser));
+                    game.setScreen(new Decks(game, isMute, currentLoggedInUser));
                     dispose();
                 }
             }
@@ -102,7 +82,6 @@ public class Decks implements Screen {
             MyGdxGame.music.play();
             batch.end();
         }
-
     }
 
     @Override
