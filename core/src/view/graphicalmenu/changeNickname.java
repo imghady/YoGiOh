@@ -82,6 +82,8 @@ public class changeNickname implements Screen, Input.TextInputListener {
             text3.draw(batch, nickname + " already taken!", 150, 250);
         } else if (message == 2) {
             text.draw(batch, "nickname changed successfully", 140, 250);
+        } else if (message == 3) {
+            text3.draw(batch, "enter a nickname!", 140, 250);
         }
         batch.end();
 
@@ -108,7 +110,9 @@ public class changeNickname implements Screen, Input.TextInputListener {
 
             if (Gdx.input.getY() > 860 - agree.getHeight() && Gdx.input.getY() < 860) {
                 if (Gdx.input.getX() > 650 && Gdx.input.getX() < 650 + agree.getWidth()) {
-                    if (!canChangeNickname(nickname)) {
+                    if (nickname.equals("")) {
+                        message = 3;
+                    } else if (!canChangeNickname(nickname)) {
                         message = 1;
                     } else {
                         message = 2;

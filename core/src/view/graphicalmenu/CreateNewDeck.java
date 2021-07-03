@@ -1,26 +1,38 @@
 package view.graphicalmenu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
+import model.Finisher;
+import model.user.Deck;
 import model.user.User;
 
-public class CreateNewDeck implements Screen {
+import java.io.IOException;
+
+public class CreateNewDeck implements Screen, Input.TextInputListener {
     SpriteBatch batch;
     final MyGdxGame game;
     OrthographicCamera camera;
     Texture wallpaper;
     BitmapFont text;
     BitmapFont text1;
+    BitmapFont text2;
+    BitmapFont error;
     Texture mute;
     Texture unmute;
     boolean isMute;
     Texture backButton;
+    Texture field;
+    Texture create;
     User currentLoggedInUser;
+    String deckName = "";
+    int message = 0;
 
     public CreateNewDeck(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
@@ -30,11 +42,15 @@ public class CreateNewDeck implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 960);
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        error = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        text2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
+        field = new Texture("buttons/deckName.png");
+        create = new Texture("buttons/create.png");
     }
 
     @Override
@@ -49,9 +65,26 @@ public class CreateNewDeck implements Screen {
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600, 960);
         text.getData().setScale(0.3f);
+        text2.getData().setScale(0.2f);
+        error.getData().setScale(0.18f);
+        text2.setColor(Color.GREEN);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         text.draw(batch, "Create new deck", 150, 850);
+        text2.draw(batch, "enter deck name to create:", 150, 400);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
+        batch.draw(field, 100, 300, field.getWidth(), field.getHeight());
+        text2.draw(batch, deckName, 430, 375);
+        batch.draw(create, 650, 180, create.getWidth(), create.getHeight());
+        if (message == 1) {
+            error.setColor(Color.RED);
+            error.draw(batch, "deck with name " + deckName + " already exists", 100, 265);
+        } else if (message == 2) {
+            error.setColor(Color.GREEN);
+            error.draw(batch, "deck created successfully", 100, 265);
+        } else if (message == 3) {
+            error.setColor(Color.RED);
+            error.draw(batch, "enter a deck name!", 100, 265);
+        }
         batch.end();
 
         if (Gdx.input.justTouched()) {
@@ -65,6 +98,32 @@ public class CreateNewDeck implements Screen {
                 if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
                     game.setScreen(new Decks(game, isMute, currentLoggedInUser));
                     dispose();
+                }
+            }
+
+            if (Gdx.input.getY() > 660 - field.getHeight() && Gdx.input.getY() < 660) {
+                if (Gdx.input.getX() > 100 && Gdx.input.getX() < 100 + field.getWidth()) {
+                    message = 0;
+                    Gdx.input.getTextInput(this, "deck name", "", "");
+                }
+            }
+
+            if (Gdx.input.getY() > 780 - create.getHeight() && Gdx.input.getY() < 780) {
+                if (Gdx.input.getX() > 650 && Gdx.input.getX() < 650 + create.getWidth()) {
+                    if (deckName.equals("")) {
+                        message = 3;
+                    } else if (currentLoggedInUser.getDecks().containsKey(deckName)) {
+                        message = 1;
+                    } else {
+                        message = 2;
+                        Deck deck = new Deck(deckName, currentLoggedInUser.getUsername());
+                        currentLoggedInUser.addDeck(deckName, deck);
+                        try {
+                            Finisher.finish();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
 
@@ -106,6 +165,16 @@ public class CreateNewDeck implements Screen {
 
     @Override
     public void dispose() {
+
+    }
+
+    @Override
+    public void input(String text) {
+        this.deckName = text;
+    }
+
+    @Override
+    public void canceled() {
 
     }
 }
