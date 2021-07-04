@@ -22,6 +22,7 @@ public class Duel implements Screen {
     boolean isMute;
     Texture backButton;
     User currentLoggedInUser;
+    Texture mat;
 
     public Duel(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
@@ -36,6 +37,7 @@ public class Duel implements Screen {
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
+        mat = new Texture("mat.png");
     }
 
     @Override
@@ -49,9 +51,12 @@ public class Duel implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600, 960);
+        text.getData().setScale(0.3f);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "Duel", 150, 850);
+        text.draw(batch, "Duel", 150, 900);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
+        batch.draw(mat, 300, 250, mat.getWidth(), mat.getHeight());
+
         batch.end();
 
         if (Gdx.input.justTouched()) {

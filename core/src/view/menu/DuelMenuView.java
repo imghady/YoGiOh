@@ -1,7 +1,6 @@
 package view.menu;
 
 import controller.DuelMenu;
-import model.card.Card;
 import view.ScanInput;
 import view.TerminalOutput;
 
@@ -116,7 +115,7 @@ public class DuelMenuView {
             else if ((getMatcher(input, "flip-summon")).matches())
                 flipSummon();
 
-            else if ((getMatcher(input, "attack ([\\d]+)")).matches())
+            else if ((matcher = getMatcher(input, "attack ([\\d]+)")).matches())
                 attack(matcher);
 
             else if ((getMatcher(input, "attack direct")).matches())
@@ -134,49 +133,50 @@ public class DuelMenuView {
             else if ((getMatcher(input, "surrender")).matches())
                 surrender();
 
-            else if ((getMatcher(input, "increase (--money|-m) ([\\d]+)")).matches())
+            else if ((matcher = getMatcher(input, "increase (--money|-m) ([\\d]+)")).matches())
                 increaseMoney(matcher);
 
-            else if ((getMatcher(input, "select (--hand|-h) (?<cardName>[\\w]+) (--force|-f)")).matches())
+            else if ((matcher = getMatcher(input, "select (--hand|-h) (?<cardName>[\\w]+) (--force|-f)")).matches())
                 selectForcedCard(matcher);
-            else if ((getMatcher(input, "select (--hand|-h) (--force|-f) (?<cardName>[\\w]+)")).matches())
+            else if ((matcher = getMatcher(input, "select (--hand|-h) (--force|-f) (?<cardName>[\\w]+)")).matches())
                 selectForcedCard(matcher);
-            else if ((getMatcher(input, "select (?<cardName>[\\w]+) (--hand|-h) (--force|-f)")).matches())
+            else if ((matcher = getMatcher(input, "select (?<cardName>[\\w]+) (--hand|-h) (--force|-f)")).matches())
                 selectForcedCard(matcher);
-            else if ((getMatcher(input, "select (?<cardName>[\\w]+) (--force|-f) (--hand|-h)")).matches())
+            else if ((matcher = getMatcher(input, "select (?<cardName>[\\w]+) (--force|-f) (--hand|-h)")).matches())
                 selectForcedCard(matcher);
-            else if ((getMatcher(input, "select (--force|-f) (--hand|-h) (?<cardName>[\\w]+)")).matches())
+            else if ((matcher = getMatcher(input, "select (--force|-f) (--hand|-h) (?<cardName>[\\w]+)")).matches())
                 selectForcedCard(matcher);
-            else if ((getMatcher(input, "select (--force|-f) (?<cardName>[\\w]+) (--hand|-h)")).matches())
+            else if ((matcher = getMatcher(input, "select (--force|-f) (?<cardName>[\\w]+) (--hand|-h)")).matches())
                 selectForcedCard(matcher);
 
-            else if ((getMatcher(input, "increase (--LP|-l) ([\\d]+)")).matches())
+            else if ((matcher = getMatcher(input, "increase (--LP|-l) ([\\d]+)")).matches())
                 increaseLifePoint(matcher);
 
-            else if ((getMatcher(input, "duel set-winner ([\\w]+)")).matches())
+            else if ((matcher = getMatcher(input, "duel set-winner ([\\w]+)")).matches())
                 setWinner(matcher);
 
-            else if ((getMatcher(input, "card show ([\\w]+)")).matches())
+            else if ((matcher = getMatcher(input, "card show ([\\w]+)")).matches())
                 cardShow(matcher);
 
             else if ((getMatcher(input, "menu enter [\\w]+")).matches())
                 TerminalOutput.output("menu navigation is not possible");
 
-            else if ((getMatcher(input, "menu enter [\\w]+")).matches())
-                TerminalOutput.output("duel menu");
-
             else if ((getMatcher(input, "menu exit")).matches())
                 break;
-
+            else if (input.matches("menu show-current")) {
+                TerminalOutput.output("Duel Menu");
+            }
             else
                 TerminalOutput.output("invalid command");
 
-            TerminalOutput.output(duelMenu.getTerminalOutput());
-
-            if (hasGameEnded()) {
+            if (duelMenu.isDuelIsOn() && hasGameEnded()) {
                 TerminalOutput.output(duelMenu.getTerminalOutput());
                 break;
             }
+            TerminalOutput.output(duelMenu.getTerminalOutput());
+            duelMenu.showBoard();
+            TerminalOutput.output(duelMenu.getTerminalOutput());
+
         }
     }
 

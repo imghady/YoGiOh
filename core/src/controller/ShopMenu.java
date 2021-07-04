@@ -1,6 +1,9 @@
 package controller;
 
 import model.card.Card;
+import model.card.Monster;
+import model.card.Spell;
+import model.card.Trap;
 import model.user.User;
 import view.TerminalOutput;
 
@@ -28,8 +31,27 @@ public class ShopMenu {
             TerminalOutput.output("not enough money");
             return;
         }
-        currentUser.addCard(card);
-        TerminalOutput.output("Card Buy Successful.");
+        if (card instanceof Monster) {
+            Monster monster = (Monster) card;
+            Monster monster1 = new Monster(monster.getName(), monster.getLevel(), monster.getAttribute()
+                    , monster.getMonsterType(), monster.getCardType(), monster.getAttack(), monster.getDefence(), monster.getDescription(), monster.getPrice());
+            currentUser.addCard(monster1);
+            TerminalOutput.output("Card Buy Successful.");
+            return;
+        }
+        if (card instanceof Spell) {
+            Spell spell = (Spell) card;
+            Spell spell1 = new Spell(spell.getName(), spell.getIcon(), spell.getDescription(), spell.getStatus(), spell.getPrice());
+            currentUser.addCard(spell1);
+            TerminalOutput.output("Card Buy Successful.");
+            return;
+        }
+        if (card instanceof Trap) {
+            Trap trap = (Trap) card;
+            Trap trap1 = new Trap(trap.getName(), trap.getIcon(), trap.getDescription(), trap.getStatus(), trap.getPrice());
+            currentUser.addCard(trap1);
+            TerminalOutput.output("Card Buy Successful.");
+        }
     }
 
     public void showAllCard() {

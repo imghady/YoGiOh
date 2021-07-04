@@ -1,6 +1,7 @@
 package model;
 
 import com.google.gson.Gson;
+import model.user.Deck;
 import model.user.User;
 
 import java.io.File;
@@ -23,6 +24,18 @@ public class Finisher {
                 e.printStackTrace();
             }
 
+        }
+
+        ArrayList<Deck> decks = Deck.getAllDecks();
+        for (Deck deck : decks) {
+            Gson gson = new Gson();
+            String fileAddress = "resources/decks/" + deck.getName()+deck.getCreatorUsername() + ".json";
+
+            try (FileWriter writer = new FileWriter(fileAddress)) {
+                gson.toJson(deck, writer);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

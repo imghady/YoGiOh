@@ -6,8 +6,7 @@ public class Spell extends Card{
 
     protected static ArrayList<Spell> allSpells = new ArrayList<>();
 
-    protected String icon;
-    protected String status;
+
 
 
     public Spell(String name, String icon, String description, String status, int price) {
@@ -19,14 +18,6 @@ public class Spell extends Card{
         this.cardType = "Spell";
         allSpells.add(this);
         Card.addToCards(this);
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public String getStatus() {
-        return status;
     }
 
     public static Spell getSpellByName(String name) {
