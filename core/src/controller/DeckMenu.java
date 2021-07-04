@@ -1,6 +1,7 @@
 package controller;
 
 import model.card.Card;
+import model.card.Monster;
 import model.user.Deck;
 import model.user.MainDeck;
 import model.user.SideDeck;
@@ -45,6 +46,14 @@ public class DeckMenu {
         if (!decks.containsKey(deckName))
             terminalOutput = "deck with name " + deckName + " does not exist";
         else {
+            ArrayList<Card> cards = Deck.getDeckByName(deckName, currentUser.getUsername()).getMainDeck().getMainDeckCards();
+            ArrayList<Card> cards2 = Deck.getDeckByName(deckName, currentUser.getUsername()).getSideDeck().getSideDeckCards();
+            for (Card card : cards) {
+                currentUser.addCard(card);
+            }
+            for (Card card : cards2) {
+                currentUser.addCard(card);
+            }
             currentUser.deleteDeck(deckName);
             terminalOutput = "deck deleted successfully!";
         }
@@ -79,7 +88,7 @@ public class DeckMenu {
             return;
         }
         card = cards.get(cards.indexOf(card));
-        Deck deck = decks.get(deckName);
+        Deck deck = Deck.getDeckByName(deckName, currentUser.getUsername());
         if (!isSideDeck && deck.getMainDeck().getMainDeckSize() == 40) {
             terminalOutput = "main deck is full";
             return;
@@ -101,6 +110,7 @@ public class DeckMenu {
             terminalOutput = "there are already three cards with name " + cardName + " in deck " + deckName;
             return;
         }
+        currentUser.deleteCard(cardName);
         if (!isSideDeck) {
             deck.getMainDeck().addCard(card);
             if (deck.getMainDeck().getMainDeckSize() >= 40)
@@ -117,7 +127,7 @@ public class DeckMenu {
             terminalOutput = "deck with name " + deckName + " does not exist";
             return;
         }
-        Deck deck = decks.get(deckName);
+        Deck deck = Deck.getDeckByName(deckName, currentUser.getUsername());
         if (!isSideDeck) {
             ArrayList<Card> cards = deck.getMainDeck().getMainDeckCards();
             Card wantedCard = null;
@@ -126,6 +136,7 @@ public class DeckMenu {
                 if (card.getName().equals(cardName)) {
                     isCardInDeck = true;
                     wantedCard = card;
+                    break;
                 }
             }
             if (!isCardInDeck)
@@ -151,6 +162,7 @@ public class DeckMenu {
                 terminalOutput = "card with name " + cardName + " does not exist in side deck";
             else {
                 deck.getSideDeck().removeCard(wantedCard);
+                currentUser.addCard(wantedCard);
                 terminalOutput = "card removed form deck successfully";
             }
         }
@@ -165,7 +177,7 @@ public class DeckMenu {
         terminalOutput += "Other decks:\n";
         for (Map.Entry<String, Deck> entry : decks.entrySet()) {
             Deck deck = entry.getValue();
-            if (!deck.isActiveDeck())
+            if (!deck.getName().equals(activeDeck.getName()))
                 printDeckForAllDeck(deck);
         }
     }
@@ -184,6 +196,11 @@ public class DeckMenu {
         ArrayList<Card> monsters = new ArrayList<>();
         ArrayList<Card> spellsAndTraps = new ArrayList<>();
         ArrayList<Card> cards = new ArrayList<>();
+        HashMap<String, Deck> decks = currentUser.getDecks();
+        if (!decks.containsKey(deckName)) {
+            terminalOutput = "deck with name " + deckName + " does not exist";
+            return;
+        }
         if (!isSideDeck) {
             terminalOutput += "Main deck:\nMonsters:\n";
             MainDeck mainDeck = Deck.getDeckByName(deckName, currentUser.getUsername()).getMainDeck();
@@ -195,10 +212,10 @@ public class DeckMenu {
             cards = sideDeck.getSideDeckCards();
         }
         for (Card card : cards) {
-            if (card.getType().equals("monster"))
-                monsters.add(card);
-            else
+            if (card.getCardType().equals("Trap") || card.getCardType().equals("Spell"))
                 spellsAndTraps.add(card);
+            else
+                monsters.add(card);
         }
         monsters.sort(Card.nameComparator);
         spellsAndTraps.sort(Card.nameComparator);

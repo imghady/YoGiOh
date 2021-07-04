@@ -6,9 +6,6 @@ public class Trap extends Card{
 
     protected static ArrayList<Trap> allTraps = new ArrayList<>();
 
-    protected String icon;
-    protected String status;
-
 
     public Trap(String name, String icon, String description, String status, int price) {
         this.name = name;
@@ -21,13 +18,6 @@ public class Trap extends Card{
         Card.addToCards(this);
     }
 
-    public String getIcon() {
-        return icon;
-    }
-
-    public String getStatus() {
-        return status;
-    }
 
     public static Trap getTrapByName(String name) {
         for (Trap trap : allTraps) {

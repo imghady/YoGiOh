@@ -17,6 +17,10 @@ public class Deck {
         allDecks.add(this);
     }
 
+    public static ArrayList<Deck> getAllDecks() {
+        return allDecks;
+    }
+
     public String getName() {
         return name;
     }
@@ -57,6 +61,9 @@ public class Deck {
         return activeDeck;
     }
 
+    public static void addToAllDeck(Deck deck){
+        allDecks.add(deck);
+    }
 
     public static Deck getDeckByName(String name, String creatorUsername){
         for (Deck deck : allDecks){
