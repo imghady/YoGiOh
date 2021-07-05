@@ -10,7 +10,6 @@ import com.mygdx.game.MyGdxGame;
 import model.user.User;
 
 public class Duel implements Screen {
-
     SpriteBatch batch;
     final MyGdxGame game;
     OrthographicCamera camera;
@@ -20,10 +19,12 @@ public class Duel implements Screen {
     Texture mute;
     Texture unmute;
     boolean isMute;
+    boolean isAi;
+    int rounds;
     Texture backButton;
     User currentLoggedInUser;
 
-    public Duel(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
+    public Duel(MyGdxGame game, boolean isMute, User currentLoggedInUser, boolean isAi, int rounds) {
         this.currentLoggedInUser = currentLoggedInUser;
         this.isMute = isMute;
         this.game = game;
@@ -36,7 +37,10 @@ public class Duel implements Screen {
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
+        this.isAi = isAi;
+        this.rounds = rounds;
     }
+
 
     @Override
     public void show() {
@@ -45,43 +49,7 @@ public class Duel implements Screen {
 
     @Override
     public void render(float delta) {
-        camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-        batch.draw(wallpaper, 0, 0, 1600, 960);
-        text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "Duel", 150, 850);
-        batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
-        batch.end();
 
-        if (Gdx.input.justTouched()) {
-
-            if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + mute.getWidth()
-                    && Gdx.input.getY() < 110 && Gdx.input.getY() > 110 - mute.getHeight()) {
-                isMute = !isMute;
-            }
-
-            if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
-                if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
-                    game.setScreen(new MainMenu(game, isMute, currentLoggedInUser));
-                    dispose();
-                }
-            }
-
-        }
-
-
-        if (isMute) {
-            batch.begin();
-            batch.draw(mute, 10, 850, mute.getWidth(), mute.getHeight());
-            MyGdxGame.music.pause();
-            batch.end();
-        } else {
-            batch.begin();
-            batch.draw(unmute, 10, 850, unmute.getWidth(), unmute.getHeight());
-            MyGdxGame.music.play();
-            batch.end();
-        }
     }
 
     @Override
