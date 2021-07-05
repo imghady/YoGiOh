@@ -9,7 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
 import model.user.User;
 
-public class Duel implements Screen {
+public class DuelSelect implements Screen {
+
     SpriteBatch batch;
     final MyGdxGame game;
     OrthographicCamera camera;
@@ -19,13 +20,11 @@ public class Duel implements Screen {
     Texture mute;
     Texture unmute;
     boolean isMute;
-    boolean isAi;
-    int rounds;
     Texture backButton;
+    Texture duelButtons;
     User currentLoggedInUser;
-    Texture mat;
 
-    public Duel(MyGdxGame game, boolean isMute, User currentLoggedInUser, boolean isAi, int rounds) {
+    public DuelSelect(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
         this.isMute = isMute;
         this.game = game;
@@ -38,11 +37,8 @@ public class Duel implements Screen {
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
-        this.isAi = isAi;
-        this.rounds = rounds;
-        mat = new Texture("mat.png");
+        duelButtons = new Texture("buttons/DuelButtons.png");
     }
-
 
     @Override
     public void show() {
@@ -55,15 +51,17 @@ public class Duel implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600, 960);
-        text.getData().setScale(0.3f);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "Duel", 150, 900);
+        text.getData().setScale(0.5f);
+        text.draw(batch, "Duel", 150, 850);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
-        batch.draw(mat, 300, 250, mat.getWidth(), mat.getHeight());
-
+        batch.draw(duelButtons, 100, 150);
         batch.end();
 
         if (Gdx.input.justTouched()) {
+            int x = Gdx.input.getX();
+            int y = Gdx.input.getY();
+            int height = duelButtons.getHeight();
 
             if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + mute.getWidth()
                     && Gdx.input.getY() < 110 && Gdx.input.getY() > 110 - mute.getHeight()) {
@@ -75,6 +73,19 @@ public class Duel implements Screen {
                     game.setScreen(new MainMenu(game, isMute, currentLoggedInUser));
                     dispose();
                 }
+            }
+
+            if (x > 100 && x < 100 + duelButtons.getWidth() && y < 810 && y > 810 - height / 4) {
+                game.setScreen(new Duel(game, isMute, currentLoggedInUser, true, 3));
+            }
+            if (x > 100 && x < 100 + duelButtons.getWidth() && y < 810 - height / 4 && y > 810 - 2 * height / 4) {
+                game.setScreen(new Duel(game, isMute, currentLoggedInUser, true, 1));
+            }
+            if (x > 100 && x < 100 + duelButtons.getWidth() && y < 810 - 2 * height / 4 && y > 810 - 3 * height / 4) {
+                game.setScreen(new Duel(game, isMute, currentLoggedInUser, false, 3));
+            }
+            if (x > 100 && x < 100 + duelButtons.getWidth() && y < 810 - 3 * height / 4 && y > 810 - 4 * height / 4) {
+                game.setScreen(new Duel(game, isMute, currentLoggedInUser, false, 1));
             }
 
         }
