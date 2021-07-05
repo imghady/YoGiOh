@@ -24,38 +24,37 @@ public class Phase {
     public void nextPhase() {
         if (currentPhase.equals("Draw Phase")) {
             currentPhase = "Standby Phase";
-        }
-        if (currentPhase.equals("Standby Phase")) {
+        } else if (currentPhase.equals("Standby Phase")) {
             currentPhase = "First Main Phase";
-        }
-        if (currentPhase.equals("First Main Phase")) {
+        } else if (currentPhase.equals("First Main Phase")) {
             currentPhase = "Battle Phase";
-        }
-        if (currentPhase.equals("Battle Phase")) {
+        } else if (currentPhase.equals("Battle Phase")) {
             currentPhase = "Second Main Phase";
-        }
-        if (currentPhase.equals("Second Main Phase")) {
+        } else if (currentPhase.equals("Second Main Phase")) {
             currentPhase = "End Phase";
-        }
-        if (currentPhase.equals("End Phase")){
+        } else if (currentPhase.equals("End Phase")) {
             currentPhase = "Draw Phase";
         }
-
     }
 
 
     public String getCurrentPhase() {
-        return currentPhase;
+        return currentPhase + "\n";
     }
 
     public String drawPhase(Player player) {
-        ArrayList<Card> cards=player.getMainDeckCard();
-        if (player.getMat().isHandFull()){
+        if (!player.isPermissionForDrawPhase) {
+            terminalOutput = "cant get card";
+            player.setPermissionForDrawPhase(true);
+            return terminalOutput;
+        }
+        ArrayList<Card> cards = player.getMainDeckCard();
+        if (player.getMat().isHandFull()) {
             terminalOutput = "Hand is full";
             return terminalOutput;
         }
-        player.getMat().addToHand(cards.get(cards.size()-1));
-        terminalOutput = "new card added to hand: "+cards.get(cards.size()-1).getName();
+        player.getMat().addToHand(cards.get(cards.size() - 1));
+        terminalOutput = "new card added to hand: " + cards.get(cards.size() - 1).getName();
         player.deleteCard();
         return terminalOutput;
     }
@@ -77,7 +76,7 @@ public class Phase {
     }
 
     public String endPhase(Player player) {
-        terminalOutput = "its "+player.getUser().getNickname()+"'s turn";
+        terminalOutput = "its "+player.getUser().getNickname()+"'s turn\n";
         duelMenu.changeTurn();
         return terminalOutput;
     }

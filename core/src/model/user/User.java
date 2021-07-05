@@ -140,11 +140,27 @@ public class User {
     }
 
     public Deck getActiveDeck() {
+        ArrayList<Deck> decks = Deck.getAllDecks();
+        for (int i = 0; i < decks.size(); i++) {
+            if (activeDeck.getName().equals(decks.get(i).getName()) && username.equals(decks.get(i).getCreatorUsername())){
+                activeDeck = decks.get(i);
+                break;
+            }
+        }
         return activeDeck;
     }
 
     public HashMap<String, Deck> getDecks() {
         return decks;
+    }
+
+    public void deleteCard(String name){
+        for (int i = 0; i < cards.size(); i++) {
+            if (cards.get(i).getName().equals(name)){
+                cards.remove(i);
+                return;
+            }
+        }
     }
 
 

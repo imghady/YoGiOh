@@ -1,12 +1,11 @@
 package model.card;
 
-import com.badlogic.gdx.graphics.Texture;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 
 public class Card {
     private static ArrayList<Card> cards = new ArrayList<>();
+    protected static ArrayList<Monster> allMonsters = new ArrayList<>();
     protected String name;
     protected String cardType;
     protected String description;
@@ -20,7 +19,19 @@ public class Card {
     protected int defence;
     protected boolean isFirstEffectUse = true;
     protected boolean isFirstTimeFlipping = false;
+    protected int level;
+    protected String attribute;
+    protected String monsterType;
+    protected String icon;
+    protected String status;
 
+    public String getIcon() {
+        return icon;
+    }
+
+    public String getStatus() {
+        return status;
+    }
 
     public boolean isFirstTimeFlipping() {
         return isFirstTimeFlipping;
@@ -137,13 +148,35 @@ public class Card {
             cardInfo += "Type : " + monster.monsterType + "\n";
             cardInfo += "ATK : " + monster.attack + "\n";
             cardInfo += "DEF : " + monster.defence + "\n";
-            cardInfo += "Description : " + monster.getDescription() + "\n";
+            cardInfo += "Description : " + monster.getDescription();
         }
         return cardInfo;
     }
 
     public static void addToCards(Card card) {
         cards.add(card);
+    }
+
+
+    public String getMonsterType() {
+        return monsterType;
+    }
+
+    public String getAttribute() {
+        return attribute;
+    }
+
+    public int getLevel(){
+        return level;
+    }
+
+    public static Monster getMonsterByName(String name) {
+        for (Monster monster : allMonsters) {
+            if (monster.name.equals(name)){
+                return monster;
+            }
+        }
+        return null;
     }
 
 }

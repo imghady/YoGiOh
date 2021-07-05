@@ -23,6 +23,7 @@ public class Duel implements Screen {
     int rounds;
     Texture backButton;
     User currentLoggedInUser;
+    Texture mat;
 
     public Duel(MyGdxGame game, boolean isMute, User currentLoggedInUser, boolean isAi, int rounds) {
         this.currentLoggedInUser = currentLoggedInUser;
@@ -39,6 +40,7 @@ public class Duel implements Screen {
         backButton = new Texture("buttons/back.png");
         this.isAi = isAi;
         this.rounds = rounds;
+        mat = new Texture("mat.png");
     }
 
 
@@ -49,7 +51,46 @@ public class Duel implements Screen {
 
     @Override
     public void render(float delta) {
+        camera.update();
+        game.batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+        batch.draw(wallpaper, 0, 0, 1600, 960);
+        text.getData().setScale(0.3f);
+        text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
+        text.draw(batch, "Duel", 150, 900);
+        batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
+        batch.draw(mat, 300, 250, mat.getWidth(), mat.getHeight());
 
+        batch.end();
+
+        if (Gdx.input.justTouched()) {
+
+            if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + mute.getWidth()
+                    && Gdx.input.getY() < 110 && Gdx.input.getY() > 110 - mute.getHeight()) {
+                isMute = !isMute;
+            }
+
+            if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
+                if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
+                    game.setScreen(new MainMenu(game, isMute, currentLoggedInUser));
+                    dispose();
+                }
+            }
+
+        }
+
+
+        if (isMute) {
+            batch.begin();
+            batch.draw(mute, 10, 850, mute.getWidth(), mute.getHeight());
+            MyGdxGame.music.pause();
+            batch.end();
+        } else {
+            batch.begin();
+            batch.draw(unmute, 10, 850, unmute.getWidth(), unmute.getHeight());
+            MyGdxGame.music.play();
+            batch.end();
+        }
     }
 
     @Override
