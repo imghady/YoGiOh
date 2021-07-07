@@ -140,13 +140,13 @@ public class User {
     }
 
     public Deck getActiveDeck() {
-        ArrayList<Deck> decks = Deck.getAllDecks();
-        for (int i = 0; i < decks.size(); i++) {
-            if (activeDeck.getName().equals(decks.get(i).getName()) && username.equals(decks.get(i).getCreatorUsername())){
-                activeDeck = decks.get(i);
-                break;
-            }
-        }
+//        ArrayList<Deck> decks = Deck.getAllDecks();
+//        for (Deck deck : decks) {
+//            if (activeDeck.getName().equals(deck.getName()) && username.equals(deck.getCreatorUsername())) {
+//                activeDeck = deck;
+//                break;
+//            }
+//        }
         return activeDeck;
     }
 
@@ -178,5 +178,15 @@ public class User {
 
     public void setCharacterFileAddress(String characterFileAddress) {
         this.characterFileAddress = characterFileAddress;
+    }
+
+    public int showNumberOfCard(String cardName) {
+        int cnt = 0;
+        for (Card card : cards) {
+            if (card.getName().equals(cardName)) {
+                cnt++;
+            }
+        }
+        return cnt;
     }
 }

@@ -85,7 +85,7 @@ public class MainMenu implements Screen {
 
             if (Gdx.input.getY() > 790 - play.getHeight() && Gdx.input.getY() < 790) {
                 if (Gdx.input.getX() > 1210 && Gdx.input.getX() < 1210 + play.getWidth()) {
-                    game.setScreen(new Duel(game, isMute, currentLoggedInUser));
+                    game.setScreen(new DuelSelect(game, isMute, currentLoggedInUser));
                     dispose();
                 }
             }

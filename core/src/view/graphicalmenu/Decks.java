@@ -22,6 +22,7 @@ public class Decks implements Screen {
     boolean isMute;
     Texture backButton;
     Texture buttons;
+    Texture setting;
     User currentLoggedInUser;
 
     public Decks(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
@@ -38,6 +39,7 @@ public class Decks implements Screen {
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
         buttons = new Texture("buttons/deckButtons.png");
+        setting = new Texture("buttons/deckSetting.png");
     }
 
     @Override
@@ -53,9 +55,10 @@ public class Decks implements Screen {
         batch.draw(wallpaper, 0, 0, 1600,960);
         text.getData().setScale(0.3f);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "Deck Menu", 150, 850);
+        text.draw(batch, "Deck Menu", 150, 900);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(buttons, 100, 150, buttons.getWidth(), buttons.getHeight());
+        batch.draw(setting, 100, 645, setting.getWidth(), setting.getHeight());
         batch.end();
 
         if (Gdx.input.justTouched()) {
@@ -68,6 +71,13 @@ public class Decks implements Screen {
             if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
                 if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
                     game.setScreen(new MainMenu(game, isMute, currentLoggedInUser));
+                    dispose();
+                }
+            }
+
+            if (Gdx.input.getY() > 315 - setting.getHeight() && Gdx.input.getY() < 315) {
+                if (Gdx.input.getX() > 100 && Gdx.input.getX() < 100 + setting.getWidth()) {
+                    game.setScreen(new DeckSetting(game, isMute, currentLoggedInUser));
                     dispose();
                 }
             }
