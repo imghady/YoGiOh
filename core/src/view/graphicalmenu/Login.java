@@ -201,9 +201,7 @@ public class Login implements Screen, Input.TextInputListener {
         if (isHolderUsername) {
             username = holder;
             isHolderUsername = false;
-        }
-
-        if (isHolderPassword) {
+        } else if (isHolderPassword) {
             password = holder;
             isHolderPassword = false;
         }

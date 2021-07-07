@@ -16,7 +16,7 @@ import model.user.User;
 import java.io.IOException;
 import java.util.Objects;
 
-public class AddCardToDeck implements Screen ,Input.TextInputListener {
+public class AddCardToDeck implements Screen, Input.TextInputListener {
     SpriteBatch batch;
     final MyGdxGame game;
     OrthographicCamera camera;
@@ -30,13 +30,18 @@ public class AddCardToDeck implements Screen ,Input.TextInputListener {
     boolean isMute;
     Texture backButton;
     User currentLoggedInUser;
-    String cardNAme = "";
+    String cardNameString = "";
+    String deckNameString = "";
     Texture cardName;
+    Texture deckName;
     int message = 0;
     Texture add;
     String address = null;
     boolean isNameCorrect = false;
     Texture card;
+    String holder;
+    boolean isHolderCardName = false;
+    boolean isHolderDeckName = false;
 
 
     public AddCardToDeck(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
@@ -56,6 +61,7 @@ public class AddCardToDeck implements Screen ,Input.TextInputListener {
         backButton = new Texture("buttons/back.png");
         cardName = new Texture("buttons/cardName.png");
         add = new Texture("buttons/addCard.png");
+        deckName = new Texture("buttons/deckName.png");
     }
 
     @Override
@@ -77,21 +83,22 @@ public class AddCardToDeck implements Screen ,Input.TextInputListener {
         text.draw(batch, "Add card to deck", 150, 850);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(cardName, 50, 300, cardName.getWidth(), cardName.getHeight());
+        batch.draw(deckName, 50, 450, deckName.getWidth(), deckName.getHeight());
         batch.draw(add, 660, 180, add.getWidth(), add.getHeight());
-        type.draw(batch, cardNAme, 340, 380);
+        type.draw(batch, cardNameString, 340, 380);
         if (isNameCorrect && address != null) {
             card = new Texture(address);
             batch.draw(card, 1100, 150, card.getWidth(), card.getHeight());
         }
         if (message == 1) {
             error.setColor(Color.RED);
-            error.draw(batch, "enter a name", 150, 280);
+            error.draw(batch, "complete fields!", 150, 280);
         } else if (message == 2) {
             error.setColor(Color.RED);
             error.draw(batch, "incorrect card name!", 150, 280);
         } else if (message == 3) {
             error.setColor(Color.RED);
-            error.draw(batch, "not enough money!", 150, 280);
+            error.draw(batch, "invalid deck name!", 150, 280);
         } else if (message == 4) {
             error.setColor(Color.GREEN);
             error.draw(batch, "card successfully bought", 150, 280);
@@ -114,19 +121,31 @@ public class AddCardToDeck implements Screen ,Input.TextInputListener {
 
             if (Gdx.input.getY() > 660 - cardName.getHeight() && Gdx.input.getY() < 660) {
                 if (Gdx.input.getX() > 50 && Gdx.input.getX() < 50 + cardName.getWidth()) {
+                    message = 0;
+                    isHolderCardName = true;
                     Gdx.input.getTextInput(this, "Card name", "", "");
+                }
+            }
+
+            if (Gdx.input.getY() > 510 - deckName.getHeight() && Gdx.input.getY() < 510) {
+                if (Gdx.input.getX() > 50 && Gdx.input.getX() < 50 + deckName.getWidth()) {
+                    message = 0;
+                    isHolderDeckName = true;
+                    Gdx.input.getTextInput(this, "Deck name", "", "");
                 }
             }
 
             if (Gdx.input.getY() > 780 - add.getHeight() && Gdx.input.getY() < 780) {
                 if (Gdx.input.getX() > 660 && Gdx.input.getX() < 660 + add.getWidth()) {
                     message = 0;
-                    if (cardNAme.equals("")) {
+                    if (cardNameString.equals("") || deckNameString.equals("")) {
                         message = 1;
-                    } else if (getCardImageFileAddress(cardNAme) == null) {
+                    } else if (getCardImageFileAddress(cardNameString) == null) {
                         message = 2;
+                    } else if (!currentLoggedInUser.getDecks().containsKey(deckNameString)) {
+                        message = 3;
                     } else {
-                        Card newCard = Objects.requireNonNull(Card.getCardByName(cardNAme));
+                        Card newCard = Objects.requireNonNull(Card.getCardByName(cardNameString));
                         if (newCard.getPrice() > currentLoggedInUser.getCredit()) {
                             message = 3;
                         } else {
@@ -138,7 +157,7 @@ public class AddCardToDeck implements Screen ,Input.TextInputListener {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            address = getCardImageFileAddress(cardNAme) + ".jpg";
+                            address = getCardImageFileAddress(cardNameString) + ".jpg";
                         }
                     }
                 }
@@ -344,7 +363,15 @@ public class AddCardToDeck implements Screen ,Input.TextInputListener {
 
     @Override
     public void input(String text) {
-        this.cardNAme = text;
+        this.holder = text;
+
+        if (isHolderCardName) {
+            cardNameString = holder;
+            isHolderCardName = false;
+        } else if (isHolderDeckName) {
+            deckNameString = holder;
+            isHolderDeckName = false;
+        }
     }
 
     @Override
