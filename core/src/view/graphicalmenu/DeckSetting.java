@@ -118,7 +118,6 @@ public class DeckSetting implements Screen, Input.TextInputListener {
                     } else if (currentLoggedInUser.getDecks().containsKey(deckName)) {
                         message = 1;
                         Deck deck = Deck.getDeckByName(deckName, currentLoggedInUser.getUsername());
-                        System.out.println(deck == null);
                         currentLoggedInUser.setActiveDeck(deck);
                         try {
                             Finisher.finish();

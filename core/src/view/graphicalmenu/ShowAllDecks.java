@@ -11,6 +11,7 @@ import com.mygdx.game.MyGdxGame;
 import model.user.Deck;
 import model.user.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,15 +68,17 @@ public class ShowAllDecks implements Screen {
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         text.draw(batch, "All Decks", 150, 900);
         activeDecks = "Active deck:\n";
-        HashMap<String, Deck> decks = currentLoggedInUser.getDecks();
-        Deck activeDeck = currentLoggedInUser.getActiveDeck();
-        if (activeDeck != null)
-            printDeckForAllDeck(activeDeck);
+        ArrayList<Deck> decks = Deck.getAllDecks();
+        for (Deck deck : decks) {
+            if (deck.getCreatorUsername().equals(currentLoggedInUser.getUsername()) && deck.isActiveDeck()) {
+                printDeckForAllDeck(deck);
+            }
+        }
         deActiveDecks = "\nother decks:\n";
-        for (Map.Entry<String, Deck> entry : decks.entrySet()) {
-            Deck deck = entry.getValue();
-            if (!deck.isActiveDeck())
+        for (Deck deck : decks) {
+            if (deck.getCreatorUsername().equals(currentLoggedInUser.getUsername()) && !deck.isActiveDeck()) {
                 printOtherDeckForAllDeck(deck);
+            }
         }
         text2.draw(batch, activeDecks, 300, 780);
         text3.draw(batch, deActiveDecks, 300, 730);
