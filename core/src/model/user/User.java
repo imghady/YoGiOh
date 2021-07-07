@@ -179,4 +179,14 @@ public class User {
     public void setCharacterFileAddress(String characterFileAddress) {
         this.characterFileAddress = characterFileAddress;
     }
+
+    public int showNumberOfCard(String cardName) {
+        int cnt = 0;
+        for (Card card : cards) {
+            if (card.getName().equals(cardName)) {
+                cnt++;
+            }
+        }
+        return cnt;
+    }
 }
