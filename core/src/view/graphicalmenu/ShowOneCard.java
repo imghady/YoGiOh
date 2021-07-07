@@ -9,7 +9,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
+import model.card.Card;
 import model.user.User;
+
+import java.util.Objects;
 
 public class ShowOneCard implements Screen, Input.TextInputListener {
 
@@ -20,6 +23,7 @@ public class ShowOneCard implements Screen, Input.TextInputListener {
     BitmapFont text;
     BitmapFont text1;
     BitmapFont text2;
+    BitmapFont text3;
     BitmapFont error;
     BitmapFont type;
     Texture mute;
@@ -44,6 +48,7 @@ public class ShowOneCard implements Screen, Input.TextInputListener {
         camera.setToOrtho(false, 1600, 960);
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        text3 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         error = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         type = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
@@ -69,9 +74,11 @@ public class ShowOneCard implements Screen, Input.TextInputListener {
         batch.draw(wallpaper, 0, 0, 1600, 960);
         text.getData().setScale(0.3f);
         text2.getData().setScale(0.2f);
+        text3.getData().setScale(0.2f);
         error.getData().setScale(0.2f);
         type.getData().setScale(0.15f);
         text2.setColor(Color.GREEN);
+        text3.setColor(Color.YELLOW);
         type.setColor(Color.YELLOW);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         text.draw(batch, "show one card", 150, 850);
@@ -81,6 +88,7 @@ public class ShowOneCard implements Screen, Input.TextInputListener {
         batch.draw(show, 660, 180, show.getWidth(), show.getHeight());
         type.draw(batch, name, 340, 380);
         if (isNameCorrect && address != null) {
+            text3.draw(batch, "price: " + Objects.requireNonNull(Card.getCardByName(name)).getPrice(), 1120, 850);
             card = new Texture(address);
             batch.draw(card, 1100, 150, card.getWidth(), card.getHeight());
         }
@@ -298,6 +306,163 @@ public class ShowOneCard implements Screen, Input.TextInputListener {
             return "cards/SpellTrap/MagnumShield";
         if (input.equals("Advanced Ritual Art"))
             return "cards/SpellTrap/AdvancedRitualArt";
+        return null;
+    }
+
+
+    public String getCardImageFileAddressLandscape(String input) {
+        if (input.equals("Battle OX"))
+            return "cards/monsters/landscape/BattleOx";
+        if (input.equals("Axe Raider"))
+            return "cards/monsters/landscape/AxeRaider";
+        if (input.equals("Yomi Ship"))
+            return "cards/monsters/landscape/YomiShip";
+        if (input.equals("Horn Imp"))
+            return "cards/monsters/landscape/HornImp";
+        if (input.equals("Silver Fang"))
+            return "cards/monsters/landscape/SilverFang";
+        if (input.equals("Suijin"))
+            return "cards/monsters/landscape/Suijin";
+        if (input.equals("Fireyarou"))
+            return "cards/monsters/landscape/Fireyarou";
+        if (input.equals("Curtain of the dark ones"))
+            return "cards/monsters/landscape/CurtainOfTheDarkOnes";
+        if (input.equals("Feral Imp"))
+            return "cards/monsters/landscape/FeralImp";
+        if (input.equals("Dark magician"))
+            return "cards/monsters/landscape/DarkMagician";
+        if (input.equals("Wattkid"))
+            return "cards/monsters/landscape/Wattkid";
+        if (input.equals("Baby dragon"))
+            return "cards/monsters/landscape/BabyDragon";
+        if (input.equals("Hero of the east"))
+            return "cards/monsters/landscape/HeroOfTheEast";
+        if (input.equals("Battle warrior"))
+            return "cards/monsters/landscape/BattleWarrior";
+        if (input.equals("Crawling dragon"))
+            return "cards/monsters/landscape/CrawlingDragon";
+        if (input.equals("Flame manipulator"))
+            return "cards/monsters/landscape/FlameManipulator";
+        if (input.equals("Blue-Eyes white dragon"))
+            return "cards/monsters/landscape/BlueEyesWhiteDragon";
+        if (input.equals("Crab Turtle"))
+            return "cards/monsters/landscape/CrabTurtle";
+        if (input.equals("Skull Guardian"))
+            return "cards/monsters/landscape/SkullGuardian";
+        if (input.equals("Slot Machine"))
+            return "cards/monsters/landscape/SlotMachine";
+        if (input.equals("Haniwa"))
+            return "cards/monsters/landscape/Haniwa";
+        if (input.equals("Man-Eater Bug"))
+            return "cards/monsters/landscape/ManEaterBug";
+        if (input.equals("Gate Guardian"))
+            return "cards/monsters/landscape/GateGuardian";
+        if (input.equals("Scanner"))
+            return "cards/monsters/landscape/Scanner";
+        if (input.equals("Bitron"))
+            return "cards/monsters/landscape/Bitron";
+        if (input.equals("Marshmallon"))
+            return "cards/monsters/landscape/Marshmallon";
+        if (input.equals("Beast King Barbaros"))
+            return "cards/monsters/landscape/BeastKingBarbaros";
+        if (input.equals("Texchanger"))
+            return "cards/monsters/landscape/Texchanger";
+        if (input.equals("Leotron ") || input.equals("Leotron"))
+            return "cards/monsters/landscape/Leotron";
+        if (input.equals("The Calculator"))
+            return "cards/monsters/landscape/TheCalculator";
+        if (input.equals("Alexandrite Dragon"))
+            return "cards/monsters/landscape/AlexandriteDragon";
+        if (input.equals("Mirage Dragon"))
+            return "cards/monsters/landscape/MirageDragon";
+        if (input.equals("Herald of Creation"))
+            return "cards/monsters/landscape/HeraldOfCreation";
+        if (input.equals("Exploder Dragon"))
+            return "cards/monsters/landscape/ExploderDragon";
+        if (input.equals("Warrior Dai Grepher"))
+            return "cards/monsters/landscape/WarriorDaiGrepher";
+        if (input.equals("Dark Blade"))
+            return "cards/monsters/landscape/DarkBlade";
+        if (input.equals("Wattaildragon"))
+            return "cards/monsters/landscape/Wattaildragon";
+        if (input.equals("Terratiger# the Empowered Warrior") || input.equals("Terratiger"))
+            return "cards/monsters/landscape/Terratiger";
+        if (input.equals("The Tricky"))
+            return "cards/monsters/landscape/TheTricky";
+        if (input.equals("Spiral Serpent"))
+            return "cards/monsters/landscape/SpiralSerpent";
+        if (input.equals("Command Knight"))
+            return "cards/monsters/landscape/CommandKnight";
+        if (input.equals("Trap Hole"))
+            return "cards/SpellTrap/landscape/TrapHole";
+        if (input.equals("Mirror Force"))
+            return "cards/SpellTrap/landscape/MirrorForce";
+        if (input.equals("Magic Cylinder"))
+            return "cards/SpellTrap/landscape/MagicCylinder";
+        if (input.equals("Mind Crush"))
+            return "cards/SpellTrap/landscape/MindCrush";
+        if (input.equals("Torrential Tribute"))
+            return "cards/SpellTrap/landscape/TorrentialTribute";
+        if (input.equals("Time Seal"))
+            return "cards/SpellTrap/landscape/TimeSeal";
+        if (input.equals("Negate Attack"))
+            return "cards/SpellTrap/landscape/NegateAttack";
+        if (input.equals("Solemn Warning"))
+            return "cards/SpellTrap/landscape/SolemnWarning";
+        if (input.equals("Magic Jamamer") || input.equals("Magic Jammer"))
+            return "cards/SpellTrap/landscape/Magic Jammer";
+        if (input.equals("Call of The Haunted"))
+            return "cards/SpellTrap/landscape/Call of the Hunted";
+        if (input.equals("Vanity's Emptiness"))
+            return "cards/SpellTrap/landscape/VanitysEmptiness";
+        if (input.equals("Wall of Revealing Light"))
+            return "cards/SpellTrap/landscape/WallOfRevealingLight";
+        if (input.equals("Monster Reborn"))
+            return "cards/SpellTrap/landscape/MonsterReborn";
+        if (input.equals("Terraforming"))
+            return "cards/SpellTrap/landscape/Terraforming";
+        if (input.equals("Pot of Greed"))
+            return "cards/SpellTrap/landscape/PotOfGreed";
+        if (input.equals("Raigeki"))
+            return "cards/SpellTrap/landscape/Raigeki";
+        if (input.equals("Change of Heart"))
+            return "cards/SpellTrap/landscape/ChangeOfHeart";
+        if (input.equals("Swords of Revealing Light"))
+            return "cards/SpellTrap/landscape/SwordOfRevealingLight";
+        if (input.equals("Harpie's Feather Duster"))
+            return "cards/SpellTrap/landscape/HarpiesFeatherDuster";
+        if (input.equals("Dark Hole"))
+            return "cards/SpellTrap/landscape/DarkHole";
+        if (input.equals("Supply Squad"))
+            return "cards/SpellTrap/landscape/SupplySquad";
+        if (input.equals("Spell Absorption"))
+            return "cards/SpellTrap/landscape/SpellAbsorption";
+        if (input.equals("Messenger of peace"))
+            return "cards/SpellTrap/landscape/MessengerOfPeace";
+        if (input.equals("Twin Twisters"))
+            return "cards/SpellTrap/landscape/TwinTwisters";
+        if (input.equals("Mystical space typhoon"))
+            return "cards/SpellTrap/landscape/MysticalSpaceTyphoon";
+        if (input.equals("Ring of defense"))
+            return "cards/SpellTrap/landscape/RingOfDefense";
+        if (input.equals("Yami"))
+            return "cards/SpellTrap/landscape/Yami";
+        if (input.equals("Forest"))
+            return "cards/SpellTrap/landscape/Forest";
+        if (input.equals("Closed Forest"))
+            return "cards/SpellTrap/landscape/ClosedForest";
+        if (input.equals("Umiiruka"))
+            return "cards/SpellTrap/landscape/Umiiruka";
+        if (input.equals("Sword of dark destruction"))
+            return "cards/SpellTrap/landscape/SwordOfDarkDestruction";
+        if (input.equals("Black Pendant"))
+            return "cards/SpellTrap/landscape/BlackPendant";
+        if (input.equals("United We Stand"))
+            return "cards/SpellTrap/landscape/UnitedWeStand";
+        if (input.equals("Magnum Shield"))
+            return "cards/SpellTrap/landscape/MagnumShield";
+        if (input.equals("Advanced Ritual Art"))
+            return "cards/SpellTrap/landscape/AdvancedRitualArt";
         return null;
     }
 
