@@ -9,7 +9,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
+import model.card.Card;
 import model.user.User;
+
+import java.util.Objects;
 
 public class ShowOneCard implements Screen, Input.TextInputListener {
 
@@ -20,6 +23,7 @@ public class ShowOneCard implements Screen, Input.TextInputListener {
     BitmapFont text;
     BitmapFont text1;
     BitmapFont text2;
+    BitmapFont text3;
     BitmapFont error;
     BitmapFont type;
     Texture mute;
@@ -44,6 +48,7 @@ public class ShowOneCard implements Screen, Input.TextInputListener {
         camera.setToOrtho(false, 1600, 960);
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        text3 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         error = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         type = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
@@ -69,9 +74,11 @@ public class ShowOneCard implements Screen, Input.TextInputListener {
         batch.draw(wallpaper, 0, 0, 1600, 960);
         text.getData().setScale(0.3f);
         text2.getData().setScale(0.2f);
+        text3.getData().setScale(0.2f);
         error.getData().setScale(0.2f);
         type.getData().setScale(0.15f);
         text2.setColor(Color.GREEN);
+        text3.setColor(Color.YELLOW);
         type.setColor(Color.YELLOW);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         text.draw(batch, "show one card", 150, 850);
@@ -81,6 +88,7 @@ public class ShowOneCard implements Screen, Input.TextInputListener {
         batch.draw(show, 660, 180, show.getWidth(), show.getHeight());
         type.draw(batch, name, 340, 380);
         if (isNameCorrect && address != null) {
+            text3.draw(batch, "price: " + Objects.requireNonNull(Card.getCardByName(name)).getPrice(), 1120, 850);
             card = new Texture(address);
             batch.draw(card, 1100, 150, card.getWidth(), card.getHeight());
         }

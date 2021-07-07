@@ -1,6 +1,7 @@
 package view.graphicalmenu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
 import model.user.User;
 
-public class AddCardToDeck implements Screen {
+public class AddCardToDeck implements Screen ,Input.TextInputListener {
     SpriteBatch batch;
     final MyGdxGame game;
     OrthographicCamera camera;
@@ -21,6 +22,7 @@ public class AddCardToDeck implements Screen {
     boolean isMute;
     Texture backButton;
     User currentLoggedInUser;
+    String cardNAme = "";
 
     public AddCardToDeck(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
@@ -106,6 +108,16 @@ public class AddCardToDeck implements Screen {
 
     @Override
     public void dispose() {
+
+    }
+
+    @Override
+    public void input(String text) {
+        this.cardNAme = text;
+    }
+
+    @Override
+    public void canceled() {
 
     }
 }
