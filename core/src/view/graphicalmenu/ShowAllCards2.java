@@ -2,6 +2,7 @@ package view.graphicalmenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -17,6 +18,7 @@ public class ShowAllCards2 implements Screen {
     Texture wallpaper;
     BitmapFont text;
     BitmapFont text1;
+    BitmapFont text2;
     Texture mute;
     Texture unmute;
     boolean isMute;
@@ -38,6 +40,7 @@ public class ShowAllCards2 implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 960);
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        text2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         mute = new Texture("buttons/mute.png");
@@ -62,11 +65,16 @@ public class ShowAllCards2 implements Screen {
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600,960);
         text.getData().setScale(0.3f);
+        text2.getData().setScale(0.2f);
+        text2.setColor(Color.YELLOW);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "show all cards 2 - Monsters", 500, 900);
+        text.draw(batch, "show all cards 2 - Monsters", 500, 920);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(next, 800, 30, next.getWidth(), next.getHeight());
         batch.draw(pre, 700, 30, pre.getWidth(), pre.getHeight());
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Battle OX"), 250, 840);
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Battle warrior"), 750, 840);
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Beast King Barbaros"), 1250, 840);
         batch.draw(battleOx, 100, 150, battleOx.getWidth(), battleOx.getHeight());
         batch.draw(battleWarrior, 600, 150, battleWarrior.getWidth(), battleWarrior.getHeight());
         batch.draw(beastKingBarbaros, 1100, 150, beastKingBarbaros.getWidth(), beastKingBarbaros.getHeight());
