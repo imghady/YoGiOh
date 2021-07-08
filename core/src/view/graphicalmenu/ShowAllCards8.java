@@ -2,6 +2,7 @@ package view.graphicalmenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -17,6 +18,7 @@ public class ShowAllCards8 implements Screen {
     Texture wallpaper;
     BitmapFont text;
     BitmapFont text1;
+    BitmapFont text2;
     Texture mute;
     Texture unmute;
     boolean isMute;
@@ -39,6 +41,7 @@ public class ShowAllCards8 implements Screen {
         camera.setToOrtho(false, 1600, 960);
         text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        text2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
@@ -63,11 +66,16 @@ public class ShowAllCards8 implements Screen {
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600,960);
         text.getData().setScale(0.3f);
+        text2.getData().setScale(0.2f);
+        text2.setColor(Color.YELLOW);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "show all cards 8 - Monsters", 500, 900);
+        text.draw(batch, "show all cards 8 - Monsters", 500, 920);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(next, 800, 30, next.getWidth(), next.getHeight());
         batch.draw(pre, 700, 30, pre.getWidth(), pre.getHeight());
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Hero of the east"), 250, 840);
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Horn Imp"), 750, 840);
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Leotron"), 1250, 840);
         batch.draw(heroOfTheEast, 100, 150, heroOfTheEast.getWidth(), heroOfTheEast.getHeight());
         batch.draw(hornImp, 600, 150, hornImp.getWidth(), hornImp.getHeight());
         batch.draw(leotron, 1100, 150, leotron.getWidth(), leotron.getHeight());
