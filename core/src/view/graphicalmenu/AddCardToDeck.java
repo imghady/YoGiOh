@@ -14,6 +14,7 @@ import model.card.Card;
 import model.user.User;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class AddCardToDeck implements Screen, Input.TextInputListener {
@@ -39,9 +40,12 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
     String address = null;
     boolean isNameCorrect = false;
     Texture card;
+    Texture mainDeck;
+    Texture sideDeck;
     String holder;
     boolean isHolderCardName = false;
     boolean isHolderDeckName = false;
+    boolean isMainDeck = true;
 
 
     public AddCardToDeck(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
@@ -62,6 +66,8 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
         cardName = new Texture("buttons/cardName.png");
         add = new Texture("buttons/addCard.png");
         deckName = new Texture("buttons/deckName.png");
+        mainDeck = new Texture("buttons/mainDeck.png");
+        sideDeck = new Texture("buttons/sideDeck.png");
     }
 
     @Override
@@ -76,7 +82,7 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600, 960);
         text.getData().setScale(0.3f);
-        type.getData().setScale(0.3f);
+        type.getData().setScale(0.2f);
         error.getData().setScale(0.2f);
         type.setColor(Color.YELLOW);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
@@ -84,24 +90,31 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(cardName, 50, 300, cardName.getWidth(), cardName.getHeight());
         batch.draw(deckName, 50, 450, deckName.getWidth(), deckName.getHeight());
+        if (isMainDeck) {
+            batch.draw(mainDeck, 280, 590, mainDeck.getWidth(), mainDeck.getHeight());
+        } else {
+            batch.draw(sideDeck, 280, 590, sideDeck.getWidth(), sideDeck.getHeight());
+        }
+        type.draw(batch, "Add to : ", 150, 650);
         batch.draw(add, 660, 180, add.getWidth(), add.getHeight());
-        type.draw(batch, cardNameString, 340, 380);
+        type.draw(batch, cardNameString, 340, 385);
+        type.draw(batch, deckNameString, 360, 520);
         if (isNameCorrect && address != null) {
             card = new Texture(address);
             batch.draw(card, 1100, 150, card.getWidth(), card.getHeight());
         }
         if (message == 1) {
             error.setColor(Color.RED);
-            error.draw(batch, "complete fields!", 150, 280);
+            error.draw(batch, "complete fields!", 100, 270);
         } else if (message == 2) {
             error.setColor(Color.RED);
-            error.draw(batch, "incorrect card name!", 150, 280);
+            error.draw(batch, "incorrect card name!", 100, 270);
         } else if (message == 3) {
             error.setColor(Color.RED);
-            error.draw(batch, "invalid deck name!", 150, 280);
+            error.draw(batch, "invalid deck name!", 100, 270);
         } else if (message == 4) {
             error.setColor(Color.GREEN);
-            error.draw(batch, "card successfully bought", 150, 280);
+            error.draw(batch, "card successfully bought", 100, 270);
         }
         batch.end();
 
@@ -116,6 +129,12 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
                 if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
                     game.setScreen(new Decks(game, isMute, currentLoggedInUser));
                     dispose();
+                }
+            }
+
+            if (Gdx.input.getY() > 370 - mainDeck.getHeight() && Gdx.input.getY() < 370) {
+                if (Gdx.input.getX() > 280 && Gdx.input.getX() < 280 + mainDeck.getWidth()) {
+                    isMainDeck = !isMainDeck;
                 }
             }
 
@@ -146,6 +165,7 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
                         message = 3;
                     } else {
                         Card newCard = Objects.requireNonNull(Card.getCardByName(cardNameString));
+                        ArrayList<Card> cards = currentLoggedInUser.getCards();
                         if (newCard.getPrice() > currentLoggedInUser.getCredit()) {
                             message = 3;
                         } else {
