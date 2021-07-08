@@ -119,6 +119,13 @@ public class DeckMenu {
         if (isSideDeck)
             deck.getSideDeck().addCard(card);
         terminalOutput = "card added to deck successfully";
+        ArrayList<Deck> decks1 = Deck.getAllDecks();
+        for (Deck deck1 : decks1) {
+            ArrayList<Card> cards1 = deck1.getMainDeck().getMainDeckCards();
+            for (Card card1 : cards1) {
+                System.out.println(card1.getName());
+            }
+        }
     }
 
     public void removeCardFromDeck(String deckName, String cardName, boolean isSideDeck) {

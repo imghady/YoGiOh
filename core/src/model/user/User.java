@@ -104,13 +104,15 @@ public class User {
 
     public void setActiveDeck(Deck activeDeck2) {
         ArrayList<Deck> decks = Deck.getAllDecks();
-        for (Deck deck : decks) {
-            if (activeDeck.getName().equals(deck.getName()) && username.equals(deck.getCreatorUsername())) {
-                activeDeck = deck;
-                break;
+        if(activeDeck != null) {
+            for (Deck deck : decks) {
+                if (activeDeck.getName().equals(deck.getName()) && username.equals(deck.getCreatorUsername())) {
+                    activeDeck = deck;
+                    break;
+                }
             }
+            activeDeck.setActiveDeck(false);
         }
-        activeDeck.setActiveDeck(false);
         for (Deck deck : decks) {
             if (activeDeck2.getName().equals(deck.getName()) && username.equals(deck.getCreatorUsername())) {
                 activeDeck = deck;
