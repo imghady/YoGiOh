@@ -9,7 +9,7 @@ public class Deck {
     private String creatorUsername;
     private MainDeck mainDeck = new MainDeck();
     private SideDeck sideDeck = new SideDeck();
-    private boolean activeDeck;
+    private boolean activeDeck = false;
     private boolean isValid = false;
 
     public Deck(String name, String creatorUsername){
