@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
+import controller.DeckMenu;
 import model.Finisher;
 import model.card.Card;
 import model.user.User;
@@ -114,7 +115,7 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
             error.draw(batch, "invalid deck name!", 100, 270);
         } else if (message == 4) {
             error.setColor(Color.GREEN);
-            error.draw(batch, "card successfully bought", 100, 270);
+            error.draw(batch, "card successfully added", 100, 270);
         }
         batch.end();
 
@@ -171,7 +172,8 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
                         } else {
                             message = 4;
                             isNameCorrect = true;
-                            currentLoggedInUser.addCard(newCard);
+                            DeckMenu deckMenu = new DeckMenu(currentLoggedInUser.getUsername());
+                            deckMenu.addCardToDeck(deckNameString, cardNameString, !isMainDeck);
                             try {
                                 Finisher.finish();
                             } catch (IOException e) {
