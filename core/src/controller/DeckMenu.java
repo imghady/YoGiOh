@@ -170,15 +170,17 @@ public class DeckMenu {
 
     public void showAllDeck() {
         terminalOutput = "Decks:\nActive deck:\n";
-        HashMap<String, Deck> decks = currentUser.getDecks();
-        Deck activeDeck = currentUser.getActiveDeck();
-        if (activeDeck != null)
-            printDeckForAllDeck(activeDeck);
-        terminalOutput += "Other decks:\n";
-        for (Map.Entry<String, Deck> entry : decks.entrySet()) {
-            Deck deck = entry.getValue();
-            if (!deck.getName().equals(activeDeck.getName()))
+        ArrayList<Deck> decks = Deck.getAllDecks();
+        for (Deck deck : decks) {
+            if (deck.getCreatorUsername().equals(currentUser.getUsername()) && deck.isActiveDeck()){
                 printDeckForAllDeck(deck);
+            }
+        }
+        terminalOutput += "Other decks:\n";
+        for (Deck deck : decks) {
+            if (deck.getCreatorUsername().equals(currentUser.getUsername()) && !deck.isActiveDeck()){
+                printDeckForAllDeck(deck);
+            }
         }
     }
 
