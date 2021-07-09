@@ -89,11 +89,11 @@ public class DeckMenu {
         }
         card = cards.get(cards.indexOf(card));
         Deck deck = Deck.getDeckByName(deckName, currentUser.getUsername());
-        if (!isSideDeck && deck.getMainDeck().getMainDeckSize() == 40) {
+        if (!isSideDeck && deck.getMainDeck().getMainDeckSize() >= 40) {
             terminalOutput = "main deck is full";
             return;
         }
-        if (isSideDeck && deck.getSideDeck().getSideDeckSize() == 15) {
+        if (isSideDeck && deck.getSideDeck().getSideDeckSize() >= 15) {
             terminalOutput = "side deck is full";
             return;
         }
