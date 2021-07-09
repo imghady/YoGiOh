@@ -1,6 +1,7 @@
 package view.graphicalmenu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -16,7 +17,7 @@ import model.user.User;
 
 import java.util.ArrayList;
 
-public class Duel implements Screen {
+public class Duel implements Screen, Input.TextInputListener {
     SpriteBatch batch;
     final Mola game;
     OrthographicCamera camera;
@@ -26,6 +27,7 @@ public class Duel implements Screen {
     BitmapFont text2;
     Texture mute;
     Texture unmute;
+    Texture agree;
     boolean isMute;
     boolean isAi;
     int rounds;
@@ -61,7 +63,10 @@ public class Duel implements Screen {
     float xH5 = 1090;
     float xH6 = 1260;
     float yH = 960 - 750 - height;
+    int attackInput = -1;
     Player showingPlayer;
+    String message = "";
+    String currentButtonClicked = "";
 
     public Duel(Mola game, boolean isMute, User currentLoggedInUser, boolean isAi, String secondUserUsername, int rounds) {
         this.currentLoggedInUser = currentLoggedInUser;
@@ -77,6 +82,7 @@ public class Duel implements Screen {
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
+        agree = new Texture("buttons/agree.png");
         changeMat = new Texture("buttons/changeMat.png");
         leftButtonBar = new Texture("buttons/leftButtonBar.png");
         card = new Texture("Cards/Monsters/BabyDragon.jpg");
@@ -110,9 +116,11 @@ public class Duel implements Screen {
         text2.getData().setScale(0.2f);
         text2.setColor(Color.YELLOW);
         text2.draw(batch, "Showing player: " + showingPlayer.getUser().getNickname(), 400, 920);
+        text2.draw(batch, message, 590, 800);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(changeMat, 1500, 50);
         batch.draw(leftButtonBar, 50, 250);
+        batch.draw(agree, 80, 100, 200, 100);
         batch.draw(mat, 300, 250);
         batch.end();
         loadMonsters();
@@ -142,12 +150,35 @@ public class Duel implements Screen {
                 }
             }
 
+            if (x >= 80 && x <= 280 && y >= 760 && y <= 860)
+                agree();
+
             if (x >= 1500 && x <= 1500 + changeMat.getWidth() && y <= 910 && y >= 910 - changeMat.getHeight()) {
                 if (showingPlayer == duelMenu.firstPlayer)
                     showingPlayer = duelMenu.secondPlayer;
                 else
                     showingPlayer = duelMenu.firstPlayer;
             }
+
+            batch.begin();
+            int leftBarHeight = leftButtonBar.getHeight();
+            if (x >= 50 && x <= 50 + leftButtonBar.getWidth()) {
+                if (y < 710 && y > 710 - leftBarHeight / 4f) {
+                    message = duelMenu.phase2DirectAttack();
+                }
+                if (y < 710 - leftBarHeight / 4f && y > 710 - 2f * leftBarHeight / 4) {
+                    Gdx.input.getTextInput(this, "Card number", "", "");
+                    currentButtonClicked = "attack";
+                }
+                if (y < 710 - 2f * leftBarHeight / 4 && y > 710 - 3f * leftBarHeight / 4) {
+                    //SUMMON
+                }
+                if (y < 710 - 3f * leftBarHeight / 4 && y > 710 - 4f * leftBarHeight / 4) {
+                    //SET
+                }
+
+            }
+            batch.end();
 
         }
 
@@ -162,6 +193,15 @@ public class Duel implements Screen {
             batch.draw(unmute, 10, 850, unmute.getWidth(), unmute.getHeight());
             Mola.music.play();
             batch.end();
+        }
+    }
+
+    private void agree() {
+        if (currentButtonClicked.equals("attack")) {
+            if (attackInput != -1)
+            message = duelMenu.phase2Attack(attackInput);
+            attackInput = -1;
+            currentButtonClicked = "";
         }
     }
 
@@ -646,5 +686,15 @@ public class Duel implements Screen {
         if (input.equals("Advanced Ritual Art"))
             return "cards/SpellTrap/landscape/AdvancedRitualArt";
         return null;
+    }
+
+    @Override
+    public void input(String text) {
+        this.attackInput = Integer.parseInt(text);
+    }
+
+    @Override
+    public void canceled() {
+
     }
 }
