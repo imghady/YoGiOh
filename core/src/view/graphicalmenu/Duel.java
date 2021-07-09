@@ -2,6 +2,7 @@ package view.graphicalmenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -22,12 +23,14 @@ public class Duel implements Screen {
     Texture wallpaper;
     BitmapFont text;
     BitmapFont text1;
+    BitmapFont text2;
     Texture mute;
     Texture unmute;
     boolean isMute;
     boolean isAi;
     int rounds;
     Texture backButton;
+    Texture changeMat;
     User currentLoggedInUser;
     Texture mat;
     Texture card;
@@ -60,11 +63,13 @@ public class Duel implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 960);
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        text2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
+        changeMat = new Texture("buttons/changeMat.png");
         card = new Texture("Cards/Monsters/BabyDragon.jpg");
         this.isAi = isAi;
         this.rounds = rounds;
@@ -90,7 +95,11 @@ public class Duel implements Screen {
         text.getData().setScale(0.3f);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         text.draw(batch, "Duel", 150, 900);
+        text2.getData().setScale(0.2f);
+        text2.setColor(Color.YELLOW);
+        text2.draw(batch, "Showing player: " + showingPlayer.getUser().getNickname(), 400, 920);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
+        batch.draw(changeMat, 1500, 50);
         batch.draw(mat, 300, 250);
         batch.end();
         loadMonsters();
@@ -99,6 +108,9 @@ public class Duel implements Screen {
         loadDeck();
 
         if (Gdx.input.justTouched()) {
+
+            float x = Gdx.input.getX();
+            float y = Gdx.input.getY();
 
             System.out.println(Gdx.input.getX() + " " + Gdx.input.getY());
 
@@ -112,6 +124,13 @@ public class Duel implements Screen {
                     game.setScreen(new DuelSelect(game, isMute, currentLoggedInUser));
                     dispose();
                 }
+            }
+
+            if (x >= 1500 && x <= 1500 + changeMat.getWidth() && y <= 910 && y >= 910 - changeMat.getHeight()) {
+                if (showingPlayer == duelMenu.firstPlayer)
+                    showingPlayer = duelMenu.secondPlayer;
+                else
+                    showingPlayer = duelMenu.firstPlayer;
             }
 
         }
