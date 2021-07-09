@@ -202,7 +202,7 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
                                 e.printStackTrace();
                             }
 
-                        } else if (!isMainDeck && deck.getSideDeck().getSideDeckSize() >= 15) {
+                        } else if (!isMainDeck && deck1.getSideDeck().getSideDeckSize() >= 15) {
                             message = 5;
                         } else {
                             int countCardsInDeck = 0;
