@@ -18,7 +18,6 @@ import model.user.User;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 public class AddCardToDeck implements Screen, Input.TextInputListener {
     SpriteBatch batch;
@@ -192,9 +191,9 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
                             message = 8;
                         } else {
                             Deck deck = Deck.getDeckByName(deckNameString, currentLoggedInUser.getUsername());
-                            if (isMainDeck && deck.getMainDeck().getMainDeckSize() >= 40) {
+                            if (isMainDeck && deck.getMainDeck().getMainDeckSize() == 40) {
                                 message = 4;
-                            } else if (!isMainDeck && deck.getSideDeck().getSideDeckSize() >= 15) {
+                            } else if (!isMainDeck && deck.getSideDeck().getSideDeckSize() == 15) {
                                 message = 5;
                             } else {
                                 int countCardsInDeck = 0;
