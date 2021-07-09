@@ -47,7 +47,7 @@ public class DeckInfo implements Screen, Input.TextInputListener {
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
         field = new Texture("buttons/deckName.png");
-        create = new Texture("buttons/create.png");
+        create = new Texture("buttons/show.png");
     }
 
 

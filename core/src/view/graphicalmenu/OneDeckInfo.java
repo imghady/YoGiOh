@@ -83,15 +83,15 @@ public class OneDeckInfo implements Screen, Input.TextInputListener {
         text3.setColor(Color.YELLOW);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         text.draw(batch, "Deck Info", 150, 900);
-        deckInfo = "Name: " + deck.getName() + " , ";
+        deckInfo = "Name: " + deck.getName() + "\n";
         if (deck.isValid()) {
-            deckInfo += "Valid";
+            deckInfo += "Valid\n";
         }
         if (!deck.isValid()) {
-            deckInfo += "Invalid";
+            deckInfo += "Invalid\n";
         }
         if (deck.isActiveDeck()) {
-            deckInfo += " , activeDeck";
+            deckInfo += "Active Deck";
         }
         ArrayList<Card> mainCards = deck.getMainDeck().getMainDeckCards();
         ArrayList<Card> sideCards = deck.getSideDeck().getSideDeckCards();
