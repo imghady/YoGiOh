@@ -4,18 +4,16 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
-import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Mola;
 
 public class Start extends Game implements Screen,  Input.TextInputListener  {
 
     SpriteBatch batch;
-    final MyGdxGame game;
+    final Mola game;
     OrthographicCamera camera;
     Texture wallpaper;
     BitmapFont text;
@@ -29,7 +27,7 @@ public class Start extends Game implements Screen,  Input.TextInputListener  {
 
 
 
-    public Start(MyGdxGame game, boolean isMute) {
+    public Start(Mola game, boolean isMute) {
         this.isMute = isMute;
         this.game = game;
         batch = new SpriteBatch();
@@ -96,12 +94,12 @@ public class Start extends Game implements Screen,  Input.TextInputListener  {
         if (isMute) {
             batch.begin();
             batch.draw(mute, 10, 850, mute.getWidth(), mute.getHeight());
-            MyGdxGame.music.pause();
+            Mola.music.pause();
             batch.end();
         } else {
             batch.begin();
             batch.draw(unmute, 10, 850, unmute.getWidth(), unmute.getHeight());
-            MyGdxGame.music.play();
+            Mola.music.play();
             batch.end();
         }
 

@@ -6,13 +6,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Mola;
 import model.user.User;
 
 public class ShowAllCards12 implements Screen {
 
     SpriteBatch batch;
-    final MyGdxGame game;
+    final Mola game;
     OrthographicCamera camera;
     Texture wallpaper;
     BitmapFont text;
@@ -29,7 +29,7 @@ public class ShowAllCards12 implements Screen {
     String backAddress;
     User currentLoggedInUser;
 
-    public ShowAllCards12(MyGdxGame game, boolean isMute, User currentLoggedInUser, String backAddress) {
+    public ShowAllCards12(Mola game, boolean isMute, User currentLoggedInUser, String backAddress) {
         this.backAddress = backAddress;
         this.currentLoggedInUser = currentLoggedInUser;
         this.isMute = isMute;
@@ -112,12 +112,12 @@ public class ShowAllCards12 implements Screen {
         if (isMute) {
             batch.begin();
             batch.draw(mute, 10, 850, mute.getWidth(), mute.getHeight());
-            MyGdxGame.music.pause();
+            Mola.music.pause();
             batch.end();
         } else {
             batch.begin();
             batch.draw(unmute, 10, 850, unmute.getWidth(), unmute.getHeight());
-            MyGdxGame.music.play();
+            Mola.music.play();
             batch.end();
         }
     }

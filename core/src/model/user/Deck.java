@@ -1,7 +1,6 @@
 package model.user;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Deck {
     private static ArrayList<Deck> allDecks = new ArrayList<>();
@@ -9,7 +8,7 @@ public class Deck {
     private String creatorUsername;
     private MainDeck mainDeck = new MainDeck();
     private SideDeck sideDeck = new SideDeck();
-    private boolean activeDeck;
+    private boolean activeDeck = false;
     private boolean isValid = false;
 
     public Deck(String name, String creatorUsername){
@@ -67,12 +66,9 @@ public class Deck {
     }
 
     public static Deck getDeckByName(String name, String creatorUsername){
-//        for (Deck deck : allDecks){
-//            if (deck.getName().equals(name) && deck.getCreatorUsername().equals(creatorUsername))
-//                return deck;
-//        }
-        if (Objects.requireNonNull(User.getUserByUsername(creatorUsername)).getDecks().containsKey(name)) {
-            return User.getUserByUsername(creatorUsername).getDecks().get(name);
+        for (Deck deck : allDecks){
+            if (deck!=null && deck.getName().equals(name) && deck.getCreatorUsername().equals(creatorUsername))
+                return deck;
         }
         return null;
     }

@@ -7,16 +7,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Mola;
 import model.user.Deck;
 import model.user.User;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 public class ShowAllDecks implements Screen {
     SpriteBatch batch;
-    final MyGdxGame game;
+    final Mola game;
     OrthographicCamera camera;
     Texture wallpaper;
     BitmapFont text;
@@ -31,7 +30,7 @@ public class ShowAllDecks implements Screen {
     String activeDecks = "";
     String deActiveDecks = "";
 
-    public ShowAllDecks(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
+    public ShowAllDecks(Mola game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
         this.isMute = isMute;
         this.game = game;
@@ -67,15 +66,17 @@ public class ShowAllDecks implements Screen {
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         text.draw(batch, "All Decks", 150, 900);
         activeDecks = "Active deck:\n";
-        HashMap<String, Deck> decks = currentLoggedInUser.getDecks();
-        Deck activeDeck = currentLoggedInUser.getActiveDeck();
-        if (activeDeck != null)
-            printDeckForAllDeck(activeDeck);
+        ArrayList<Deck> decks = Deck.getAllDecks();
+        for (Deck deck : decks) {
+            if (deck.getCreatorUsername().equals(currentLoggedInUser.getUsername()) && deck.isActiveDeck()) {
+                printDeckForAllDeck(deck);
+            }
+        }
         deActiveDecks = "\nother decks:\n";
-        for (Map.Entry<String, Deck> entry : decks.entrySet()) {
-            Deck deck = entry.getValue();
-            if (!deck.isActiveDeck())
+        for (Deck deck : decks) {
+            if (deck.getCreatorUsername().equals(currentLoggedInUser.getUsername()) && !deck.isActiveDeck()) {
                 printOtherDeckForAllDeck(deck);
+            }
         }
         text2.draw(batch, activeDecks, 300, 780);
         text3.draw(batch, deActiveDecks, 300, 730);
@@ -102,12 +103,12 @@ public class ShowAllDecks implements Screen {
         if (isMute) {
             batch.begin();
             batch.draw(mute, 10, 850, mute.getWidth(), mute.getHeight());
-            MyGdxGame.music.pause();
+            Mola.music.pause();
             batch.end();
         } else {
             batch.begin();
             batch.draw(unmute, 10, 850, unmute.getWidth(), unmute.getHeight());
-            MyGdxGame.music.play();
+            Mola.music.play();
             batch.end();
         }
     }

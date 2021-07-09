@@ -102,8 +102,25 @@ public class User {
         return credit;
     }
 
-    public void setActiveDeck(Deck activeDeck) {
-        this.activeDeck = activeDeck;
+    public void setActiveDeck(Deck activeDeck2) {
+        ArrayList<Deck> decks = Deck.getAllDecks();
+        if(activeDeck != null) {
+            for (Deck deck : decks) {
+                if (activeDeck.getName().equals(deck.getName()) && username.equals(deck.getCreatorUsername())) {
+                    activeDeck = deck;
+                    break;
+                }
+            }
+            activeDeck.setActiveDeck(false);
+        }
+        for (Deck deck : decks) {
+            if (activeDeck2.getName().equals(deck.getName()) && username.equals(deck.getCreatorUsername())) {
+                activeDeck = deck;
+                activeDeck.setActiveDeck(true);
+                break;
+            }
+        }
+
     }
 
     public String getNickname() {
@@ -140,13 +157,13 @@ public class User {
     }
 
     public Deck getActiveDeck() {
-//        ArrayList<Deck> decks = Deck.getAllDecks();
-//        for (Deck deck : decks) {
-//            if (activeDeck.getName().equals(deck.getName()) && username.equals(deck.getCreatorUsername())) {
-//                activeDeck = deck;
-//                break;
-//            }
-//        }
+        ArrayList<Deck> decks = Deck.getAllDecks();
+        for (Deck deck : decks) {
+            if (activeDeck.getName().equals(deck.getName()) && username.equals(deck.getCreatorUsername())) {
+                activeDeck = deck;
+                break;
+            }
+        }
         return activeDeck;
     }
 
@@ -154,9 +171,9 @@ public class User {
         return decks;
     }
 
-    public void deleteCard(String name){
+    public void deleteCard(String name) {
         for (int i = 0; i < cards.size(); i++) {
-            if (cards.get(i).getName().equals(name)){
+            if (cards.get(i).getName().equals(name)) {
                 cards.remove(i);
                 return;
             }
