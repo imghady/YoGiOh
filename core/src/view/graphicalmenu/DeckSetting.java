@@ -10,10 +10,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
 import model.Finisher;
+import model.card.Card;
 import model.user.Deck;
 import model.user.User;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class DeckSetting implements Screen, Input.TextInputListener {
     SpriteBatch batch;
@@ -80,13 +82,16 @@ public class DeckSetting implements Screen, Input.TextInputListener {
         batch.draw(delete, 440, 180, delete.getWidth(), delete.getHeight());
         if (message == 2) {
             error.setColor(Color.RED);
-            error.draw(batch, "deck with name " + deckName + " dose not exists", 100, 200);
+            error.draw(batch, "deck with name " + deckName + " does not exists", 100, 180);
         } else if (message == 1) {
             error.setColor(Color.GREEN);
-            error.draw(batch, "deck Activated successfully", 100, 200);
+            error.draw(batch, "deck Activated successfully", 100, 180);
         } else if (message == 3) {
             error.setColor(Color.RED);
-            error.draw(batch, "enter a deck name!", 100, 200);
+            error.draw(batch, "enter a deck name!", 100, 180);
+        } else if (message == 4) {
+            error.setColor(Color.GREEN);
+            error.draw(batch, "deck deleted successfully", 100, 180);
         }
         batch.end();
 
@@ -108,6 +113,32 @@ public class DeckSetting implements Screen, Input.TextInputListener {
                 if (Gdx.input.getX() > 100 && Gdx.input.getX() < 100 + field.getWidth()) {
                     message = 0;
                     Gdx.input.getTextInput(this, "deck name", "", "");
+                }
+            }
+
+            if (Gdx.input.getY() > 780 - delete.getHeight() && Gdx.input.getY() < 780) {
+                if (Gdx.input.getX() > 440 && Gdx.input.getX() < 440 + delete.getWidth()) {
+                    if (deckName.equals("")) {
+                        message = 3;
+                    } else if (currentLoggedInUser.getDecks().containsKey(deckName)) {
+                        message = 4;
+                        ArrayList<Card> cards = Deck.getDeckByName(deckName, currentLoggedInUser.getUsername()).getMainDeck().getMainDeckCards();
+                        ArrayList<Card> cards2 = Deck.getDeckByName(deckName, currentLoggedInUser.getUsername()).getSideDeck().getSideDeckCards();
+                        for (Card card : cards) {
+                            currentLoggedInUser.addCard(card);
+                        }
+                        for (Card card : cards2) {
+                            currentLoggedInUser.addCard(card);
+                        }
+                        currentLoggedInUser.deleteDeck(deckName);
+                        try {
+                            Finisher.finish();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        message = 2;
+                    }
                 }
             }
 
