@@ -115,7 +115,7 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
         } else if (message == 3) {
             error.setColor(Color.RED);
             error.draw(batch, "invalid deck name!", 100, 190);
-        }  else if (message == 8) {
+        } else if (message == 8) {
             error.setColor(Color.RED);
             error.draw(batch, "card with name " + cardNameString + " does not exist", 100, 190);
         } else if (message == 4) {
@@ -183,33 +183,38 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
                         Card card = new Card();
                         ArrayList<Card> cards = currentLoggedInUser.getCards();
                         HashMap<String, Deck> decks = currentLoggedInUser.getDecks();
-                        for (Card card1 : cards)
+                        for (Card card1 : cards) {
                             if (card1.getName().equals(cardNameString)) {
                                 card = card1;
                                 doesCardExist = true;
-                        Deck deck = Deck.getDeckByName(deckNameString, currentLoggedInUser.getUsername());
-                        if (isMainDeck && deck.getMainDeck().getMainDeckSize() == 40) {
+                            }
+                        }
+                        Deck deck1 = Deck.getDeckByName(deckNameString, currentLoggedInUser.getUsername());
+                        if (isMainDeck && deck1.getMainDeck().getMainDeckSize() == 40) {
                             message = 4;
                             isNameCorrect = true;
                             DeckMenu deckMenu = new DeckMenu(currentLoggedInUser.getUsername());
-                            deckMenu.addCardToDeck(deckNameString,cardNameString,!isMainDeck);
+                            deckMenu.addCardToDeck(deckNameString, cardNameString, !isMainDeck);
                             System.out.println(isMainDeck);
                             try {
                                 Finisher.finish();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                        } else if (!isMainDeck && deck.getSideDeck().getSideDeckSize() == 15) {
+                        } else if (!isMainDeck && deck1.getSideDeck().getSideDeckSize() == 15) {
                             message = 5;
                         } else {
                             int countCardsInDeck = 0;
-                            for (Card card1 : deck.getMainDeck().getMainDeckCards()) {
+                            for (Card card1 : deck1.getMainDeck().getMainDeckCards()) {
                                 if (card1.getName().equals(cardNameString))
                                     countCardsInDeck++;
                             }
-                            for (Card card1 : deck.getSideDeck().getSideDeckCards()) {
-                                if (card1.getName().equals(cardNameString))
+                            for (Card card1 : deck1.getSideDeck().getSideDeckCards()) {
+                                if (card1.getName().equals(cardNameString)) {
+                                    countCardsInDeck++;
+                                }
                             }
+                        }
                         if (!doesCardExist) {
                             message = 8;
                         } else {
@@ -248,7 +253,6 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
                     }
                 }
             }
-
         }
 
 
@@ -263,6 +267,7 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
             Mola.music.play();
             batch.end();
         }
+
     }
 
     public String getCardImageFileAddress(String input) {
