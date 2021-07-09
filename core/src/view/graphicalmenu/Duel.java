@@ -6,10 +6,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.game.Mola;
 import controller.DuelMenu;
+import controller.GifDecoder;
 import model.battle.Player;
 import model.card.Card;
 import model.mat.Mat;
@@ -63,10 +66,21 @@ public class Duel implements Screen, Input.TextInputListener {
     float xH5 = 1090;
     float xH6 = 1260;
     float yH = 960 - 750 - height;
+    float elapsed;
     int attackInput = -1;
+    boolean gif1ShouldPlay = false;
+    boolean gif2ShouldPlay = false;
+    boolean gif3ShouldPlay = false;
+    long gif1Time;
+    long gif2Time;
+    long gif3Time;
     Player showingPlayer;
     String message = "";
     String currentButtonClicked = "";
+    Animation<TextureRegion> gif1;
+    Animation<TextureRegion> gif2;
+    Animation<TextureRegion> gif3;
+    Animation<TextureRegion> gameOver;
 
     public Duel(Mola game, boolean isMute, User currentLoggedInUser, boolean isAi, String secondUserUsername, int rounds) {
         this.currentLoggedInUser = currentLoggedInUser;
@@ -86,6 +100,10 @@ public class Duel implements Screen, Input.TextInputListener {
         changeMat = new Texture("buttons/changeMat.png");
         leftButtonBar = new Texture("buttons/leftButtonBar.png");
         card = new Texture("Cards/Monsters/BabyDragon.jpg");
+        gif1 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif1.gif").read());
+        gif2 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif2.gif").read());
+        gif3 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif3.gif").read());
+        gameOver = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gameOver.gif").read());
         this.isAi = isAi;
         this.rounds = rounds;
         mat = new Texture("mat.png");
@@ -103,9 +121,12 @@ public class Duel implements Screen, Input.TextInputListener {
 
     @Override
     public void render(float delta) {
+        elapsed += Gdx.graphics.getDeltaTime();
+
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
+
         batch.draw(wallpaper, 0, 0, 1600, 960);
         text.getData().setScale(0.3f);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
@@ -128,6 +149,27 @@ public class Duel implements Screen, Input.TextInputListener {
         loadGraveyard();
         loadDeck();
         loadHand();
+
+        batch.begin();
+        if (gif1ShouldPlay) {
+            batch.draw(gif1.getKeyFrame(elapsed), xM1, yH, xM5 - xM1 + width, yM - yH + height);
+            if (System.currentTimeMillis() - gif1Time >= gif1.getAnimationDuration() * 1000) {
+                gif1ShouldPlay = false;
+            }
+        }
+        if (gif2ShouldPlay) {
+            batch.draw(gif2.getKeyFrame(elapsed), xM1, yH, xM5 - xM1 + width, yM - yH + height);
+            if (System.currentTimeMillis() - gif2Time >= gif2.getAnimationDuration() * 1000) {
+                gif2ShouldPlay = false;
+            }
+        }
+        if (gif3ShouldPlay) {
+            batch.draw(gif3.getKeyFrame(elapsed), xM1, yH, xM5 - xM1 + width, yM - yH + height);
+            if (System.currentTimeMillis() - gif3Time >= gif3.getAnimationDuration() * 1000) {
+                gif3ShouldPlay = false;
+            }
+        }
+        batch.end();
 
         if (Gdx.input.justTouched()) {
 
@@ -165,6 +207,8 @@ public class Duel implements Screen, Input.TextInputListener {
             if (x >= 50 && x <= 50 + leftButtonBar.getWidth()) {
                 if (y < 710 && y > 710 - leftBarHeight / 4f) {
                     message = duelMenu.phase2DirectAttack();
+                    gif1ShouldPlay = true;
+                    gif1Time = System.currentTimeMillis();
                 }
                 if (y < 710 - leftBarHeight / 4f && y > 710 - 2f * leftBarHeight / 4) {
                     Gdx.input.getTextInput(this, "Card number", "", "");
@@ -200,6 +244,8 @@ public class Duel implements Screen, Input.TextInputListener {
         if (currentButtonClicked.equals("attack")) {
             if (attackInput != -1)
             message = duelMenu.phase2Attack(attackInput);
+            gif2ShouldPlay = true;
+            gif2Time = System.currentTimeMillis();
             attackInput = -1;
             currentButtonClicked = "";
         }
