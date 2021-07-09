@@ -32,24 +32,24 @@ public class Duel implements Screen {
     Texture mat;
     Texture card;
     DuelMenu duelMenu;
-    int xGrave = 300;
-    int yGrave = 960 - 200;
-    int xDeck = 1130;
-    int yDeck = 960 - 200;
-    int xM1 = 400;
-    int xM2 = 570;
-    int xM3 = 750;
-    int xM4 = 920;
-    int xM5 = 1090;
-    int yM = 960 - 340;
-    int xS1 = 400;
-    int xS2 = 570;
-    int xS3 = 750;
-    int xS4 = 920;
-    int xS5 = 1090;
-    int yS = 960 - 545;
     float width = 110;
     float height = 160;
+    float xGrave = 1130;
+    float yGrave = 960 - 200 - width;
+    float xDeck = 300;
+    float yDeck = 960 - 200 - width;
+    float xM1 = 400;
+    float xM2 = 570;
+    float xM3 = 750;
+    float xM4 = 920;
+    float xM5 = 1090;
+    float yM = 960 - 340 - height;
+    float xS1 = 400;
+    float xS2 = 570;
+    float xS3 = 750;
+    float xS4 = 920;
+    float xS5 = 1090;
+    float yS = 960 - 545 - height;
     Player showingPlayer;
 
     public Duel(Mola game, boolean isMute, User currentLoggedInUser, boolean isAi, String secondUserUsername, int rounds) {
@@ -136,7 +136,9 @@ public class Duel implements Screen {
             Card card = mainDeckCards.get(mainDeckCards.size() - 1);
             String address = getCardImageFileAddressLandscape(card.getName());
             Texture texture = new Texture(Gdx.files.internal(address + ".jpg"));
+            batch.begin();
             batch.draw(texture, xDeck, yDeck, height, width);
+            batch.end();
         }
     }
 
@@ -146,7 +148,9 @@ public class Duel implements Screen {
             Card card = graveyard.get(graveyard.size() - 1);
             String address = getCardImageFileAddressLandscape(card.getName());
             Texture texture = new Texture(Gdx.files.internal(address + ".jpg"));
+            batch.begin();
             batch.draw(texture, xGrave, yGrave, height, width);
+            batch.end();
         }
     }
 
