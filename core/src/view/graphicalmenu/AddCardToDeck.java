@@ -17,7 +17,7 @@ import model.user.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.HashMap;
 
 public class AddCardToDeck implements Screen, Input.TextInputListener {
     SpriteBatch batch;
@@ -100,32 +100,35 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
         type.draw(batch, "Add to : ", 150, 650);
         batch.draw(add, 660, 180, add.getWidth(), add.getHeight());
         type.draw(batch, cardNameString, 340, 385);
-        type.draw(batch, deckNameString, 360, 520);
+        type.draw(batch, deckNameString, 360, 525);
         if (isNameCorrect && address != null) {
             card = new Texture(address);
             batch.draw(card, 1100, 150, card.getWidth(), card.getHeight());
         }
         if (message == 1) {
             error.setColor(Color.RED);
-            error.draw(batch, "complete fields!", 100, 270);
+            error.draw(batch, "complete fields!", 100, 190);
         } else if (message == 2) {
             error.setColor(Color.RED);
-            error.draw(batch, "incorrect card name!", 100, 270);
+            error.draw(batch, "incorrect card name!", 100, 190);
         } else if (message == 3) {
             error.setColor(Color.RED);
-            error.draw(batch, "invalid deck name!", 100, 270);
+            error.draw(batch, "invalid deck name!", 100, 190);
+        } else if (message == 8) {
+            error.setColor(Color.RED);
+            error.draw(batch, "card with name " + cardNameString + " does not exist", 100, 190);
         } else if (message == 4) {
             error.setColor(Color.RED);
-            error.draw(batch, "main deck is full!", 100, 270);
+            error.draw(batch, "main deck is full!", 100, 190);
         } else if (message == 5) {
             error.setColor(Color.RED);
-            error.draw(batch, "side deck is full!", 100, 270);
+            error.draw(batch, "side deck is full!", 100, 190);
         } else if (message == 6) {
             error.setColor(Color.RED);
-            error.draw(batch, "there are already three cards with name " + cardNameString + " in deck " + deckNameString, 100, 270);
+            error.draw(batch, "there are already three cards with name " + cardNameString + " in deck " + deckNameString, 100, 190);
         } else if (message == 7) {
             error.setColor(Color.GREEN);
-            error.draw(batch, "card successfully added", 100, 270);
+            error.draw(batch, "card successfully added", 100, 190);
         }
         batch.end();
 
@@ -175,44 +178,48 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
                     } else if (!currentLoggedInUser.getDecks().containsKey(deckNameString)) {
                         message = 3;
                     } else {
-                        Deck deck = Deck.getDeckByName(deckNameString, currentLoggedInUser.getUsername());
-                        if (isMainDeck && deck.getMainDeck().getMainDeckSize() >= 60) {
-                            message = 4;
-                            isNameCorrect = true;
-                            DeckMenu deckMenu = new DeckMenu(currentLoggedInUser.getUsername());
-                            deckMenu.addCardToDeck(deckNameString,cardNameString,!isMainDeck);
-                            System.out.println(isMainDeck);
-                            try {
-                                Finisher.finish();
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                        boolean doesCardExist = false;
+                        Card card = new Card();
+                        ArrayList<Card> cards = currentLoggedInUser.getCards();
+                        HashMap<String, Deck> decks = currentLoggedInUser.getDecks();
+                        for (Card card1 : cards)
+                            if (card1.getName().equals(cardNameString)) {
+                                card = card1;
+                                doesCardExist = true;
                             }
-                        } else if (!isMainDeck && deck.getSideDeck().getSideDeckSize() >= 15) {
-                            message = 5;
+                        if (!doesCardExist) {
+                            message = 8;
                         } else {
-                            int countCardsInDeck = 0;
-                            for (Card card1 : deck.getMainDeck().getMainDeckCards()) {
-                                if (card1.getName().equals(cardNameString))
-                                    countCardsInDeck++;
-                            }
-                            for (Card card1 : deck.getSideDeck().getSideDeckCards()) {
-                                if (card1.getName().equals(cardNameString))
-                                    countCardsInDeck++;
-                            }
-                            if (countCardsInDeck == 3) {
-                                message = 6;
+                            Deck deck = Deck.getDeckByName(deckNameString, currentLoggedInUser.getUsername());
+                            if (isMainDeck && deck.getMainDeck().getMainDeckSize() == 40) {
+                                message = 4;
+                            } else if (!isMainDeck && deck.getSideDeck().getSideDeckSize() == 15) {
+                                message = 5;
                             } else {
-                                message = 7;
-                                isNameCorrect = true;
-                                DeckMenu deckMenu = new DeckMenu(currentLoggedInUser.getUsername());
-                                System.out.println(isMainDeck);
-                                deckMenu.addCardToDeck(deckNameString,cardNameString,!isMainDeck);
-                                try {
-                                    Finisher.finish();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
+                                int countCardsInDeck = 0;
+                                for (Card card1 : deck.getMainDeck().getMainDeckCards()) {
+                                    if (card1.getName().equals(cardNameString))
+                                        countCardsInDeck++;
                                 }
-                                address = getCardImageFileAddress(cardNameString) + ".jpg";
+                                for (Card card1 : deck.getSideDeck().getSideDeckCards()) {
+                                    if (card1.getName().equals(cardNameString))
+                                        countCardsInDeck++;
+                                }
+                                if (countCardsInDeck >= 3) {
+                                    message = 6;
+                                } else {
+                                    message = 7;
+                                    isNameCorrect = true;
+                                    DeckMenu deckMenu = new DeckMenu(currentLoggedInUser.getUsername());
+                                    System.out.println(isMainDeck);
+                                    deckMenu.addCardToDeckFinal(deckNameString, !isMainDeck, Card.getCardByName(cardNameString), Deck.getDeckByName(deckNameString, currentLoggedInUser.getUsername()));
+                                    try {
+                                        Finisher.finish();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    address = getCardImageFileAddress(cardNameString) + ".jpg";
+                                }
                             }
                         }
                     }
@@ -220,6 +227,7 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
             }
 
         }
+
 
 
         if (isMute) {
@@ -233,6 +241,7 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
             Mola.music.play();
             batch.end();
         }
+
     }
 
     public String getCardImageFileAddress(String input) {
