@@ -175,7 +175,7 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
                             isNameCorrect = true;
                             DeckMenu deckMenu = new DeckMenu(currentLoggedInUser.getUsername());
                             System.out.println(isMainDeck);
-                            deckMenu.addCardToDeckFinal(deckNameString, !isMainDeck, Card.getCardByName(cardNameString), Deck.getDeckByName(deckNameString, currentLoggedInUser.getUsername()));
+                            deckMenu.addCardToDeck(deckNameString,cardNameString,!isMainDeck);
                             try {
                                 Finisher.finish();
                             } catch (IOException e) {
