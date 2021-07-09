@@ -25,6 +25,7 @@ public class MainMenu implements Screen {
     Texture fields;
     Texture play;
     Texture character;
+    Texture importB;
     String charPic;
 
     public MainMenu(Mola game, boolean isMute, User user) {
@@ -43,6 +44,7 @@ public class MainMenu implements Screen {
         backButton = new Texture("buttons/back.png");
         fields = new Texture("buttons/mainFields.png");
         play = new Texture("buttons/play.png");
+        importB = new Texture("buttons/import.png");
         character = new Texture(charPic);
     }
 
@@ -57,7 +59,7 @@ public class MainMenu implements Screen {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        text.getData().setScale(0.27f);
+        text.getData().setScale(0.23f);
         batch.draw(wallpaper, 0, 0, 1600, 960);
         title.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
@@ -66,6 +68,7 @@ public class MainMenu implements Screen {
                 "\nyour nickname: " + currentLoggedInUser.getNickname(), 720, 910);
         batch.draw(fields, 170, 140, fields.getWidth(), fields.getHeight());
         batch.draw(character, 1250, 400, character.getWidth(), character.getHeight());
+        batch.draw(importB, 1200, 70, importB.getWidth(), importB.getHeight());
         batch.draw(play, 1210, 170, 300, 300);
         batch.end();
 
@@ -86,6 +89,13 @@ public class MainMenu implements Screen {
             if (Gdx.input.getY() > 790 - play.getHeight() && Gdx.input.getY() < 790) {
                 if (Gdx.input.getX() > 1210 && Gdx.input.getX() < 1210 + play.getWidth()) {
                     game.setScreen(new DuelSelect(game, isMute, currentLoggedInUser));
+                    dispose();
+                }
+            }
+
+            if (Gdx.input.getY() > 890 - importB.getHeight() && Gdx.input.getY() < 890) {
+                if (Gdx.input.getX() > 1200 && Gdx.input.getX() < 1200 + importB.getWidth()) {
+                    game.setScreen(new ImportExport(game, isMute, currentLoggedInUser));
                     dispose();
                 }
             }
