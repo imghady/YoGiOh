@@ -80,13 +80,13 @@ public class DeckSetting implements Screen, Input.TextInputListener {
         batch.draw(delete, 450, 180, delete.getWidth(), delete.getHeight());
         if (message == 2) {
             error.setColor(Color.RED);
-            error.draw(batch, "deck with name " + deckName + " dose not exists", 100, 265);
+            error.draw(batch, "deck with name " + deckName + " dose not exists", 100, 250);
         } else if (message == 1) {
             error.setColor(Color.GREEN);
-            error.draw(batch, "deck Activated successfully", 100, 265);
+            error.draw(batch, "deck Activated successfully", 100, 250);
         } else if (message == 3) {
             error.setColor(Color.RED);
-            error.draw(batch, "enter a deck name!", 100, 265);
+            error.draw(batch, "enter a deck name!", 100, 250);
         }
         batch.end();
 

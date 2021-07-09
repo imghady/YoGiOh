@@ -30,6 +30,7 @@ public class ShowAllCards16 implements Screen {
 
     public ShowAllCards16(Mola game, boolean isMute, User currentLoggedInUser, String backAddress) {
         this.backAddress = backAddress;
+        this.currentLoggedInUser = currentLoggedInUser;
         this.isMute = isMute;
         this.game = game;
         batch = new SpriteBatch();
