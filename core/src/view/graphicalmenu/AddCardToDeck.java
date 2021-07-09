@@ -12,6 +12,7 @@ import com.mygdx.game.MyGdxGame;
 import controller.DeckMenu;
 import model.Finisher;
 import model.card.Card;
+import model.user.Deck;
 import model.user.User;
 
 import java.io.IOException;
@@ -84,7 +85,7 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
         batch.draw(wallpaper, 0, 0, 1600, 960);
         text.getData().setScale(0.3f);
         type.getData().setScale(0.2f);
-        error.getData().setScale(0.2f);
+        error.getData().setScale(0.15f);
         type.setColor(Color.YELLOW);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         text.draw(batch, "Add card to deck", 150, 850);
@@ -173,7 +174,8 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
                             message = 4;
                             isNameCorrect = true;
                             DeckMenu deckMenu = new DeckMenu(currentLoggedInUser.getUsername());
-                            deckMenu.addCardToDeck(deckNameString, cardNameString, !isMainDeck);
+                            System.out.println(isMainDeck);
+                            deckMenu.addCardToDeckFinal(deckNameString, !isMainDeck, Card.getCardByName(cardNameString), Deck.getDeckByName(deckNameString, currentLoggedInUser.getUsername()));
                             try {
                                 Finisher.finish();
                             } catch (IOException e) {

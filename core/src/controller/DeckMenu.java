@@ -110,6 +110,10 @@ public class DeckMenu {
             terminalOutput = "there are already three cards with name " + cardName + " in deck " + deckName;
             return;
         }
+        addCardToDeckFinal(cardName, isSideDeck, card, deck);
+    }
+
+    public void addCardToDeckFinal(String cardName, boolean isSideDeck, Card card, Deck deck) {
         currentUser.deleteCard(cardName);
         if (!isSideDeck) {
             deck.getMainDeck().addCard(card);
