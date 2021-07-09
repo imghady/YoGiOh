@@ -62,7 +62,6 @@ public class Duel implements Screen {
     float xH6 = 1260;
     float yH = 960 - 750 - height;
     Player showingPlayer;
-    Card selectedCard;
 
     public Duel(Mola game, boolean isMute, User currentLoggedInUser, boolean isAi, String secondUserUsername, int rounds) {
         this.currentLoggedInUser = currentLoggedInUser;
@@ -104,6 +103,9 @@ public class Duel implements Screen {
         batch.draw(wallpaper, 0, 0, 1600, 960);
         text.getData().setScale(0.3f);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
+        if (duelMenu.currentTurnPlayer.currentSelectedCard != null) {
+            text1.draw(batch, "Selected card: " +  duelMenu.currentTurnPlayer.currentSelectedCard.getName(), 600, 700);
+        }
         text.draw(batch, "Duel", 150, 900);
         text2.getData().setScale(0.2f);
         text2.setColor(Color.YELLOW);
@@ -190,52 +192,52 @@ public class Duel implements Screen {
 
     private void handleCardSelection(float x, float y) {
         if (x > xM1 && x < xM1 + width && y < 960 - yM && y > 960 - yM - height) {
-            selectedCard = showingPlayer.getMat().getMonsterZone(0);
+            duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getMonsterZone(0);
         }
         if (x > xM2 && x < xM2 + width && y < 960 - yM && y > 960 - yM - height) {
-            selectedCard = showingPlayer.getMat().getMonsterZone(1);
+            duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getMonsterZone(1);
         }
         if (x > xM3 && x < xM3 + width && y < 960 - yM && y > 960 - yM - height) {
-            selectedCard = showingPlayer.getMat().getMonsterZone(2);
+            duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getMonsterZone(2);
         }
         if (x > xM4 && x < xM4 + width && y < 960 - yM && y > 960 - yM - height) {
-            selectedCard = showingPlayer.getMat().getMonsterZone(3);
+            duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getMonsterZone(3);
         }
         if (x > xM5 && x < xM5 + width && y < 960 - yM && y > 960 - yM - height) {
-            selectedCard = showingPlayer.getMat().getMonsterZone(4);
+            duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getMonsterZone(4);
         }
         if (x > xS1 && x < xS1 + width && y < 960 - yS && y > 960 - yS - height) {
-            selectedCard = showingPlayer.getMat().getSpellAndTrapZone(0);
+            duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getSpellAndTrapZone(0);
         }
         if (x > xS2 && x < xS2 + width && y < 960 - yS && y > 960 - yS - height) {
-            selectedCard = showingPlayer.getMat().getSpellAndTrapZone(1);
+            duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getSpellAndTrapZone(1);
         }
         if (x > xS3 && x < xS3 + width && y < 960 - yS && y > 960 - yS - height) {
-            selectedCard = showingPlayer.getMat().getSpellAndTrapZone(2);
+            duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getSpellAndTrapZone(2);
         }
         if (x > xS4 && x < xS4 + width && y < 960 - yS && y > 960 - yS - height) {
-            selectedCard = showingPlayer.getMat().getSpellAndTrapZone(3);
+            duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getSpellAndTrapZone(3);
         }
         if (x > xS5 && x < xS5 + width && y < 960 - yS && y > 960 - yS - height) {
-            selectedCard = showingPlayer.getMat().getSpellAndTrapZone(4);
+            duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getSpellAndTrapZone(4);
         }
         if (x > xH1 && x < xH1 + width && y < 960 - yH && y > 960 - yH - height) {
-            selectedCard = showingPlayer.getMat().getHandCard(0);
+            duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(0);
         }
         if (x > xH2 && x < xH2 + width && y < 960 - yH && y > 960 - yH - height) {
-            selectedCard = showingPlayer.getMat().getHandCard(1);
+            duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(1);
         }
         if (x > xH3 && x < xH3 + width && y < 960 - yH && y > 960 - yH - height) {
-            selectedCard = showingPlayer.getMat().getHandCard(2);
+            duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(2);
         }
         if (x > xH4 && x < xH4 + width && y < 960 - yH && y > 960 - yH - height) {
-            selectedCard = showingPlayer.getMat().getHandCard(3);
+            duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(3);
         }
         if (x > xH5 && x < xH5 + width && y < 960 - yH && y > 960 - yH - height) {
-            selectedCard = showingPlayer.getMat().getHandCard(4);
+            duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(4);
         }
         if (x > xH6 && x < xH6 + width && y < 960 - yH && y > 960 - yH - height) {
-            selectedCard = showingPlayer.getMat().getHandCard(5);
+            duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(5);
         }
     }
 

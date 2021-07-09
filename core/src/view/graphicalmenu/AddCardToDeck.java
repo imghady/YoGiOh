@@ -18,7 +18,6 @@ import model.user.User;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 public class AddCardToDeck implements Screen, Input.TextInputListener {
     SpriteBatch batch;
