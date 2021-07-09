@@ -85,7 +85,7 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
         batch.draw(wallpaper, 0, 0, 1600, 960);
         text.getData().setScale(0.3f);
         type.getData().setScale(0.2f);
-        error.getData().setScale(0.15f);
+        error.getData().setScale(0.2f);
         type.setColor(Color.YELLOW);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         text.draw(batch, "Add card to deck", 150, 850);
@@ -115,6 +115,15 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
             error.setColor(Color.RED);
             error.draw(batch, "invalid deck name!", 100, 270);
         } else if (message == 4) {
+            error.setColor(Color.RED);
+            error.draw(batch, "main deck is full!", 100, 270);
+        } else if (message == 5) {
+            error.setColor(Color.RED);
+            error.draw(batch, "side deck is full!", 100, 270);
+        } else if (message == 6) {
+            error.setColor(Color.RED);
+            error.draw(batch, "there are already three cards with name " + cardNameString + " in deck " + deckNameString, 100, 270);
+        } else if (message == 7) {
             error.setColor(Color.GREEN);
             error.draw(batch, "card successfully added", 100, 270);
         }
@@ -166,22 +175,36 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
                     } else if (!currentLoggedInUser.getDecks().containsKey(deckNameString)) {
                         message = 3;
                     } else {
-                        Card newCard = Objects.requireNonNull(Card.getCardByName(cardNameString));
-                        ArrayList<Card> cards = currentLoggedInUser.getCards();
-                        if (newCard.getPrice() > currentLoggedInUser.getCredit()) {
-                            message = 3;
-                        } else {
+                        Deck deck = Deck.getDeckByName(deckNameString, currentLoggedInUser.getUsername());
+                        if (isMainDeck && deck.getMainDeck().getMainDeckSize() == 40) {
                             message = 4;
-                            isNameCorrect = true;
-                            DeckMenu deckMenu = new DeckMenu(currentLoggedInUser.getUsername());
-                            System.out.println(isMainDeck);
-                            deckMenu.addCardToDeckFinal(deckNameString, !isMainDeck, Card.getCardByName(cardNameString), Deck.getDeckByName(deckNameString, currentLoggedInUser.getUsername()));
-                            try {
-                                Finisher.finish();
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                        } else if (!isMainDeck && deck.getSideDeck().getSideDeckSize() == 15) {
+                            message = 5;
+                        } else {
+                            int countCardsInDeck = 0;
+                            for (Card card1 : deck.getMainDeck().getMainDeckCards()) {
+                                if (card1.getName().equals(cardNameString))
+                                    countCardsInDeck++;
                             }
-                            address = getCardImageFileAddress(cardNameString) + ".jpg";
+                            for (Card card1 : deck.getSideDeck().getSideDeckCards()) {
+                                if (card1.getName().equals(cardNameString))
+                                    countCardsInDeck++;
+                            }
+                            if (countCardsInDeck == 3) {
+                                message = 6;
+                            } else {
+                                message = 7;
+                                isNameCorrect = true;
+                                DeckMenu deckMenu = new DeckMenu(currentLoggedInUser.getUsername());
+                                System.out.println(isMainDeck);
+                                deckMenu.addCardToDeckFinal(deckNameString, !isMainDeck, Card.getCardByName(cardNameString), Deck.getDeckByName(deckNameString, currentLoggedInUser.getUsername()));
+                                try {
+                                    Finisher.finish();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                address = getCardImageFileAddress(cardNameString) + ".jpg";
+                            }
                         }
                     }
                 }
