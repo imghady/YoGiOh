@@ -85,7 +85,7 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
         batch.draw(wallpaper, 0, 0, 1600, 960);
         text.getData().setScale(0.3f);
         type.getData().setScale(0.2f);
-        error.getData().setScale(0.2f);
+        error.getData().setScale(0.15f);
         type.setColor(Color.YELLOW);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         text.draw(batch, "Add card to deck", 150, 850);
@@ -178,6 +178,14 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
                         Deck deck = Deck.getDeckByName(deckNameString, currentLoggedInUser.getUsername());
                         if (isMainDeck && deck.getMainDeck().getMainDeckSize() == 40) {
                             message = 4;
+                            isNameCorrect = true;
+                            DeckMenu deckMenu = new DeckMenu(currentLoggedInUser.getUsername());
+                            deckMenu.addCardToDeck(deckNameString,cardNameString,!isMainDeck);
+                            System.out.println(isMainDeck);
+                            try {
+                                Finisher.finish();
+                            } catch (IOException e) {
+                                e.printStackTrace();
                         } else if (!isMainDeck && deck.getSideDeck().getSideDeckSize() == 15) {
                             message = 5;
                         } else {
@@ -197,7 +205,7 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
                                 isNameCorrect = true;
                                 DeckMenu deckMenu = new DeckMenu(currentLoggedInUser.getUsername());
                                 System.out.println(isMainDeck);
-                                deckMenu.addCardToDeckFinal(deckNameString, !isMainDeck, Card.getCardByName(cardNameString), Deck.getDeckByName(deckNameString, currentLoggedInUser.getUsername()));
+                                deckMenu.addCardToDeck(deckNameString,cardNameString,!isMainDeck);
                                 try {
                                     Finisher.finish();
                                 } catch (IOException e) {
