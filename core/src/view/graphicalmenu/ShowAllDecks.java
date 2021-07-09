@@ -7,17 +7,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Mola;
 import model.user.Deck;
 import model.user.User;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ShowAllDecks implements Screen {
     SpriteBatch batch;
-    final MyGdxGame game;
+    final Mola game;
     OrthographicCamera camera;
     Texture wallpaper;
     BitmapFont text;
@@ -32,7 +30,7 @@ public class ShowAllDecks implements Screen {
     String activeDecks = "";
     String deActiveDecks = "";
 
-    public ShowAllDecks(MyGdxGame game, boolean isMute, User currentLoggedInUser) {
+    public ShowAllDecks(Mola game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
         this.isMute = isMute;
         this.game = game;
@@ -105,12 +103,12 @@ public class ShowAllDecks implements Screen {
         if (isMute) {
             batch.begin();
             batch.draw(mute, 10, 850, mute.getWidth(), mute.getHeight());
-            MyGdxGame.music.pause();
+            Mola.music.pause();
             batch.end();
         } else {
             batch.begin();
             batch.draw(unmute, 10, 850, unmute.getWidth(), unmute.getHeight());
-            MyGdxGame.music.play();
+            Mola.music.play();
             batch.end();
         }
     }

@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import view.graphicalmenu.Start;
 
-public class MyGdxGame extends Game implements Screen {
+public class Mola extends Game implements Screen {
 	public SpriteBatch batch;
 	public BitmapFont font;
 	public static Music music;
