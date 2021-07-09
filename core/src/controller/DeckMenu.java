@@ -147,49 +147,64 @@ public class DeckMenu {
     }
 
     public void removeCardFromDeck(String deckName, String cardName, boolean isSideDeck) {
+        if (!isSideDeck)
+            removeCardFromMainDeck(deckName, cardName);
+        if (isSideDeck) {
+            removeCardFromSideDeck(deckName, cardName);
+        }
+    }
+
+    public void removeCardFromMainDeck(String deckName, String cardName) {
         HashMap<String, Deck> decks = currentUser.getDecks();
         if (!decks.containsKey(deckName)) {
             terminalOutput = "deck with name " + deckName + " does not exist";
             return;
         }
         Deck deck = Deck.getDeckByName(deckName, currentUser.getUsername());
-        if (!isSideDeck) {
-            ArrayList<Card> cards = deck.getMainDeck().getMainDeckCards();
-            Card wantedCard = null;
-            boolean isCardInDeck = false;
-            for (Card card : cards) {
-                if (card.getName().equals(cardName)) {
-                    isCardInDeck = true;
-                    wantedCard = card;
-                    break;
-                }
-            }
-            if (!isCardInDeck)
-                terminalOutput = "card with name " + cardName + " does not exist in main deck";
-            else {
-                deck.getMainDeck().removeCard(wantedCard);
-                if (deck.getMainDeck().getMainDeckSize() < 40)
-                    deck.setValid(false);
-                terminalOutput = "card removed form deck successfully";
+        ArrayList<Card> cards;
+        cards = deck.getMainDeck().getMainDeckCards();
+        Card wantedCard = null;
+        boolean isCardInDeck = false;
+        for (Card card : cards) {
+            if (card.getName().equals(cardName)) {
+                isCardInDeck = true;
+                wantedCard = card;
+                break;
             }
         }
-        if (isSideDeck) {
-            ArrayList<Card> cards = deck.getSideDeck().getSideDeckCards();
-            Card wantedCard = null;
-            boolean isCardInDeck = false;
-            for (Card card : cards) {
-                if (card.getName().equals(cardName)) {
-                    isCardInDeck = true;
-                    wantedCard = card;
-                }
+        if (!isCardInDeck)
+            terminalOutput = "card with name " + cardName + " does not exist in main deck";
+        else {
+            deck.getMainDeck().removeCard(wantedCard);
+            if (deck.getMainDeck().getMainDeckSize() < 40)
+                deck.setValid(false);
+            terminalOutput = "card removed form deck successfully";
+        }
+    }
+
+    public void removeCardFromSideDeck(String deckName, String cardName) {
+        HashMap<String, Deck> decks = currentUser.getDecks();
+        if (!decks.containsKey(deckName)) {
+            terminalOutput = "deck with name " + deckName + " does not exist";
+            return;
+        }
+        Deck deck = Deck.getDeckByName(deckName, currentUser.getUsername());
+        ArrayList<Card> cards;
+        cards = deck.getSideDeck().getSideDeckCards();
+        Card wantedCard = null;
+        boolean isCardInDeck = false;
+        for (Card card : cards) {
+            if (card.getName().equals(cardName)) {
+                isCardInDeck = true;
+                wantedCard = card;
             }
-            if (!isCardInDeck)
-                terminalOutput = "card with name " + cardName + " does not exist in side deck";
-            else {
-                deck.getSideDeck().removeCard(wantedCard);
-                currentUser.addCard(wantedCard);
-                terminalOutput = "card removed form deck successfully";
-            }
+        }
+        if (!isCardInDeck)
+            terminalOutput = "card with name " + cardName + " does not exist in side deck";
+        else {
+            deck.getSideDeck().removeCard(wantedCard);
+            currentUser.addCard(wantedCard);
+            terminalOutput = "card removed form deck successfully";
         }
     }
 

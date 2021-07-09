@@ -2,6 +2,7 @@ package view.graphicalmenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -22,34 +23,36 @@ public class Duel implements Screen {
     Texture wallpaper;
     BitmapFont text;
     BitmapFont text1;
+    BitmapFont text2;
     Texture mute;
     Texture unmute;
     boolean isMute;
     boolean isAi;
     int rounds;
     Texture backButton;
+    Texture changeMat;
     User currentLoggedInUser;
     Texture mat;
     Texture card;
     DuelMenu duelMenu;
-    int xGrave = 300;
-    int yGrave = 960 - 200;
-    int xDeck = 1130;
-    int yDeck = 960 - 200;
-    int xM1 = 400;
-    int xM2 = 570;
-    int xM3 = 750;
-    int xM4 = 920;
-    int xM5 = 1090;
-    int yM = 960 - 340;
-    int xS1 = 400;
-    int xS2 = 570;
-    int xS3 = 750;
-    int xS4 = 920;
-    int xS5 = 1090;
-    int yS = 960 - 545;
     float width = 110;
     float height = 160;
+    float xGrave = 1130;
+    float yGrave = 960 - 200 - width;
+    float xDeck = 300;
+    float yDeck = 960 - 200 - width;
+    float xM1 = 400;
+    float xM2 = 570;
+    float xM3 = 750;
+    float xM4 = 920;
+    float xM5 = 1090;
+    float yM = 960 - 340 - height;
+    float xS1 = 400;
+    float xS2 = 570;
+    float xS3 = 750;
+    float xS4 = 920;
+    float xS5 = 1090;
+    float yS = 960 - 545 - height;
     Player showingPlayer;
 
     public Duel(Mola game, boolean isMute, User currentLoggedInUser, boolean isAi, String secondUserUsername, int rounds) {
@@ -60,11 +63,13 @@ public class Duel implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 960);
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        text2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
+        changeMat = new Texture("buttons/changeMat.png");
         card = new Texture("Cards/Monsters/BabyDragon.jpg");
         this.isAi = isAi;
         this.rounds = rounds;
@@ -90,7 +95,11 @@ public class Duel implements Screen {
         text.getData().setScale(0.3f);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         text.draw(batch, "Duel", 150, 900);
+        text2.getData().setScale(0.2f);
+        text2.setColor(Color.YELLOW);
+        text2.draw(batch, "Showing player: " + showingPlayer.getUser().getNickname(), 400, 920);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
+        batch.draw(changeMat, 1500, 50);
         batch.draw(mat, 300, 250);
         batch.end();
         loadMonsters();
@@ -99,6 +108,9 @@ public class Duel implements Screen {
         loadDeck();
 
         if (Gdx.input.justTouched()) {
+
+            float x = Gdx.input.getX();
+            float y = Gdx.input.getY();
 
             System.out.println(Gdx.input.getX() + " " + Gdx.input.getY());
 
@@ -112,6 +124,13 @@ public class Duel implements Screen {
                     game.setScreen(new DuelSelect(game, isMute, currentLoggedInUser));
                     dispose();
                 }
+            }
+
+            if (x >= 1500 && x <= 1500 + changeMat.getWidth() && y <= 910 && y >= 910 - changeMat.getHeight()) {
+                if (showingPlayer == duelMenu.firstPlayer)
+                    showingPlayer = duelMenu.secondPlayer;
+                else
+                    showingPlayer = duelMenu.firstPlayer;
             }
 
         }
@@ -136,7 +155,9 @@ public class Duel implements Screen {
             Card card = mainDeckCards.get(mainDeckCards.size() - 1);
             String address = getCardImageFileAddressLandscape(card.getName());
             Texture texture = new Texture(Gdx.files.internal(address + ".jpg"));
+            batch.begin();
             batch.draw(texture, xDeck, yDeck, height, width);
+            batch.end();
         }
     }
 
@@ -146,7 +167,9 @@ public class Duel implements Screen {
             Card card = graveyard.get(graveyard.size() - 1);
             String address = getCardImageFileAddressLandscape(card.getName());
             Texture texture = new Texture(Gdx.files.internal(address + ".jpg"));
+            batch.begin();
             batch.draw(texture, xGrave, yGrave, height, width);
+            batch.end();
         }
     }
 
