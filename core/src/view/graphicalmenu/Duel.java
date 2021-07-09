@@ -6,19 +6,18 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Mola;
 import controller.DuelMenu;
 import model.battle.Player;
 import model.card.Card;
 import model.mat.Mat;
-import model.user.MainDeck;
 import model.user.User;
 
 import java.util.ArrayList;
 
 public class Duel implements Screen {
     SpriteBatch batch;
-    final MyGdxGame game;
+    final Mola game;
     OrthographicCamera camera;
     Texture wallpaper;
     BitmapFont text;
@@ -53,7 +52,7 @@ public class Duel implements Screen {
     float height = 160;
     Player showingPlayer;
 
-    public Duel(MyGdxGame game, boolean isMute, User currentLoggedInUser, boolean isAi, String secondUserUsername, int rounds) {
+    public Duel(Mola game, boolean isMute, User currentLoggedInUser, boolean isAi, String secondUserUsername, int rounds) {
         this.currentLoggedInUser = currentLoggedInUser;
         this.isMute = isMute;
         this.game = game;
@@ -121,12 +120,12 @@ public class Duel implements Screen {
         if (isMute) {
             batch.begin();
             batch.draw(mute, 10, 850, mute.getWidth(), mute.getHeight());
-            MyGdxGame.music.pause();
+            Mola.music.pause();
             batch.end();
         } else {
             batch.begin();
             batch.draw(unmute, 10, 850, unmute.getWidth(), unmute.getHeight());
-            MyGdxGame.music.play();
+            Mola.music.play();
             batch.end();
         }
     }
