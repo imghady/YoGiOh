@@ -73,9 +73,8 @@ public class ShowAllCards14 implements Screen {
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(next, 800, 30, next.getWidth(), next.getHeight());
         batch.draw(pre, 700, 30, pre.getWidth(), pre.getHeight());
-        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Hero of the east"), 250, 840);
-        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Horn Imp"), 750, 840);
-        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Leotron"), 1250, 840);
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Wattkid"), 250, 840);
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Yomi Ship"), 750, 840);
         batch.draw(wattkid, 100, 150, wattkid.getWidth(), wattkid.getHeight());
         batch.draw(yomiShip, 600, 150, yomiShip.getWidth(), yomiShip.getHeight());
         batch.end();

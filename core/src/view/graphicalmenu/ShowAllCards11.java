@@ -73,9 +73,9 @@ public class ShowAllCards11 implements Screen {
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(next, 800, 30, next.getWidth(), next.getHeight());
         batch.draw(pre, 700, 30, pre.getWidth(), pre.getHeight());
-        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Hero of the east"), 250, 840);
-        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Horn Imp"), 750, 840);
-        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Leotron"), 1250, 840);
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Slot Machine"), 250, 840);
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Spiral Serpent"), 750, 840);
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Suijin"), 1250, 840);
         batch.draw(slotMachine, 100, 150, slotMachine.getWidth(), slotMachine.getHeight());
         batch.draw(spiralSerpent, 600, 150, spiralSerpent.getWidth(), spiralSerpent.getHeight());
         batch.draw(suijin, 1100, 150, suijin.getWidth(), suijin.getHeight());

@@ -76,9 +76,9 @@ public class ShowAllCards10 implements Screen {
         batch.draw(scanner, 100, 150, scanner.getWidth(), scanner.getHeight());
         batch.draw(silverFang, 600, 150, silverFang.getWidth(), silverFang.getHeight());
         batch.draw(skullGuardian, 1100, 150, skullGuardian.getWidth(), skullGuardian.getHeight());
-        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Hero of the east"), 250, 840);
-        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Horn Imp"), 750, 840);
-        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Leotron"), 1250, 840);
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Scanner"), 250, 840);
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Silver Fang"), 750, 840);
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Skull Guardian"), 1250, 840);
         batch.end();
 
         if (Gdx.input.justTouched()) {

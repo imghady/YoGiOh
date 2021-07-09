@@ -73,9 +73,9 @@ public class ShowAllCards13 implements Screen {
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(next, 800, 30, next.getWidth(), next.getHeight());
         batch.draw(pre, 700, 30, pre.getWidth(), pre.getHeight());
-        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Hero of the east"), 250, 840);
-        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Horn Imp"), 750, 840);
-        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Leotron"), 1250, 840);
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("The Tricky"), 250, 840);
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Warrior Dai Grepher"), 750, 840);
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Wattaildragon"), 1250, 840);
         batch.draw(theTricky, 100, 150, theTricky.getWidth(), theTricky.getHeight());
         batch.draw(warriorDaiGrepher, 600, 150, warriorDaiGrepher.getWidth(), warriorDaiGrepher.getHeight());
         batch.draw(wattaildragon, 1100, 150, wattaildragon.getWidth(), wattaildragon.getHeight());
