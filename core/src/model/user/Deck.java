@@ -11,7 +11,7 @@ public class Deck {
     private boolean activeDeck = false;
     private boolean isValid = false;
 
-    public Deck(String name, String creatorUsername){
+    public Deck(String name, String creatorUsername) {
         this.name = name;
         this.creatorUsername = creatorUsername;
         allDecks.add(this);
@@ -41,11 +41,11 @@ public class Deck {
         this.activeDeck = activeDeck;
     }
 
-    public int getSideDeckSize(){
+    public int getSideDeckSize() {
         return sideDeck.getSideDeckSize();
     }
 
-    public int getMainDeckSize(){
+    public int getMainDeckSize() {
         return mainDeck.getMainDeckSize();
     }
 
@@ -57,19 +57,28 @@ public class Deck {
         isValid = valid;
     }
 
-    public boolean isActiveDeck(){
+    public boolean isActiveDeck() {
         return activeDeck;
     }
 
-    public static void addToAllDeck(Deck deck){
+    public static void addToAllDeck(Deck deck) {
         allDecks.add(deck);
     }
 
-    public static Deck getDeckByName(String name, String creatorUsername){
-        for (Deck deck : allDecks){
-            if (deck!=null && deck.getName().equals(name) && deck.getCreatorUsername().equals(creatorUsername))
+    public static Deck getDeckByName(String name, String creatorUsername) {
+        for (Deck deck : allDecks) {
+            if (deck != null && deck.getName().equals(name) && deck.getCreatorUsername().equals(creatorUsername))
                 return deck;
         }
         return null;
+    }
+
+    public static void deleteDeck(String name, String creatorUsername) {
+        for (Deck deck : allDecks) {
+            if (deck != null && deck.getName().equals(name) && deck.getCreatorUsername().equals(creatorUsername)) {
+                allDecks.remove(deck);
+                return;
+            }
+        }
     }
 }

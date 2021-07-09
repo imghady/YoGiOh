@@ -14,6 +14,7 @@ import model.card.Card;
 import model.user.Deck;
 import model.user.User;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -131,6 +132,12 @@ public class DeckSetting implements Screen, Input.TextInputListener {
                             currentLoggedInUser.addCard(card);
                         }
                         currentLoggedInUser.deleteDeck(deckName);
+                        Deck.deleteDeck(deckName, currentLoggedInUser.getUsername());
+                        String fileAddress = "resources/decks/" + deckName+currentLoggedInUser.getUsername() + ".json";
+                        File file =new File(fileAddress);
+                        if (file.delete()){
+                            System.out.println("bemola");
+                        }
                         try {
                             Finisher.finish();
                         } catch (IOException e) {
