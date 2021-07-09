@@ -67,6 +67,9 @@ public class ShowAllCards15 implements Screen {
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(next, 800, 30, next.getWidth(), next.getHeight());
         batch.draw(pre, 700, 30, pre.getWidth(), pre.getHeight());
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Hero of the east"), 250, 840);
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Horn Imp"), 750, 840);
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Leotron"), 1250, 840);
         batch.draw(advancedRitualArt, 100, 150, advancedRitualArt.getWidth(), advancedRitualArt.getHeight());
         batch.draw(blackPendant, 600, 150, blackPendant.getWidth(), blackPendant.getHeight());
         batch.draw(callOfTheHunted, 1100, 150, callOfTheHunted.getWidth(), callOfTheHunted.getHeight());
