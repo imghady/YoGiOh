@@ -340,6 +340,16 @@ public class DuelMenu {
         }
     }
 
+    public String phase2NextPhase() {
+        String ret = "";
+        phase.nextPhase();
+        ret += phase.getCurrentPhase() + "\n";
+        if (phase.getCurrentPhase().equals("End Phase")) {
+            ret += phase.endPhase(opponentTurnPlayer) + "\n" + "Draw Phase" + "\n" + phase.drawPhase(currentTurnPlayer);
+            phase.nextPhase();
+        }
+        return ret;
+    }
 
     public void summon() {
         Mat mat = currentTurnPlayer.getMat();
