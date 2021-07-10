@@ -81,6 +81,7 @@ public class Duel implements Screen, Input.TextInputListener {
     Animation<TextureRegion> gif2;
     Animation<TextureRegion> gif3;
     Animation<TextureRegion> gameOver;
+    Animation<TextureRegion> background;
 
     public Duel(Mola game, boolean isMute, User currentLoggedInUser, boolean isAi, String secondUserUsername, int rounds) {
         this.currentLoggedInUser = currentLoggedInUser;
@@ -104,6 +105,7 @@ public class Duel implements Screen, Input.TextInputListener {
         gif2 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif2.gif").read());
         gif3 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif3.gif").read());
         gameOver = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gameOver.gif").read());
+        background = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/background.gif").read());
         this.isAi = isAi;
         this.rounds = rounds;
         mat = new Texture("mat.png");
@@ -127,7 +129,7 @@ public class Duel implements Screen, Input.TextInputListener {
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
 
-        batch.draw(wallpaper, 0, 0, 1600, 960);
+        batch.draw(background.getKeyFrame(elapsed), 0, -200, 1600, 1160);
         text.getData().setScale(0.3f);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         if (duelMenu.currentTurnPlayer.currentSelectedCard != null) {
@@ -216,6 +218,9 @@ public class Duel implements Screen, Input.TextInputListener {
                 }
                 if (y < 710 - 2f * leftBarHeight / 4 && y > 710 - 3f * leftBarHeight / 4) {
                     //SUMMON
+                    message = duelMenu.phase2Summon();
+                    gif3ShouldPlay = true;
+                    gif3Time = System.currentTimeMillis();
                 }
                 if (y < 710 - 3f * leftBarHeight / 4 && y > 710 - 4f * leftBarHeight / 4) {
                     //SET

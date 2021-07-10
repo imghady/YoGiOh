@@ -388,6 +388,53 @@ public class DuelMenu {
         effectCheckerInSummon(mat, monster);
     }
 
+    public String phase2Summon() {
+        Mat mat = currentTurnPlayer.getMat();
+        if (currentTurnPlayer.getCurrentSelectedCard() == null) {
+            return "no card selected yet";
+
+        }
+        if (!(currentTurnPlayer.getCurrentSelectedCard() instanceof Monster)) {
+            return "you can't summon this card";
+
+        }
+        if (!phase.getCurrentPhase().equals("First Main Phase") && !phase.getCurrentPhase().equals("Second Main Phase")) {
+            return "action is not allowed in this phase";
+
+        }
+        if (mat.isMonsterZoneIsFull()) {
+            return "monster card zone is full";
+
+        }
+        if (currentTurnPlayer.isSummoned()) {
+            return "you already summoned/set on this turn";
+
+        }
+        if (!isEnoughCardForTribute() && ((Monster) currentTurnPlayer.getCurrentSelectedCard()).getCardType().equals("Normal")) {
+            return "there are not enough cards for tribute";
+
+        }
+        Monster monster = (Monster) currentTurnPlayer.getCurrentSelectedCard();
+
+        if (monster.getCardType().equals("Normal")) {
+            if (monster.getLevel() > 4) {
+                summonWithTribute(monster);
+                return "Summoned with tribute";
+            }
+        }
+        summonedMonster = monster;
+        monster.setAttack(true);
+        monster.setOn(true);
+        mat.addMonster(monster);
+        currentTurnPlayer.setCurrentSelectedCard(null);
+        currentTurnPlayer.setSelectedName(null);
+        currentTurnPlayer.getMat().deleteHandCard(currentTurnPlayer.getHandNumber());
+        currentTurnPlayer.setHandNumber(-1);
+        currentTurnPlayer.setSummoned(true);
+        effectCheckerInSummon(mat, monster);
+        return "Summon successful";
+    }
+
     private void effectCheckerInSummon(Mat mat, Monster monster) {
         if (monster.getName().equals("Command Knight")) {
             if (monster.isOn() && monster.isFirstEffectUse()) {
@@ -1300,11 +1347,10 @@ public class DuelMenu {
                 return;
             }
             card.setOn(false);
-            if (card.getType().equals("Field")){
+            if (card.getType().equals("Field")) {
                 mat.setFieldZone(null);
                 mat.setFieldZone(card);
-            }
-            else {
+            } else {
                 mat.addSpellOrTrap(card);
             }
             currentTurnPlayer.setCurrentSelectedCard(null);
@@ -1511,7 +1557,7 @@ public class DuelMenu {
         Card selectedCard = currentTurnPlayer.getCurrentSelectedCard();
         onAttack = (Monster) currentTurnPlayer.getCurrentSelectedCard();
         if (selectedCard == null) {
-            return  "no card is selected yet";
+            return "no card is selected yet";
         }
         Mat mat = currentTurnPlayer.getMat();
         boolean isInMonsters = false;
@@ -1523,7 +1569,7 @@ public class DuelMenu {
             return "you cannot attack with this card";
         }
         if (!phase.getCurrentPhase().equals("Battle Phase")) {
-            return  "you cannot do this action in this phase";
+            return "you cannot do this action in this phase";
         }
         Mat opponentMat = opponentTurnPlayer.getMat();
         if (opponentMat.getMonsterZone(number) == null) {
@@ -1619,7 +1665,7 @@ public class DuelMenu {
     public String phase2DirectAttack() {
         Card selectedCard = currentTurnPlayer.getCurrentSelectedCard();
         if (selectedCard == null) {
-            return  "no card is selected yet";
+            return "no card is selected yet";
         }
         Mat mat = currentTurnPlayer.getMat();
         boolean isInMonsters = false;
@@ -1631,7 +1677,7 @@ public class DuelMenu {
             return "you cannot attack with this card";
         }
         if (!phase.getCurrentPhase().equals("Battle Phase")) {
-            return  "you can’t do this action in this phase";
+            return "you can’t do this action in this phase";
         }
         for (int i = 0; i < 5; i++) {
             if (opponentTurnPlayer.getMat().getMonsterZone(i) != null) {
