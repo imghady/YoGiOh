@@ -46,6 +46,8 @@ public class Duel implements Screen, Input.TextInputListener {
     User currentLoggedInUser;
     Texture mat;
     Texture posht;
+    Texture coin1;
+    Texture coin2;
     Texture leftButtonBar;
     Texture rightButtonBar;
     Texture heart;
@@ -88,11 +90,14 @@ public class Duel implements Screen, Input.TextInputListener {
     boolean gif2ShouldPlay = false;
     boolean gif3ShouldPlay = false;
     boolean gif4ShouldPlay = false;
+    boolean coinShouldPlay = true;
     boolean isPaused = false;
+    boolean showedCoin = false;
     long gif1Time;
     long gif2Time;
     long gif3Time;
     long gif4Time;
+    long coinTime;
     Player showingPlayer;
     String message = "";
     String phaseMessage = "";
@@ -103,6 +108,7 @@ public class Duel implements Screen, Input.TextInputListener {
     Animation<TextureRegion> gif2;
     Animation<TextureRegion> gif3;
     Animation<TextureRegion> gif4;
+    Animation<TextureRegion> coin;
     Animation<TextureRegion> gameOver;
     Animation<TextureRegion> background1;
     Animation<TextureRegion> background2;
@@ -128,6 +134,8 @@ public class Duel implements Screen, Input.TextInputListener {
         text2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
+        coin1 = new Texture("coin1.png");
+        coin2 = new Texture("coin2.png");
         posht = new Texture("posht.jpg");
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
@@ -145,11 +153,13 @@ public class Duel implements Screen, Input.TextInputListener {
         gif2 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif2.gif").read());
         gif3 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif3.gif").read());
         gif4 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif4.gif").read());
+        coin = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/coin.gif").read());
         gameOver = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gameOver.gif").read());
         background1 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/background.gif").read());
         background2 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif5.gif").read());
         background3 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif6.gif").read());
         background4 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif7.gif").read());
+        coinTime = System.currentTimeMillis();
         this.isAi = isAi;
         this.rounds = rounds;
         mat = new Texture("mat.png");
@@ -177,182 +187,213 @@ public class Duel implements Screen, Input.TextInputListener {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
 
-        batch.begin();
+        if (showedCoin) {
+            batch.begin();
 
-        int field = fieldCardType();
-        if (field == 0)
-            batch.draw(background1.getKeyFrame(elapsed), 0, -200, 1600, 1160);
-        if (field == 1)
-            batch.draw(background2.getKeyFrame(elapsed), 0, -200, 1600, 1160);
-        if (field == 2)
-            batch.draw(background3.getKeyFrame(elapsed), 0, -200, 1600, 1160);
-        if (field == 3)
-            batch.draw(background4.getKeyFrame(elapsed), 0, -200, 1600, 1160);
-        text.getData().setScale(0.15f);
-        text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        if (duelMenu.currentTurnPlayer.currentSelectedCard != null) {
-            text1.draw(batch, "Selected card: " + duelMenu.currentTurnPlayer.currentSelectedCard.getName(), 600, 700);
-        }
-        text2.getData().setScale(0.2f);
-        text2.setColor(Color.YELLOW);
-        text2.draw(batch, "Showing player username: " + showingPlayer.getUser().getUsername(), 110, 930);
-        text2.draw(batch, "nickname: " + showingPlayer.getUser().getNickname(), 100, 880);
-        if (showingPlayer == duelMenu.firstPlayer) {
-            batch.draw(pic1, 50, 600, 200, 250);
-        } else {
-            batch.draw(pic2, 50, 600, 200, 250);
-        }
-        text2.draw(batch, message, 590, 800);
-        batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
-        batch.draw(changeMat, 1500, 50);
-        batch.draw(leftButtonBar, 50, 250);
-        batch.draw(rightButtonBar, 1550 - rightButtonBar.getWidth(), 250);
-        batch.draw(agree, 100, 100, 200, 100);
-        batch.draw(mat, 300, 250);
-        batch.draw(changePhase, 1320, 650, 250, 100);
-
-        batch.draw(healthBar, 650, 830, showingPlayer.getLifePoint() / 8000f * 600, 40);
-        batch.draw(heart, 600, 800, 100, 100);
-        batch.draw(pause, 10, 100);
-        text.draw(batch, phaseMessage, 700, 650);
-
-        batch.end();
-        loadMonsters();
-        loadSpells();
-        loadGraveyard();
-        loadField();
-        loadHand();
-
-        batch.begin();
-        if (gif1ShouldPlay) {
-            batch.draw(gif1.getKeyFrame(elapsed), xM1, yH, xM5 - xM1 + width, yM - yH + height);
-            if (System.currentTimeMillis() - gif1Time >= gif1.getAnimationDuration() * 1000) {
-                gif1ShouldPlay = false;
+            int field = fieldCardType();
+            if (field == 0)
+                batch.draw(background1.getKeyFrame(elapsed), 0, -200, 1600, 1160);
+            if (field == 1)
+                batch.draw(background2.getKeyFrame(elapsed), 0, -200, 1600, 1160);
+            if (field == 2)
+                batch.draw(background3.getKeyFrame(elapsed), 0, -200, 1600, 1160);
+            if (field == 3)
+                batch.draw(background4.getKeyFrame(elapsed), 0, -200, 1600, 1160);
+            text.getData().setScale(0.15f);
+            text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
+            if (duelMenu.currentTurnPlayer.currentSelectedCard != null) {
+                text1.draw(batch, "Selected card: " + duelMenu.currentTurnPlayer.currentSelectedCard.getName(), 600, 700);
             }
-        }
-        if (gif2ShouldPlay) {
-            batch.draw(gif2.getKeyFrame(elapsed), xM1, yH, xM5 - xM1 + width, yM - yH + height);
-            if (System.currentTimeMillis() - gif2Time >= gif2.getAnimationDuration() * 1000) {
-                gif2ShouldPlay = false;
+            text2.getData().setScale(0.2f);
+            text2.setColor(Color.YELLOW);
+            text2.draw(batch, "Showing player username: " + showingPlayer.getUser().getUsername(), 110, 930);
+            text2.draw(batch, "nickname: " + showingPlayer.getUser().getNickname(), 100, 880);
+            if (showingPlayer == duelMenu.firstPlayer) {
+                batch.draw(pic1, 50, 600, 200, 250);
+            } else {
+                batch.draw(pic2, 50, 600, 200, 250);
             }
-        }
-        if (gif3ShouldPlay) {
-            batch.draw(gif3.getKeyFrame(elapsed), xM1, yH, xM5 - xM1 + width, yM - yH + height);
-            if (System.currentTimeMillis() - gif3Time >= gif3.getAnimationDuration() * 1000) {
-                gif3ShouldPlay = false;
+            text2.draw(batch, message, 590, 800);
+            batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
+            batch.draw(changeMat, 1500, 50);
+            batch.draw(leftButtonBar, 50, 250);
+            batch.draw(rightButtonBar, 1550 - rightButtonBar.getWidth(), 250);
+            batch.draw(agree, 100, 100, 200, 100);
+            batch.draw(mat, 300, 250);
+            batch.draw(changePhase, 1320, 650, 250, 100);
+
+            batch.draw(healthBar, 650, 830, showingPlayer.getLifePoint() / 8000f * 600, 40);
+            batch.draw(heart, 600, 800, 100, 100);
+            batch.draw(pause, 10, 100);
+            text.draw(batch, phaseMessage, 700, 650);
+
+            batch.end();
+            loadMonsters();
+            loadSpells();
+            loadGraveyard();
+            loadField();
+            loadHand();
+
+            batch.begin();
+            if (gif1ShouldPlay) {
+                batch.draw(gif1.getKeyFrame(elapsed), xM1, yH, xM5 - xM1 + width, yM - yH + height);
+                if (System.currentTimeMillis() - gif1Time >= gif1.getAnimationDuration() * 1000) {
+                    gif1ShouldPlay = false;
+                }
             }
-        }
-        if (gif4ShouldPlay) {
-            batch.draw(gif4.getKeyFrame(elapsed), xM1, yH, xM5 - xM1 + width, yM - yH + height);
-            if (System.currentTimeMillis() - gif4Time >= gif4.getAnimationDuration() * 1000) {
-                gif4ShouldPlay = false;
+            if (gif2ShouldPlay) {
+                batch.draw(gif2.getKeyFrame(elapsed), xM1, yH, xM5 - xM1 + width, yM - yH + height);
+                if (System.currentTimeMillis() - gif2Time >= gif2.getAnimationDuration() * 1000) {
+                    gif2ShouldPlay = false;
+                }
             }
-        }
-        if (isPaused) {
-            batch.draw(play, 400, 200, 800, 660);
-        }
-        batch.end();
-
-
-        if (Gdx.input.justTouched()) {
-
-            float x = Gdx.input.getX();
-            float y = Gdx.input.getY();
-
+            if (gif3ShouldPlay) {
+                batch.draw(gif3.getKeyFrame(elapsed), xM1, yH, xM5 - xM1 + width, yM - yH + height);
+                if (System.currentTimeMillis() - gif3Time >= gif3.getAnimationDuration() * 1000) {
+                    gif3ShouldPlay = false;
+                }
+            }
+            if (gif4ShouldPlay) {
+                batch.draw(gif4.getKeyFrame(elapsed), xM1, yH, xM5 - xM1 + width, yM - yH + height);
+                if (System.currentTimeMillis() - gif4Time >= gif4.getAnimationDuration() * 1000) {
+                    gif4ShouldPlay = false;
+                }
+            }
             if (isPaused) {
-                if (x > 400 && x < 1200 && y > 200 && y < 760) {
-                    isPaused = false;
+                batch.draw(play, 400, 200, 800, 660);
+            }
+            batch.end();
+
+
+            if (Gdx.input.justTouched()) {
+
+                float x = Gdx.input.getX();
+                float y = Gdx.input.getY();
+
+                if (isPaused) {
+                    if (x > 400 && x < 1200 && y > 200 && y < 760) {
+                        isPaused = false;
+                    }
+                } else {
+                    handleCardSelection(x, y);
+
+                    System.out.println(Gdx.input.getX() + " " + Gdx.input.getY());
+
+                    if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + mute.getWidth()
+                            && Gdx.input.getY() < 110 && Gdx.input.getY() > 110 - mute.getHeight()) {
+                        isMute = !isMute;
+                    }
+
+                    if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
+                        if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
+                            game.setScreen(new DuelSelect(game, isMute, currentLoggedInUser));
+                            dispose();
+                        }
+                    }
+
+                    if (x >= 80 && x <= 280 && y >= 760 && y <= 860)
+                        agree();
+
+                    if (x >= 1500 && x <= 1500 + changeMat.getWidth() && y <= 910 && y >= 910 - changeMat.getHeight()) {
+                        if (showingPlayer == duelMenu.firstPlayer)
+                            showingPlayer = duelMenu.secondPlayer;
+                        else
+                            showingPlayer = duelMenu.firstPlayer;
+                    }
+
+                    if (x > 10 && x < 10 + pause.getWidth() && y < 860 && y > 860 - pause.getHeight()) {
+                        isPaused = true;
+                    }
+
+                    batch.begin();
+                    int leftBarHeight = leftButtonBar.getHeight();
+                    if (x >= 50 && x <= 50 + leftButtonBar.getWidth()) {
+                        if (y < 710 && y > 710 - leftBarHeight / 4f) {
+                            message = duelMenu.phase2DirectAttack();
+                            gif1ShouldPlay = true;
+                            gif1Time = System.currentTimeMillis();
+                            if (!isMute)
+                                direct.play();
+                        }
+                        if (y < 710 - leftBarHeight / 4f && y > 710 - 2f * leftBarHeight / 4) {
+                            Gdx.input.getTextInput(this, "Card number", "", "");
+                            currentButtonClicked = "attack";
+                            if (!isMute)
+                                attack.play();
+                        }
+                        if (y < 710 - 2f * leftBarHeight / 4 && y > 710 - 3f * leftBarHeight / 4) {
+                            //SUMMON
+                            message = duelMenu.phase2Summon();
+                            gif3ShouldPlay = true;
+                            gif3Time = System.currentTimeMillis();
+                            if (!isMute)
+                                summon.play();
+                        }
+                        if (y < 710 - 3f * leftBarHeight / 4 && y > 710 - 4f * leftBarHeight / 4) {
+                            //SET
+                            message = duelMenu.phase2Set();
+                            if (!isMute)
+                                set.play();
+                        }
+
+                    }
+
+                    if (x >= 1550 - rightButtonBar.getWidth() && x <= 1550) {
+                        if (y < 710 && y > 710 - leftBarHeight / 4f) {
+                            //CHANGE POSITION
+                        }
+                        if (y < 710 - leftBarHeight / 4f && y > 710 - 2f * leftBarHeight / 4) {
+                            //SURRENDER
+                        }
+                        if (y < 710 - 2f * leftBarHeight / 4 && y > 710 - 3f * leftBarHeight / 4) {
+                            //FLIP SUMMON
+                        }
+                        if (y < 710 - 3f * leftBarHeight / 4 && y > 710 - 4f * leftBarHeight / 4) {
+                            //ACTIVE EFFECT
+                            gif4ShouldPlay = true;
+                            gif4Time = System.currentTimeMillis();
+                        }
+                    }
+
+                    if (x >= 1320 && x <= 1570 && y >= 210 && y <= 310) {
+                        if (!isMute)
+                            changePhaseSound.play();
+                        changePhase();
+                    }
+                    batch.end();
+                }
+
+
+            }
+        } else {
+            batch.begin();
+            batch.draw(wallpaper, 0, 0, 1600, 960);
+            if (coinShouldPlay) {
+                System.out.println("kir");
+                batch.draw(coin.getKeyFrame(elapsed), 400, 300, 800, 400);
+                if (System.currentTimeMillis() - coinTime < 5000) {
+                    coinShouldPlay = false;
                 }
             } else {
-                handleCardSelection(x, y);
-
-                System.out.println(Gdx.input.getX() + " " + Gdx.input.getY());
-
-                if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + mute.getWidth()
-                        && Gdx.input.getY() < 110 && Gdx.input.getY() > 110 - mute.getHeight()) {
-                    isMute = !isMute;
+                text.getData().setScale(0.3f);
+                if (duelMenu.currentTurnPlayer == duelMenu.firstPlayer) {
+                    batch.draw(coin1, 700, 400, 200, 200);
+                    text.draw(batch, "First player starts",600, 700 );
+                } else {
+                    batch.draw(coin2, 700, 400, 200, 200);
+                    text.draw(batch, "Second player starts",600, 700 );
                 }
+                batch.draw(agree, 700, 200);
+                if (Gdx.input.justTouched()) {
+                    float x = Gdx.input.getX();
+                    float y = Gdx.input.getY();
 
-                if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
-                    if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
-                        game.setScreen(new DuelSelect(game, isMute, currentLoggedInUser));
-                        dispose();
-                    }
-                }
-
-                if (x >= 80 && x <= 280 && y >= 760 && y <= 860)
-                    agree();
-
-                if (x >= 1500 && x <= 1500 + changeMat.getWidth() && y <= 910 && y >= 910 - changeMat.getHeight()) {
-                    if (showingPlayer == duelMenu.firstPlayer)
-                        showingPlayer = duelMenu.secondPlayer;
-                    else
-                        showingPlayer = duelMenu.firstPlayer;
-                }
-
-                if (x > 10 && x < 10 + pause.getWidth() && y < 860 && y > 860 - pause.getHeight()) {
-                    isPaused = true;
-                }
-
-                batch.begin();
-                int leftBarHeight = leftButtonBar.getHeight();
-                if (x >= 50 && x <= 50 + leftButtonBar.getWidth()) {
-                    if (y < 710 && y > 710 - leftBarHeight / 4f) {
-                        message = duelMenu.phase2DirectAttack();
-                        gif1ShouldPlay = true;
-                        gif1Time = System.currentTimeMillis();
-                        if (!isMute)
-                            direct.play();
-                    }
-                    if (y < 710 - leftBarHeight / 4f && y > 710 - 2f * leftBarHeight / 4) {
-                        Gdx.input.getTextInput(this, "Card number", "", "");
-                        currentButtonClicked = "attack";
-                        if (!isMute)
-                            attack.play();
-                    }
-                    if (y < 710 - 2f * leftBarHeight / 4 && y > 710 - 3f * leftBarHeight / 4) {
-                        //SUMMON
-                        message = duelMenu.phase2Summon();
-                        gif3ShouldPlay = true;
-                        gif3Time = System.currentTimeMillis();
-                        if (!isMute)
-                            summon.play();
-                    }
-                    if (y < 710 - 3f * leftBarHeight / 4 && y > 710 - 4f * leftBarHeight / 4) {
-                        //SET
-                        message = duelMenu.phase2Set();
-                        if (!isMute)
-                            set.play();
-                    }
-
-                }
-
-                if (x >= 1550 - rightButtonBar.getWidth() && x <= 1550) {
-                    if (y < 710 && y > 710 - leftBarHeight / 4f) {
-                        //CHANGE POSITION
-                    }
-                    if (y < 710 - leftBarHeight / 4f && y > 710 - 2f * leftBarHeight / 4) {
-                        //SURRENDER
-                    }
-                    if (y < 710 - 2f * leftBarHeight / 4 && y > 710 - 3f * leftBarHeight / 4) {
-                        //FLIP SUMMON
-                    }
-                    if (y < 710 - 3f * leftBarHeight / 4 && y > 710 - 4f * leftBarHeight / 4) {
-                        //ACTIVE EFFECT
-                        gif4ShouldPlay = true;
-                        gif4Time = System.currentTimeMillis();
+                    if (x >= 700 && x <= 700 + agree.getWidth() && y <= 760 && y >= 760 - agree.getHeight()) {
+                        showedCoin = true;
                     }
                 }
-
-                if (x >= 1320 && x <= 1570 && y >= 210 && y <= 310) {
-                    if (!isMute)
-                        changePhaseSound.play();
-                    changePhase();
-                }
-                batch.end();
             }
-
-
+            batch.end();
         }
 
 
