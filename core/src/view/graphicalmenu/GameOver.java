@@ -9,10 +9,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
+import model.Finisher;
 import model.card.Card;
 import model.user.Deck;
 import model.user.User;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameOver implements Screen, Input.TextInputListener {
@@ -84,6 +86,11 @@ public class GameOver implements Screen, Input.TextInputListener {
         text3.draw(batch, message, 170, 750);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.end();
+        try {
+            Finisher.finish();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if (Gdx.input.justTouched()) {
 
             if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + mute.getWidth()
