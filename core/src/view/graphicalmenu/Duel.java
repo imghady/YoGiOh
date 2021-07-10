@@ -45,7 +45,7 @@ public class Duel implements Screen, Input.TextInputListener {
     Texture changePhase;
     User currentLoggedInUser;
     Texture mat;
-    Texture card;
+    Texture posht;
     Texture leftButtonBar;
     Texture rightButtonBar;
     Texture heart;
@@ -128,6 +128,7 @@ public class Duel implements Screen, Input.TextInputListener {
         text2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
+        posht = new Texture("posht.jpg");
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
@@ -139,7 +140,6 @@ public class Duel implements Screen, Input.TextInputListener {
         play = new Texture("buttons/play.png");
         leftButtonBar = new Texture("buttons/leftButtonBar.png");
         rightButtonBar = new Texture("buttons/rightButtonBar.png");
-        card = new Texture("Cards/Monsters/BabyDragon.jpg");
         changePhase = new Texture("buttons/changePhase.png");
         gif1 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif1.gif").read());
         gif2 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif2.gif").read());
@@ -211,7 +211,7 @@ public class Duel implements Screen, Input.TextInputListener {
         batch.draw(mat, 300, 250);
         batch.draw(changePhase, 1320, 650, 250, 100);
 
-        batch.draw(healthBar, 650, 830, showingPlayer.getLifePoint()/8000f * 600 , 40);
+        batch.draw(healthBar, 650, 830, showingPlayer.getLifePoint() / 8000f * 600, 40);
         batch.draw(heart, 600, 800, 100, 100);
         batch.draw(pause, 10, 100);
         text.draw(batch, phaseMessage, 700, 650);
@@ -263,9 +263,7 @@ public class Duel implements Screen, Input.TextInputListener {
                 if (x > 400 && x < 1200 && y > 200 && y < 760) {
                     isPaused = false;
                 }
-            }
-
-            else {
+            } else {
                 handleCardSelection(x, y);
 
                 System.out.println(Gdx.input.getX() + " " + Gdx.input.getY());
@@ -516,7 +514,11 @@ public class Duel implements Screen, Input.TextInputListener {
             if (mat.getSpellAndTrapZone(i) != null) {
                 Card card = mat.getSpellAndTrapZone(i);
                 String address = getCardImageFileAddress(card.getName());
-                Texture texture = new Texture(Gdx.files.internal(address + ".jpg"));
+                Texture texture;
+                if (card.isOn())
+                    texture = new Texture(Gdx.files.internal(address + ".jpg"));
+                else
+                    texture = new Texture(Gdx.files.internal("posht.jpg"));
                 if (i == 0)
                     batch.draw(texture, xS1, yS, width, height);
                 if (i == 1)
@@ -539,7 +541,11 @@ public class Duel implements Screen, Input.TextInputListener {
             if (mat.getMonsterZone(i) != null) {
                 Card card = mat.getMonsterZone(i);
                 String address = getCardImageFileAddress(card.getName());
-                Texture texture = new Texture(Gdx.files.internal(address + ".jpg"));
+                Texture texture;
+                if (card.isOn())
+                    texture = new Texture(Gdx.files.internal(address + ".jpg"));
+                else
+                    texture = new Texture(Gdx.files.internal("posht.jpg"));
                 if (i == 0)
                     batch.draw(texture, xM1, yM, width, height);
                 if (i == 1)

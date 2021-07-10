@@ -14,7 +14,7 @@ import com.mygdx.game.Mola;
 import controller.GifDecoder;
 
 public class Start extends Game implements Screen,  Input.TextInputListener  {
-
+    static boolean isFirstTime = true;
     SpriteBatch batch;
     final Mola game;
     OrthographicCamera camera;
@@ -24,7 +24,8 @@ public class Start extends Game implements Screen,  Input.TextInputListener  {
     Texture register;
     Texture mute;
     Texture unmute;
-    boolean isMute = false;
+    boolean isMute;
+
     long start;
     Texture title;
     Texture about;
@@ -69,8 +70,10 @@ public class Start extends Game implements Screen,  Input.TextInputListener  {
         batch.draw(title, 380, 520, title.getWidth(),title.getHeight());
         batch.draw(register, 110, 100, register.getWidth(),register.getHeight());
         batch.draw(about, 1150, 800, about.getWidth(),about.getHeight());
-        if (System.currentTimeMillis() - start <= 2000) {
+        if (System.currentTimeMillis() - start <= 500 && isFirstTime) {
             batch.draw(welcome.getKeyFrame(elapsed), 0, 0, 1600, 960);
+        } else {
+            isFirstTime = false;
         }
         batch.end();
 
