@@ -33,11 +33,13 @@ public class CreateMonster implements Screen, Input.TextInputListener {
     Texture effectMonster;
     Texture create;
     Texture add;
+    Texture attributePic;
     User currentLoggedInUser;
     boolean isHolderName = false;
     boolean isHolderLevel = false;
     boolean isHolderType = false;
     boolean isHolderAttack = false;
+    boolean isHolderAttribute = false;
     boolean isHolderDefence = false;
     boolean isHolderDescription = false;
     boolean isHolderMonsterForEffectName = false;
@@ -49,7 +51,7 @@ public class CreateMonster implements Screen, Input.TextInputListener {
     String defence = "";
     String description = "";
     String cardDetail = "";
-    String attribute = "aaaa";
+    String attribute = "";
     String monsterForEffectName = "";
     String createResult = "";
     int price = 0;
@@ -77,6 +79,7 @@ public class CreateMonster implements Screen, Input.TextInputListener {
         effectMonster = new Texture("buttons/monsterEffect.png");
         add = new Texture("buttons/agree.png");
         create = new Texture("buttons/create.png");
+        attributePic = new Texture("buttons/attribute.png");
     }
 
     @Override
@@ -94,10 +97,11 @@ public class CreateMonster implements Screen, Input.TextInputListener {
         error1.getData().setScale(0.2f);
         error2.getData().setScale(0.2f);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "Create Monster Card", 150, 850);
+        text.draw(batch, "Create Monster Card", 150, 900);
         text.draw(batch, cardDetail, 700, 870);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(buttons, 150, 100, buttons.getWidth(), buttons.getHeight());
+        batch.draw(attributePic, 150, 720, attributePic.getWidth(), attributePic.getHeight());
         batch.draw(effectMonster, 1200, 300, effectMonster.getWidth(), effectMonster.getHeight());
         batch.draw(add, 1250, 150, add.getWidth(), add.getHeight());
         if (message1 == 1) {
@@ -120,6 +124,7 @@ public class CreateMonster implements Screen, Input.TextInputListener {
         cardDetail += "Type : " + monsterType + "\n";
         cardDetail += "ATK : " + attack + "\n";
         cardDetail += "DEF : " + defence + "\n";
+        cardDetail += "Attribute : " + attribute + "\n";
         cardDetail += "Description : " + description + "\n";
         cardDetail += "Price : " + price + "\nEffect like : ";
         for (Monster monster : monstersForEffect) {
@@ -137,6 +142,14 @@ public class CreateMonster implements Screen, Input.TextInputListener {
                 if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
                     game.setScreen(new SelectType(game, isMute, currentLoggedInUser));
                     dispose();
+                }
+            }
+
+            if (Gdx.input.getY() > 240 - attributePic.getHeight() && Gdx.input.getY() < 240) {
+                if (Gdx.input.getX() > 150 && Gdx.input.getX() < 150 + attributePic.getWidth()) {
+                    message2 = 0;
+                    isHolderAttribute = true;
+                    Gdx.input.getTextInput(this, "Attribute", "", "");
                 }
             }
 
@@ -329,6 +342,9 @@ public class CreateMonster implements Screen, Input.TextInputListener {
         } else if (isHolderMonsterForEffectName) {
             monsterForEffectName = holder;
             isHolderMonsterForEffectName = false;
+        } else if (isHolderAttribute) {
+            attribute = holder;
+            isHolderAttribute = false;
         }
     }
 
