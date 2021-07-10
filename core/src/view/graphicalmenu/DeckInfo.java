@@ -1,30 +1,37 @@
 package view.graphicalmenu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
+import model.user.Deck;
 import model.user.User;
 
-public class ImportExport  implements Screen {
-
+public class DeckInfo implements Screen, Input.TextInputListener {
     SpriteBatch batch;
     final Mola game;
     OrthographicCamera camera;
     Texture wallpaper;
-    Texture buttons;
     BitmapFont text;
     BitmapFont text1;
+    BitmapFont text2;
+    BitmapFont error;
     Texture mute;
     Texture unmute;
-    boolean isMute = false;
+    boolean isMute;
     Texture backButton;
+    Texture field;
+    Texture create;
     User currentLoggedInUser;
+    String deckName = "";
+    int message = 0;
 
-    public ImportExport(Mola game, boolean isMute, User currentLoggedInUser) {
+    public DeckInfo(Mola game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
         this.isMute = isMute;
         this.game = game;
@@ -32,12 +39,26 @@ public class ImportExport  implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 960);
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        error = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        text2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
-        buttons = new Texture("buttons/importButtons.png");
+        field = new Texture("buttons/deckName.png");
+        create = new Texture("buttons/show.png");
+    }
+
+
+    @Override
+    public void input(String text) {
+        this.deckName = text;
+    }
+
+    @Override
+    public void canceled() {
+
     }
 
     @Override
@@ -51,13 +72,25 @@ public class ImportExport  implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600, 960);
-        text.getData().setScale(0.2f);
+        text.getData().setScale(0.3f);
+        text2.getData().setScale(0.2f);
+        error.getData().setScale(0.18f);
+        text2.setColor(Color.GREEN);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "Import Export Menu", 150, 850);
+        text.draw(batch, "DeckInfo", 150, 850);
+        text2.draw(batch, "enter deck name to get info:", 150, 400);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
-        batch.draw(buttons, 150, 200, buttons.getWidth(), buttons.getHeight());
+        batch.draw(field, 100, 300, field.getWidth(), field.getHeight());
+        text2.draw(batch, deckName, 430, 375);
+        batch.draw(create, 650, 180, create.getWidth(), create.getHeight());
+        if (message == 1) {
+            error.setColor(Color.RED);
+            error.draw(batch, "deck with name " + deckName + " don't exist", 100, 265);
+        } else if (message == 2) {
+            error.setColor(Color.RED);
+            error.draw(batch, "enter a deck name!", 100, 265);
+        }
         batch.end();
-
         if (Gdx.input.justTouched()) {
 
             if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + mute.getWidth()
@@ -67,24 +100,28 @@ public class ImportExport  implements Screen {
 
             if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
                 if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
-                    game.setScreen(new MainMenu(game, isMute, currentLoggedInUser));
+                    game.setScreen(new Decks(game, isMute, currentLoggedInUser));
                     dispose();
                 }
             }
-
-            if (Gdx.input.getX() > 150 && Gdx.input.getX() < 150 + buttons.getWidth()) {
-                if (Gdx.input.getY() > 760 - buttons.getHeight() / 2 && Gdx.input.getY() < 760) {
-
-                    game.setScreen(new SelectType(game, isMute, currentLoggedInUser));
-                    dispose();
-                } else if (Gdx.input.getY() > 760 - buttons.getHeight() && Gdx.input.getY() < 760 - buttons.getHeight() / 2) {
-                    game.setScreen(new ImportWithJSON(game, isMute, currentLoggedInUser));
-                    dispose();
+            if (Gdx.input.getY() > 660 - field.getHeight() && Gdx.input.getY() < 660) {
+                if (Gdx.input.getX() > 100 && Gdx.input.getX() < 100 + field.getWidth()) {
+                    message = 0;
+                    Gdx.input.getTextInput(this, "deck name", "", "");
                 }
             }
-
+            if (Gdx.input.getY() > 780 - create.getHeight() && Gdx.input.getY() < 780) {
+                if (Gdx.input.getX() > 650 && Gdx.input.getX() < 650 + create.getWidth()) {
+                    if (deckName.equals("")) {
+                        message = 3;
+                    } else if (!currentLoggedInUser.getDecks().containsKey(deckName)) {
+                        message = 1;
+                    } else {
+                        game.setScreen(new OneDeckInfo(game, isMute, currentLoggedInUser, Deck.getDeckByName(deckName, currentLoggedInUser.getUsername())));
+                    }
+                }
+            }
         }
-
 
         if (isMute) {
             batch.begin();
@@ -124,4 +161,3 @@ public class ImportExport  implements Screen {
 
     }
 }
-

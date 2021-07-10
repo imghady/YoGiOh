@@ -15,6 +15,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+
 import java.util.ArrayList;
 
 public class ImportWithJSON implements Screen, Input.TextInputListener {
@@ -25,6 +26,7 @@ public class ImportWithJSON implements Screen, Input.TextInputListener {
     Texture wallpaper;
     Texture buttons;
     BitmapFont text;
+
     BitmapFont error;
     BitmapFont text1;
     BitmapFont text2;
@@ -40,6 +42,8 @@ public class ImportWithJSON implements Screen, Input.TextInputListener {
     String cardDetail = "";
 
 
+    boolean isShowCardDetail = false;
+    int type = 0;
 
     public ImportWithJSON(Mola game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
@@ -49,6 +53,7 @@ public class ImportWithJSON implements Screen, Input.TextInputListener {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 960);
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+
         error = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
@@ -73,6 +78,7 @@ public class ImportWithJSON implements Screen, Input.TextInputListener {
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600, 960);
         text.getData().setScale(0.2f);
+
         error.getData().setScale(0.2f);
         text2.getData().setScale(0.2f);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
@@ -117,6 +123,7 @@ public class ImportWithJSON implements Screen, Input.TextInputListener {
 
             if (Gdx.input.getY() > 610 - agree.getHeight() && Gdx.input.getY() < 610) {
                 if (Gdx.input.getX() > 150 && Gdx.input.getX() < 150 + agree.getWidth()) {
+
                     message = 0;
                     cardDetail = "";
                     if (toJSON.equals("")) {
@@ -144,6 +151,7 @@ public class ImportWithJSON implements Screen, Input.TextInputListener {
 
                                 } else {
                                     message = 2;
+
                                 }
                             } else {
                                 if (card.containsKey("type")) {
@@ -180,6 +188,7 @@ public class ImportWithJSON implements Screen, Input.TextInputListener {
                                 }
                             }
                         } catch (ParseException e) {
+
                             message = 2;
                             e.printStackTrace();
                         }
