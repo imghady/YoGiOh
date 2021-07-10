@@ -121,6 +121,7 @@ public class OneDeckInfo implements Screen, Input.TextInputListener {
 
             mainDeckCard3 += mainCards.get(i).getName() + "\n";
         }
+        
 
         for (int i = 0; i < 20; i++) {
             if (sideCards.size() == i) {

@@ -110,6 +110,10 @@ public class Duel implements Screen, Input.TextInputListener {
     Animation<TextureRegion> background4;
     Texture pic1;
     Texture pic2;
+    String holder = "";
+    String cheatInput = "";
+    boolean isHolderAttackInput;
+    boolean isHolderCheatInput = false;
 
     public Duel(Mola game, boolean isMute, User currentLoggedInUser, boolean isAi, String secondUserUsername, int rounds) {
         this.currentLoggedInUser = currentLoggedInUser;
@@ -253,6 +257,11 @@ public class Duel implements Screen, Input.TextInputListener {
         }
         batch.end();
 
+        if (Gdx.input.isKeyPressed(Input.Keys.C) && Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+            isHolderCheatInput = true;
+            Gdx.input.getTextInput(this, "enter cheat", "", "");
+        }
+
 
         if (Gdx.input.justTouched()) {
 
@@ -305,6 +314,7 @@ public class Duel implements Screen, Input.TextInputListener {
                             direct.play();
                     }
                     if (y < 710 - leftBarHeight / 4f && y > 710 - 2f * leftBarHeight / 4) {
+                        isHolderAttackInput = true;
                         Gdx.input.getTextInput(this, "Card number", "", "");
                         currentButtonClicked = "attack";
                         if (!isMute)
@@ -916,7 +926,17 @@ public class Duel implements Screen, Input.TextInputListener {
 
     @Override
     public void input(String text) {
-        this.attackInput = Integer.parseInt(text);
+        this.holder = text;
+
+        if (isHolderAttackInput) {
+            this.attackInput = Integer.parseInt(holder);
+            isHolderAttackInput = false;
+        } else if (isHolderCheatInput) {
+            cheatInput = holder;
+            isHolderCheatInput = false;
+        }
+
+
     }
 
     @Override
