@@ -352,7 +352,6 @@ public class Duel implements Screen, Input.TextInputListener {
                         }
                     }
 
-
                     if (x >= 1550 - rightButtonBar.getWidth() && x <= 1550) {
                         if (y < 710 && y > 710 - leftBarHeight / 4f) {
                             //CHANGE POSITION
