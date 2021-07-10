@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
+import model.card.Card;
 import model.card.Monster;
 import model.card.Spell;
 import model.user.User;
@@ -147,13 +148,16 @@ public class ImportWithJSON implements Screen, Input.TextInputListener {
                                     cardDetail += "Type : " + card.get("cardType") + "\n";
                                     cardDetail += "ATK : " + card.get("attack") + "\n";
                                     cardDetail += "DEF : " + card.get("defence") + "\n";
+                                    cardDetail += "Monster Type : " + card.get("monsterType") + "\n";
+                                    cardDetail += "Attribute : " + card.get("attribute") + "\n";
                                     cardDetail += "Description : " + card.get("description") + "\n";
                                     cardDetail += "Price : " + card.get("price");
-                                    
+
+                                    Monster monster =new Monster(card.get("name").toString(), Integer.parseInt(card.get("level").toString()), card.get("attribute").toString(), card.get("monsterType").toString(), card.get("cardType").toString(), Integer.parseInt(card.get("attack").toString()), Integer.parseInt(card.get("defence").toString()), card.get("description").toString(), Integer.parseInt(card.get("price").toString()));
+                                    Card.addToCards(monster);
 
                                 } else {
                                     message = 2;
-
                                 }
                             } else {
                                 if (card.containsKey("type")) {
@@ -165,10 +169,10 @@ public class ImportWithJSON implements Screen, Input.TextInputListener {
 
                                             cardDetail += card.get("name") + "\n";
                                             cardDetail += "Spell" + "\n";
+                                            cardDetail += "Icon : " + card.get("icon") + "\n";
                                             cardDetail += "Status : " + card.get("status") + "\n";
                                             cardDetail += "Description : " + card.get("description") + "\n";
                                             cardDetail += "Price : " + card.get("price");
-
 
 
                                         } else {
@@ -182,6 +186,7 @@ public class ImportWithJSON implements Screen, Input.TextInputListener {
 
                                             cardDetail += card.get("name") + "\n";
                                             cardDetail += "Trap" + "\n";
+                                            cardDetail += "Icon : " + card.get("icon") + "\n";
                                             cardDetail += "Status : " + card.get("status") + "\n";
                                             cardDetail += "Description : " + card.get("description") + "\n";
                                             cardDetail += "Price : " + card.get("price");

@@ -34,6 +34,7 @@ public class Duel implements Screen, Input.TextInputListener {
     BitmapFont text;
     BitmapFont text1;
     BitmapFont text2;
+    BitmapFont text3;
     Texture mute;
     Texture unmute;
     Texture pause;
@@ -138,6 +139,7 @@ public class Duel implements Screen, Input.TextInputListener {
         attack = Gdx.audio.newSound(Gdx.files.internal("sound/attack.wav"));
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        text3 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text1 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         coin1 = new Texture("coin1.png");
@@ -211,7 +213,9 @@ public class Duel implements Screen, Input.TextInputListener {
             }
             text2.getData().setScale(0.2f);
             text1.getData().setScale(0.2f);
+            text3.getData().setScale(0.15f);
             text2.setColor(Color.YELLOW);
+            text3.setColor(Color.RED);
             text2.draw(batch, "Showing player username: " + showingPlayer.getUser().getUsername(), 110, 930);
             text2.draw(batch, "nickname: " + showingPlayer.getUser().getNickname(), 100, 880);
             if (showingPlayer == duelMenu.firstPlayer) {
@@ -232,6 +236,7 @@ public class Duel implements Screen, Input.TextInputListener {
             batch.draw(heart, 600, 800, 100, 100);
             batch.draw(pause, 10, 100);
             text.draw(batch, phaseMessage, 700, 650);
+            text3.draw(batch, String.valueOf(showingPlayer.getLifePoint()), 700, 900);
 
             batch.end();
             loadMonsters();
