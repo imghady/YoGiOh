@@ -48,6 +48,56 @@ public class DuelMenu {
     public User firstRoundWinner;
     public User secondRoundWinner;
     public boolean canCardBeSetAfterTerratiger = true;
+    public ArrayList<Card> monsterEffect1 = new ArrayList<>();
+    public ArrayList<Card> monsterEffect2 = new ArrayList<>();
+    public ArrayList<Card> monsterEffect3 = new ArrayList<>();
+    public ArrayList<Card> monsterEffect4 = new ArrayList<>();
+    public ArrayList<Card> monsterEffect5 = new ArrayList<>();
+    public ArrayList<Card> monsterEffect6 = new ArrayList<>();
+    public ArrayList<Card> monsterEffect7 = new ArrayList<>();
+    public ArrayList<Card> monsterEffect8 = new ArrayList<>();
+    public ArrayList<Card> monsterEffect9 = new ArrayList<>();
+    public ArrayList<Card> monsterEffect10 = new ArrayList<>();
+    public ArrayList<Card> monsterEffect11 = new ArrayList<>();
+    public ArrayList<Card> monsterEffect12 = new ArrayList<>();
+    public ArrayList<Card> monsterEffect13 = new ArrayList<>();
+    public ArrayList<Card> monsterEffect14 = new ArrayList<>();
+    public ArrayList<Card> monsterEffect15 = new ArrayList<>();
+    public ArrayList<Card> monsterEffect16 = new ArrayList<>();
+    public ArrayList<Card> monsterEffect17 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect1 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect2 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect3 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect4 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect5 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect6 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect7 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect8 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect9 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect10 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect11 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect12 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect13 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect14 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect15 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect16 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect17 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect18 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect19 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect20 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect21 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect22 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect23 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect24 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect25 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect26 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect27 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect28 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect29 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect30 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect31 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect32 = new ArrayList<>();
+    public ArrayList<Card> spellTrapEffect33 = new ArrayList<>();
 
     public DuelMenu(String currentUser, String secondUser, int numberOfRounds, boolean isAi) {
         this.isAi = isAi;
@@ -110,6 +160,70 @@ public class DuelMenu {
             currentTurnPlayer = firstPlayer;
             opponentTurnPlayer = secondPlayer;
         }
+
+        configureEffects();
+    }
+
+    private void configureEffects() {
+        monsterEffect1.add(Card.getCardByName("Command Knight"));
+        monsterEffect2.add(Card.getCardByName("Yomi Ship"));
+        monsterEffect3.add(Card.getCardByName("Suijin"));
+        monsterEffect4.add(Card.getCardByName("Beast-Warrior"));
+        monsterEffect5.add(Card.getCardByName("Skull Guardian"));
+        monsterEffect6.add(Card.getCardByName("Man-Eater Bug"));
+        monsterEffect7.add(Card.getCardByName("Gate Guardian"));
+        monsterEffect8.add(Card.getCardByName("Scanner"));
+        monsterEffect9.add(Card.getCardByName("Marshmallon"));
+        monsterEffect10.add(Card.getCardByName("Beast King Barbaros"));
+        monsterEffect11.add(Card.getCardByName("Texchanger"));
+        monsterEffect12.add(Card.getCardByName("The Calculator"));
+        monsterEffect13.add(Card.getCardByName("Mirage Dragon"));
+        monsterEffect14.add(Card.getCardByName("Herald of Creation"));
+        monsterEffect15.add(Card.getCardByName("Exploder Dragon"));
+        monsterEffect16.add(Card.getCardByName("Terratiger, the Empowered Warrior"));
+        monsterEffect17.add(Card.getCardByName("The Tricky"));
+
+        spellTrapEffect1.add(Card.getCardByName("Monster Reborn"));
+        spellTrapEffect2.add(Card.getCardByName("Terraforming"));
+        spellTrapEffect3.add(Card.getCardByName("Pot of Greed"));
+        spellTrapEffect4.add(Card.getCardByName("Raigeki"));
+        spellTrapEffect5.add(Card.getCardByName("Change of Heart"));
+        spellTrapEffect6.add(Card.getCardByName("Harpie's Feather Duster"));
+        spellTrapEffect7.add(Card.getCardByName("Swords of Revealing Light"));
+        spellTrapEffect8.add(Card.getCardByName("Dark Hole"));
+        spellTrapEffect9.add(Card.getCardByName("Supply Squad"));
+        spellTrapEffect10.add(Card.getCardByName("Spell Absorption"));
+        spellTrapEffect11.add(Card.getCardByName("Messenger of peace"));
+        spellTrapEffect12.add(Card.getCardByName("Twin Twisters"));
+        spellTrapEffect13.add(Card.getCardByName("Mystical space typhoon"));
+        spellTrapEffect14.add(Card.getCardByName("Ring of Defense"));
+        spellTrapEffect15.add(Card.getCardByName("Yami"));
+        spellTrapEffect16.add(Card.getCardByName("Forest"));
+        spellTrapEffect17.add(Card.getCardByName("Closed Forest"));
+        spellTrapEffect18.add(Card.getCardByName("UMIIRUKA"));
+        spellTrapEffect19.add(Card.getCardByName("Sword of Dark Destruction"));
+        spellTrapEffect20.add(Card.getCardByName("Black Pendant"));
+        spellTrapEffect21.add(Card.getCardByName("United We Stand"));
+        spellTrapEffect22.add(Card.getCardByName("Magnum Shield"));
+        spellTrapEffect23.add(Card.getCardByName("Advanced Ritual Art"));
+        spellTrapEffect24.add(Card.getCardByName("Magic Cylinder"));
+        spellTrapEffect25.add(Card.getCardByName("Mirror Force"));
+        spellTrapEffect26.add(Card.getCardByName("Mind Crush"));
+        spellTrapEffect27.add(Card.getCardByName("Trap Hole"));
+        spellTrapEffect28.add(Card.getCardByName("Torrential Tribute"));
+        spellTrapEffect29.add(Card.getCardByName("Time Seal"));
+        spellTrapEffect30.add(Card.getCardByName("Negate Attack"));
+        spellTrapEffect31.add(Card.getCardByName("Solemn Warning"));
+        spellTrapEffect32.add(Card.getCardByName("Magic Jammer"));
+        spellTrapEffect33.add(Card.getCardByName("Call of the Haunted"));
+    }
+
+    public boolean isCardInArray(Card card, ArrayList<Card> arrayList) {
+        for (Card card1 : arrayList) {
+            if (card1.getName().equals(card.getName()))
+                return true;
+        }
+        return false;
     }
 
     public boolean isDuelIsOn() {
@@ -2210,7 +2324,7 @@ public class DuelMenu {
         }
     }
 
-    private Matcher getMatcher(String input, String regex) {
+    public Matcher getMatcher(String input, String regex) {
         Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(input);
     }
