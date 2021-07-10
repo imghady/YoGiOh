@@ -1662,9 +1662,9 @@ public class DuelMenu {
         if (opponentMat.getMonsterZone(number) == null) {
             return "there is no card to attack here";
         }
-        if (!isAi) {
-            checkForQuickChangeTurn();
-        }
+       // if (!isAi) {
+       //     checkForQuickChangeTurn();
+       // }
         if (!permissionForAttack) {
             return "No permission";
         }

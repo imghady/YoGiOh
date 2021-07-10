@@ -381,7 +381,6 @@ public class Duel implements Screen, Input.TextInputListener {
             batch.begin();
             batch.draw(wallpaper, 0, 0, 1600, 960);
             if (coinShouldPlay) {
-                System.out.println("kir");
                 batch.draw(coin.getKeyFrame(elapsed), 400, 300, 800, 400);
                 if (System.currentTimeMillis() - coinTime < 5000) {
                     coinShouldPlay = false;
@@ -426,6 +425,7 @@ public class Duel implements Screen, Input.TextInputListener {
                 game.setScreen(new GameOver(game,isMute,currentLoggedInUser,data));
             }else {
                 message = data;
+                showingPlayer = duelMenu.firstPlayer;
             }
         }
     }
