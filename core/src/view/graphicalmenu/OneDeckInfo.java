@@ -25,6 +25,7 @@ public class OneDeckInfo implements Screen, Input.TextInputListener {
     BitmapFont text1;
     BitmapFont text2;
     BitmapFont text3;
+    BitmapFont text4;
     Texture mute;
     Texture unmute;
     boolean isMute;
@@ -35,6 +36,7 @@ public class OneDeckInfo implements Screen, Input.TextInputListener {
     String mainDeckCard = "";
     String sideDeckCard = "";
     String mainDeckCard2 = "";
+    String mainDeckCard3 = "";
     String sideDeckCard2 = "";
 
     public OneDeckInfo(Mola game, boolean isMute, User currentLoggedInUser, Deck deck) {
@@ -48,6 +50,7 @@ public class OneDeckInfo implements Screen, Input.TextInputListener {
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text3 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        text4 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         mute = new Texture("buttons/mute.png");
@@ -79,8 +82,10 @@ public class OneDeckInfo implements Screen, Input.TextInputListener {
         text.getData().setScale(0.3f);
         text2.getData().setScale(0.17f);
         text3.getData().setScale(0.17f);
+        text4.getData().setScale(0.12f);
         text2.setColor(Color.GREEN);
         text3.setColor(Color.YELLOW);
+        text4.setColor(Color.CHARTREUSE);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         text.draw(batch, "Deck Info", 150, 900);
         deckInfo = "Name: " + deck.getName() + "\n";
@@ -95,9 +100,10 @@ public class OneDeckInfo implements Screen, Input.TextInputListener {
         }
         ArrayList<Card> mainCards = deck.getMainDeck().getMainDeckCards();
         ArrayList<Card> sideCards = deck.getSideDeck().getSideDeckCards();
-        mainDeckCard = "MainDeck:\n";
-        sideDeckCard = "SideDeck:\n";
+        mainDeckCard = "MainDeck:\n\n";
+        sideDeckCard = "SideDeck:\n\n";
         mainDeckCard2 = "";
+        mainDeckCard3 = "";
         sideDeckCard2 = "";
         for (int i = 0; i < 20; i++) {
             if (mainCards.size() == i) {
@@ -105,9 +111,17 @@ public class OneDeckInfo implements Screen, Input.TextInputListener {
             }
             mainDeckCard += mainCards.get(i).getName() + "\n";
         }
-        for (int i = 20; i < mainCards.size(); i++) {
+        for (int i = 20; i < 40; i++) {
+            if (mainCards.size() <= i) {
+                break;
+            }
             mainDeckCard2 += mainCards.get(i).getName() + "\n";
         }
+        for (int i = 40; i < mainCards.size(); i++) {
+
+            mainDeckCard3 += mainCards.get(i).getName() + "\n";
+        }
+
         for (int i = 0; i < 20; i++) {
             if (sideCards.size() == i) {
                 break;
@@ -117,11 +131,12 @@ public class OneDeckInfo implements Screen, Input.TextInputListener {
         for (int i = 20; i < sideCards.size(); i++) {
             sideDeckCard2 += sideCards.get(i).getName() + "\n";
         }
-        text3.draw(batch, deckInfo, 150, 820);
-        text1.draw(batch, mainDeckCard, 550, 900);
-        text1.draw(batch, mainDeckCard2, 810, 900);
-        text1.draw(batch, sideDeckCard, 1070, 900);
-        text1.draw(batch, sideDeckCard2, 1330, 900);
+        text3.draw(batch, deckInfo, 170, 750);
+        text4.draw(batch, mainDeckCard, 450, 900);
+        text4.draw(batch, mainDeckCard2, 750, 815);
+        text4.draw(batch, mainDeckCard3, 1050, 815);
+        text4.draw(batch, sideDeckCard, 1350, 910);
+
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.end();
         if (Gdx.input.justTouched()) {
@@ -133,7 +148,7 @@ public class OneDeckInfo implements Screen, Input.TextInputListener {
 
             if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
                 if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
-                    game.setScreen(new Decks(game, isMute, currentLoggedInUser));
+                    game.setScreen(new DeckInfo(game, isMute, currentLoggedInUser));
                     dispose();
                 }
             }

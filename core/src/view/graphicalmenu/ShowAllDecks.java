@@ -26,6 +26,7 @@ public class ShowAllDecks implements Screen {
     Texture unmute;
     boolean isMute;
     Texture backButton;
+    Texture deckInfo;
     User currentLoggedInUser;
     String activeDecks = "";
     String deActiveDecks = "";
@@ -45,6 +46,7 @@ public class ShowAllDecks implements Screen {
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
+        deckInfo = new Texture("buttons/deckInfo.png");
     }
 
     @Override
@@ -81,6 +83,7 @@ public class ShowAllDecks implements Screen {
         text2.draw(batch, activeDecks, 300, 780);
         text3.draw(batch, deActiveDecks, 300, 730);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
+        batch.draw(deckInfo, 1200, 100, deckInfo.getWidth(), deckInfo.getHeight());
         batch.end();
 
         if (Gdx.input.justTouched()) {
@@ -93,6 +96,13 @@ public class ShowAllDecks implements Screen {
             if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
                 if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
                     game.setScreen(new Decks(game, isMute, currentLoggedInUser));
+                    dispose();
+                }
+            }
+
+            if (Gdx.input.getY() > 860 - deckInfo.getHeight() && Gdx.input.getY() < 860) {
+                if (Gdx.input.getX() > 1200 && Gdx.input.getX() < 1200 + deckInfo.getWidth()) {
+                    game.setScreen(new DeckInfo(game, isMute, currentLoggedInUser));
                     dispose();
                 }
             }

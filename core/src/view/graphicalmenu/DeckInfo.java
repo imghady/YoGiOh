@@ -100,7 +100,7 @@ public class DeckInfo implements Screen, Input.TextInputListener {
 
             if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
                 if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
-                    game.setScreen(new Decks(game, isMute, currentLoggedInUser));
+                    game.setScreen(new ShowAllDecks(game, isMute, currentLoggedInUser));
                     dispose();
                 }
             }
