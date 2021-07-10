@@ -89,19 +89,19 @@ public class Mat {
         return this.handCard[number];
     }
 
-    public void deleteHandCard(int number){
-        handCard[number-1] = null;
+    public void deleteHandCard(int number) {
+        handCard[number - 1] = null;
         for (int i = number; i < 6; i++) {
-            handCard[number-1] = handCard[number];
+            handCard[number - 1] = handCard[number];
             handCard[number] = null;
         }
     }
 
-    public void deleteMonsterZone(int address){
+    public void deleteMonsterZone(int address) {
         monsterZone[address] = null;
     }
 
-    public void deleteSpellZone(int address){
+    public void deleteSpellZone(int address) {
         spellAndTrapZone[address] = null;
     }
 
@@ -192,11 +192,11 @@ public class Mat {
         return true;
     }
 
-    public String printMat(Deck deck, boolean isReversed,int mainDeckSize) {
+    public String printMat(Deck deck, boolean isReversed, int mainDeckSize) {
         MainDeck mainDeck = deck.getMainDeck();
         String ret = "";
         if (isReversed) {
-            ret+="\t";
+            ret += "\t";
             for (int i = 0; i < 6; i++)
                 if (handCard[i] != null)
                     ret += "c\t";
@@ -208,7 +208,7 @@ public class Mat {
             ret += ((fieldZone == null) ? "E" : "O") + "                  " + graveyard.size();
             ret += "\n" + printMonsterZone();
             ret += "\n" + printSpellZone();
-            ret += "\n                   " + mainDeckSize  + "\n";
+            ret += "\n                   " + mainDeckSize + "\n";
             for (int i = 0; i < 6; i++)
                 if (handCard[i] != null)
                     ret += "c\t";
