@@ -6,9 +6,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.game.Mola;
+import controller.GifDecoder;
 import model.Finisher;
 import model.card.Card;
 import model.user.Deck;
@@ -32,7 +35,10 @@ public class GameOver implements Screen, Input.TextInputListener {
     boolean isMute;
     Texture backButton;
     User currentLoggedInUser;
+    Animation<TextureRegion> gameOver;
+    long gameOverTime;
     String message = "";
+    float elapsed;
 
     public GameOver(Mola game, boolean isMute, User currentLoggedInUser, String Message) {
         message = Message;
@@ -51,6 +57,8 @@ public class GameOver implements Screen, Input.TextInputListener {
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
+        gameOver = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gameOver.gif").read());
+        gameOverTime = System.currentTimeMillis();
     }
 
     @Override
@@ -70,6 +78,7 @@ public class GameOver implements Screen, Input.TextInputListener {
 
     @Override
     public void render(float delta) {
+        elapsed += Gdx.graphics.getDeltaTime();
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
@@ -81,6 +90,8 @@ public class GameOver implements Screen, Input.TextInputListener {
         text2.setColor(Color.GREEN);
         text3.setColor(Color.YELLOW);
         text4.setColor(Color.CHARTREUSE);
+        if (System.currentTimeMillis() - gameOverTime < gameOver.getAnimationDuration())
+            batch.draw(gameOver.getKeyFrame(elapsed), 500, 600);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         text.draw(batch, "Game has ended", 150, 900);
         text3.draw(batch, message, 170, 750);
