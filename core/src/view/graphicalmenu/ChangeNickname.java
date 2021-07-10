@@ -14,7 +14,7 @@ import model.user.User;
 
 import java.io.IOException;
 
-public class changeNickname implements Screen, Input.TextInputListener {
+public class ChangeNickname implements Screen, Input.TextInputListener {
 
     SpriteBatch batch;
     final Mola game;
@@ -34,7 +34,7 @@ public class changeNickname implements Screen, Input.TextInputListener {
     String nickname = "";
     int message = 0;
 
-    public changeNickname(Mola game, boolean isMute, User currentLoggedInUser) {
+    public ChangeNickname(Mola game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
         this.isMute = isMute;
         this.game = game;

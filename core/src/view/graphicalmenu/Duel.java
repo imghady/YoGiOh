@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.game.Mola;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 import controller.DuelMenu;
 import controller.GifDecoder;
 import model.battle.Player;
@@ -23,6 +24,7 @@ import model.mat.Mat;
 import model.user.User;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 
 public class Duel implements Screen, Input.TextInputListener {
     SpriteBatch batch;
@@ -377,12 +379,31 @@ public class Duel implements Screen, Input.TextInputListener {
 
 
             }
+            if (!cheatInput.isEmpty()) {
+                if (cheatInput.matches("increase (--money|-m) ([\\d]+)")) {
+                    Matcher matcher = duelMenu.getMatcher(cheatInput, "increase (--money|-m) ([\\d]+)");
+                    matcher.find();
+                    duelMenu.increaseMoney(Integer.parseInt(matcher.group(1)));
+                }
+                else if (cheatInput.matches("increase (--LP|-l) ([\\d]+)")) {
+                    Matcher matcher = duelMenu.getMatcher(cheatInput, "increase (--LP|-l) ([\\d]+)");
+                    matcher.find();
+                    duelMenu.increaseLifePoint(Integer.parseInt(matcher.group(1)));
+                }
+                else if (cheatInput.matches("duel set-winner ([\\w+])")) {
+                    Matcher matcher = duelMenu.getMatcher(cheatInput, "duel set-winner ([\\w+])");
+                    matcher.find();
+                    duelMenu.setWinner(matcher.group(1));
+                }
+                else
+                    cheatInput = "";
+            }
         } else {
             batch.begin();
             batch.draw(wallpaper, 0, 0, 1600, 960);
             if (coinShouldPlay) {
-                batch.draw(coin.getKeyFrame(elapsed), 400, 300, 800, 400);
-                if (System.currentTimeMillis() - coinTime < 5000) {
+                batch.draw(coin.getKeyFrame(elapsed), 500, 300 , 550, 400);
+                if (System.currentTimeMillis() - coinTime > 2000) {
                     coinShouldPlay = false;
                 }
             } else {
