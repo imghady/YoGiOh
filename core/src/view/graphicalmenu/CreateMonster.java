@@ -99,7 +99,7 @@ public class CreateMonster implements Screen, Input.TextInputListener {
         cardDetail += "Description : " + description + "\n";
         cardDetail += "Price : " + price + "\nEffect like : ";
         for (Monster monster : monstersForEffect) {
-
+            cardDetail += monster.getName() + "\n";
         }
 
         if (Gdx.input.justTouched()) {
@@ -145,6 +145,15 @@ public class CreateMonster implements Screen, Input.TextInputListener {
                 }
             }
 
+            if (Gdx.input.getY() > 810 - add.getHeight() && Gdx.input.getY() < 810) {
+                if (Gdx.input.getX() > 1250 && Gdx.input.getX() < 1250 + add.getWidth()) {
+                    message = 0;
+                    isHolderMonsterForEffectName = true;
+                    Gdx.input.getTextInput(this, "Monster Name", "", "");
+                }
+            }
+
+            
 
         }
 
