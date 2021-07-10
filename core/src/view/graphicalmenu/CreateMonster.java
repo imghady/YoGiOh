@@ -3,6 +3,7 @@ package view.graphicalmenu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -21,6 +22,8 @@ public class CreateMonster implements Screen, Input.TextInputListener {
     Texture wallpaper;
     Texture buttons;
     BitmapFont text;
+    BitmapFont error1;
+    BitmapFont error2;
     BitmapFont text1;
     Texture mute;
     Texture unmute;
@@ -46,7 +49,9 @@ public class CreateMonster implements Screen, Input.TextInputListener {
     String cardDetail = "";
     String monsterForEffectName = "";
     int price = 0;
-    int message = 0;
+    int message1 = 0;
+    int message2 = 0;
+
     ArrayList<Monster> monstersForEffect = new ArrayList<>();
 
     public CreateMonster(Mola game, boolean isMute, User currentLoggedInUser) {
@@ -57,6 +62,8 @@ public class CreateMonster implements Screen, Input.TextInputListener {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 960);
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        error1 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        error2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         mute = new Texture("buttons/mute.png");
@@ -65,7 +72,6 @@ public class CreateMonster implements Screen, Input.TextInputListener {
         buttons = new Texture("buttons/monsterFields.png");
         effectMonster = new Texture("buttons/monsterEffect.png");
         add = new Texture("buttons/agree.png");
-
     }
 
     @Override
@@ -80,6 +86,8 @@ public class CreateMonster implements Screen, Input.TextInputListener {
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600, 960);
         text.getData().setScale(0.2f);
+        error1.getData().setScale(0.2f);
+        error2.getData().setScale(0.2f);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         text.draw(batch, "Create Monster Card", 150, 850);
         text.draw(batch, cardDetail, 700, 870);
@@ -87,6 +95,13 @@ public class CreateMonster implements Screen, Input.TextInputListener {
         batch.draw(buttons, 150, 100, buttons.getWidth(), buttons.getHeight());
         batch.draw(effectMonster, 1200, 300, effectMonster.getWidth(), effectMonster.getHeight());
         batch.draw(add, 1250, 150, add.getWidth(), add.getHeight());
+        if (message1 == 1) {
+            error1.setColor(Color.RED);
+            error1.draw(batch, "invalid monster name", 1200, 100);
+        } else if (message1 == 2) {
+            error1.setColor(Color.GREEN);
+            error1.draw(batch, "add successfully", 1200, 100);
+        }
         batch.end();
 
         cardDetail = "";
@@ -119,27 +134,27 @@ public class CreateMonster implements Screen, Input.TextInputListener {
 
             if (Gdx.input.getX() > 150 && Gdx.input.getX() < 150 + buttons.getWidth()) {
                 if (Gdx.input.getY() > 860 - buttons.getHeight() / 6 && Gdx.input.getY() < 860) {
-                    message = 0;
+                    message2 = 0;
                     isHolderDescription = true;
                     Gdx.input.getTextInput(this, "Description", "", "");
                 } else if (Gdx.input.getY() > 860 - 2 * buttons.getHeight() / 6 && Gdx.input.getY() < 860 - buttons.getHeight() / 6) {
-                    message = 0;
+                    message2 = 0;
                     isHolderDefence = true;
                     Gdx.input.getTextInput(this, "Defence", "", "");
                 } else if (Gdx.input.getY() > 860 - 3 * buttons.getHeight() / 6 && Gdx.input.getY() < 860 - 2 * buttons.getHeight() / 6) {
-                    message = 0;
+                    message2 = 0;
                     isHolderAttack = true;
                     Gdx.input.getTextInput(this, "Attack", "", "");
                 } else if (Gdx.input.getY() > 860 - 4 * buttons.getHeight() / 6 && Gdx.input.getY() < 860 - 3 * buttons.getHeight() / 6) {
-                    message = 0;
+                    message2 = 0;
                     isHolderType = true;
                     Gdx.input.getTextInput(this, "Type", "", "");
                 } else if (Gdx.input.getY() > 860 - 5 * buttons.getHeight() / 6 && Gdx.input.getY() < 860 - 4 * buttons.getHeight() / 6) {
-                    message = 0;
+                    message2 = 0;
                     isHolderLevel = true;
                     Gdx.input.getTextInput(this, "Level", "", "");
                 } else if (Gdx.input.getY() > 860 - buttons.getHeight() && Gdx.input.getY() < 860 - 5 * buttons.getHeight() / 6) {
-                    message = 0;
+                    message2 = 0;
                     isHolderName = true;
                     Gdx.input.getTextInput(this, "Name", "", "");
                 }
@@ -147,13 +162,24 @@ public class CreateMonster implements Screen, Input.TextInputListener {
 
             if (Gdx.input.getY() > 810 - add.getHeight() && Gdx.input.getY() < 810) {
                 if (Gdx.input.getX() > 1250 && Gdx.input.getX() < 1250 + add.getWidth()) {
-                    message = 0;
+                    if (Monster.getMonsterByName(monsterForEffectName) == null) {
+                        message1 = 1;
+                    } else {
+                        message1 = 2;
+                        monstersForEffect.add(Monster.getMonsterByName(monsterForEffectName));
+                    }
+                }
+            }
+
+            if (Gdx.input.getY() > 660 - effectMonster.getHeight() && Gdx.input.getY() < 660) {
+                if (Gdx.input.getX() > 1200 && Gdx.input.getX() < 1200 + effectMonster.getWidth()) {
+                    message1 = 0;
                     isHolderMonsterForEffectName = true;
                     Gdx.input.getTextInput(this, "Monster Name", "", "");
                 }
             }
 
-            
+
 
         }
 
