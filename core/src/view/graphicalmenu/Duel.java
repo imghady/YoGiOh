@@ -138,7 +138,7 @@ public class Duel implements Screen, Input.TextInputListener {
         attack = Gdx.audio.newSound(Gdx.files.internal("sound/attack.wav"));
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
-        text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
+        text1 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         coin1 = new Texture("coin1.png");
         coin2 = new Texture("coin2.png");
@@ -206,11 +206,11 @@ public class Duel implements Screen, Input.TextInputListener {
             if (field == 3)
                 batch.draw(background4.getKeyFrame(elapsed), 0, -200, 1600, 1160);
             text.getData().setScale(0.15f);
-            text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
             if (duelMenu.currentTurnPlayer.currentSelectedCard != null) {
                 text1.draw(batch, "Selected card: " + duelMenu.currentTurnPlayer.currentSelectedCard.getName(), 600, 700);
             }
             text2.getData().setScale(0.2f);
+            text1.getData().setScale(0.2f);
             text2.setColor(Color.YELLOW);
             text2.draw(batch, "Showing player username: " + showingPlayer.getUser().getUsername(), 110, 930);
             text2.draw(batch, "nickname: " + showingPlayer.getUser().getNickname(), 100, 880);

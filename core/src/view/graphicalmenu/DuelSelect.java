@@ -98,10 +98,12 @@ public class DuelSelect implements Screen, Input.TextInputListener {
             }
 
             if (x > 100 && x < 100 + duelButtons.getWidth() && y < 810 && y > 810 - height / 4) {
+                secondUser = "AI";
                 if (noErrors())
                     game.setScreen(new Duel(game, isMute, currentLoggedInUser, true, "AI", 3));
             }
             if (x > 100 && x < 100 + duelButtons.getWidth() && y < 810 - height / 4 && y > 810 - 2 * height / 4) {
+                secondUser = "AI";
                 if (noErrors())
                     game.setScreen(new Duel(game, isMute, currentLoggedInUser, true, "AI",1));
             }
@@ -145,6 +147,7 @@ public class DuelSelect implements Screen, Input.TextInputListener {
             return false;
         }
         User secondUserFromUserClass = User.getUserByUsername(secondUser);
+        //System.out.println("! " + secondUser);
         if (!isPlayerHadActiveDeck(secondUserFromUserClass)) {
             message = "Second user has no active deck!";
             return false;
