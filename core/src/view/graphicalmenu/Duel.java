@@ -30,6 +30,7 @@ public class Duel implements Screen, Input.TextInputListener {
     BitmapFont text2;
     Texture mute;
     Texture unmute;
+    Texture pause;
     Texture agree;
     boolean isMute;
     boolean isAi;
@@ -41,6 +42,8 @@ public class Duel implements Screen, Input.TextInputListener {
     Texture mat;
     Texture card;
     Texture leftButtonBar;
+    Texture heart;
+    Texture healthBar;
     DuelMenu duelMenu;
     float width = 110;
     float height = 160;
@@ -77,7 +80,7 @@ public class Duel implements Screen, Input.TextInputListener {
     long gif3Time;
     Player showingPlayer;
     String message = "";
-    String phaseMessage;
+    String phaseMessage = "";
     String charPic1;
     String charPic2;
     String currentButtonClicked = "";
@@ -104,7 +107,10 @@ public class Duel implements Screen, Input.TextInputListener {
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
         agree = new Texture("buttons/agree.png");
+        heart = new Texture("heart.png");
+        //healthBar = new Texture("healthBar.png");
         changeMat = new Texture("buttons/changeMat.png");
+        //pause = new Texture("buttons/pause.png");
         leftButtonBar = new Texture("buttons/leftButtonBar.png");
         card = new Texture("Cards/Monsters/BabyDragon.jpg");
         changePhase = new Texture("buttons/changePhase.png");
@@ -142,12 +148,11 @@ public class Duel implements Screen, Input.TextInputListener {
         batch.begin();
 
         batch.draw(background.getKeyFrame(elapsed), 0, -200, 1600, 1160);
-        text.getData().setScale(0.3f);
+        text.getData().setScale(0.15f);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         if (duelMenu.currentTurnPlayer.currentSelectedCard != null) {
             text1.draw(batch, "Selected card: " +  duelMenu.currentTurnPlayer.currentSelectedCard.getName(), 600, 700);
         }
-        text.draw(batch, "Duel", 150, 900);
         text2.getData().setScale(0.2f);
         text2.setColor(Color.YELLOW);
         text2.draw(batch, "Showing player username: " + showingPlayer.getUser().getUsername(), 400, 920);
@@ -164,6 +169,8 @@ public class Duel implements Screen, Input.TextInputListener {
         batch.draw(agree, 80, 100, 200, 100);
         batch.draw(mat, 300, 250);
         batch.draw(changePhase, 1320, 650, 250, 100);
+        batch.draw(heart, 100, 850, 100, 100);
+        text.draw(batch, phaseMessage, 700, 650);
         batch.end();
         loadMonsters();
         loadSpells();
@@ -270,6 +277,7 @@ public class Duel implements Screen, Input.TextInputListener {
 
     private void changePhase() {
         phaseMessage = duelMenu.phase2NextPhase();
+        System.out.println(phaseMessage);
     }
 
     private void agree() {
