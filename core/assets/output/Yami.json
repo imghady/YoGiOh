@@ -1,0 +1,1 @@
+{"name":"Yami","cardType":"Spell","description":"All Fiend and Spellcaster monsters on the field gain 200 ATK/DEF, also all Fairy monsters on the field lose 200 ATK/DEF.","price":4300,"isField":false,"isAttack":false,"isOn":false,"attack":0,"defence":0,"isFirstEffectUse":true,"isFirstTimeFlipping":false,"level":0,"icon":"Field","status":"Unlimited"}

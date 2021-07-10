@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
 import model.card.Monster;
+import model.card.Spell;
 import model.user.User;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -148,6 +149,7 @@ public class ImportWithJSON implements Screen, Input.TextInputListener {
                                     cardDetail += "DEF : " + card.get("defence") + "\n";
                                     cardDetail += "Description : " + card.get("description") + "\n";
                                     cardDetail += "Price : " + card.get("price");
+                                    
 
                                 } else {
                                     message = 2;
@@ -166,6 +168,8 @@ public class ImportWithJSON implements Screen, Input.TextInputListener {
                                             cardDetail += "Status : " + card.get("status") + "\n";
                                             cardDetail += "Description : " + card.get("description") + "\n";
                                             cardDetail += "Price : " + card.get("price");
+
+
 
                                         } else {
                                             message = 2;
