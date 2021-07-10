@@ -8,7 +8,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
+import model.card.Monster;
 import model.user.User;
+
+import java.util.ArrayList;
 
 public class CreateMonster implements Screen, Input.TextInputListener {
 
@@ -23,6 +26,8 @@ public class CreateMonster implements Screen, Input.TextInputListener {
     Texture unmute;
     boolean isMute = false;
     Texture backButton;
+    Texture effectMonster;
+    Texture add;
     User currentLoggedInUser;
     boolean isHolderName = false;
     boolean isHolderLevel = false;
@@ -30,6 +35,7 @@ public class CreateMonster implements Screen, Input.TextInputListener {
     boolean isHolderAttack = false;
     boolean isHolderDefence = false;
     boolean isHolderDescription = false;
+    boolean isHolderMonsterForEffectName = false;
     String holder = "";
     String name = "";
     String level = "";
@@ -38,9 +44,10 @@ public class CreateMonster implements Screen, Input.TextInputListener {
     String defence = "";
     String description = "";
     String cardDetail = "";
+    String monsterForEffectName = "";
     int price = 0;
     int message = 0;
-
+    ArrayList<Monster> monstersForEffect = new ArrayList<>();
 
     public CreateMonster(Mola game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
@@ -56,6 +63,9 @@ public class CreateMonster implements Screen, Input.TextInputListener {
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
         buttons = new Texture("buttons/monsterFields.png");
+        effectMonster = new Texture("buttons/monsterEffect.png");
+        add = new Texture("buttons/agree.png");
+
     }
 
     @Override
@@ -72,9 +82,11 @@ public class CreateMonster implements Screen, Input.TextInputListener {
         text.getData().setScale(0.2f);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         text.draw(batch, "Create Monster Card", 150, 850);
-        text.draw(batch, cardDetail, 700, 750);
+        text.draw(batch, cardDetail, 700, 870);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(buttons, 150, 100, buttons.getWidth(), buttons.getHeight());
+        batch.draw(effectMonster, 1200, 300, effectMonster.getWidth(), effectMonster.getHeight());
+        batch.draw(add, 1250, 150, add.getWidth(), add.getHeight());
         batch.end();
 
         cardDetail = "";
@@ -85,7 +97,10 @@ public class CreateMonster implements Screen, Input.TextInputListener {
         cardDetail += "ATK : " + attack + "\n";
         cardDetail += "DEF : " + defence + "\n";
         cardDetail += "Description : " + description + "\n";
-        cardDetail += "Price : " + price;
+        cardDetail += "Price : " + price + "\nEffect like : ";
+        for (Monster monster : monstersForEffect) {
+
+        }
 
         if (Gdx.input.justTouched()) {
 
@@ -194,6 +209,9 @@ public class CreateMonster implements Screen, Input.TextInputListener {
         } else if (isHolderDescription) {
             description = holder;
             isHolderDescription = false;
+        } else if (isHolderMonsterForEffectName) {
+            monsterForEffectName = holder;
+            isHolderMonsterForEffectName = false;
         }
     }
 

@@ -9,10 +9,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
+import model.card.Monster;
 import model.user.User;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import java.util.ArrayList;
 
 public class ImportWithJSON implements Screen, Input.TextInputListener {
 
@@ -34,8 +37,9 @@ public class ImportWithJSON implements Screen, Input.TextInputListener {
     User currentLoggedInUser;
     String toJSON = "";
     int message = 0;
-    boolean isShowCardDetail = false;
     String cardDetail = "";
+
+
 
     public ImportWithJSON(Mola game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
@@ -151,7 +155,7 @@ public class ImportWithJSON implements Screen, Input.TextInputListener {
 
                                             cardDetail += card.get("name") + "\n";
                                             cardDetail += "Spell" + "\n";
-                                            cardDetail += "Type : " + card.get("type") + "\n";
+                                            cardDetail += "Status : " + card.get("status") + "\n";
                                             cardDetail += "Description : " + card.get("description") + "\n";
                                             cardDetail += "Price : " + card.get("price");
 
@@ -166,7 +170,7 @@ public class ImportWithJSON implements Screen, Input.TextInputListener {
 
                                             cardDetail += card.get("name") + "\n";
                                             cardDetail += "Trap" + "\n";
-                                            cardDetail += "Type : " + card.get("type") + "\n";
+                                            cardDetail += "Status : " + card.get("status") + "\n";
                                             cardDetail += "Description : " + card.get("description") + "\n";
                                             cardDetail += "Price : " + card.get("price");
                                         } else {

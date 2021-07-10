@@ -24,6 +24,20 @@ public class CreateSpellTrap implements Screen {
     Texture backButton;
     User currentLoggedInUser;
     boolean isTrap;
+    boolean isHolderName = false;
+    boolean isHolderIcon = false;
+    boolean isHolderDescription = false;
+    boolean isHolderStatus = false;
+
+    String holder = "";
+    String name = "";
+    String icon = "";
+    String status = "";
+    String description = "";
+    String cardDetail = "";
+
+    int price = 0;
+    int message = 0;
 
     public CreateSpellTrap(Mola game, boolean isMute, User currentLoggedInUser, boolean isTrap) {
         this.isTrap = isTrap;
@@ -39,7 +53,7 @@ public class CreateSpellTrap implements Screen {
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
-        buttons = new Texture("buttons/importButtons.png");
+        buttons = new Texture("buttons/spellTrapFields.png");
     }
 
     @Override
@@ -61,7 +75,7 @@ public class CreateSpellTrap implements Screen {
             text.draw(batch, "Create Spell Card", 150, 850);
         }
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
-        batch.draw(buttons, 150, 200, buttons.getWidth(), buttons.getHeight());
+        batch.draw(buttons, 150, 150, buttons.getWidth(), buttons.getHeight());
         batch.end();
 
         if (Gdx.input.justTouched()) {
@@ -77,6 +91,8 @@ public class CreateSpellTrap implements Screen {
                     dispose();
                 }
             }
+
+
 
 
 
