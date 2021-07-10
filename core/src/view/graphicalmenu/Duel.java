@@ -16,6 +16,9 @@ import controller.DuelMenu;
 import controller.GifDecoder;
 import model.battle.Player;
 import model.card.Card;
+import model.card.Monster;
+import model.card.Spell;
+import model.card.Trap;
 import model.mat.Mat;
 import model.user.User;
 
@@ -44,6 +47,7 @@ public class Duel implements Screen, Input.TextInputListener {
     Texture mat;
     Texture card;
     Texture leftButtonBar;
+    Texture rightButtonBar;
     Texture heart;
     Texture healthBar;
     Sound summon;
@@ -57,8 +61,8 @@ public class Duel implements Screen, Input.TextInputListener {
     float height = 160;
     float xGrave = 1130;
     float yGrave = 960 - 200 - width;
-    float xDeck = 300;
-    float yDeck = 960 - 200 - width;
+    float xField = 300;
+    float yField = 960 - 200 - width;
     float xM1 = 400;
     float xM2 = 570;
     float xM3 = 750;
@@ -83,10 +87,12 @@ public class Duel implements Screen, Input.TextInputListener {
     boolean gif1ShouldPlay = false;
     boolean gif2ShouldPlay = false;
     boolean gif3ShouldPlay = false;
+    boolean gif4ShouldPlay = false;
     boolean isPaused = false;
     long gif1Time;
     long gif2Time;
     long gif3Time;
+    long gif4Time;
     Player showingPlayer;
     String message = "";
     String phaseMessage = "";
@@ -96,8 +102,12 @@ public class Duel implements Screen, Input.TextInputListener {
     Animation<TextureRegion> gif1;
     Animation<TextureRegion> gif2;
     Animation<TextureRegion> gif3;
+    Animation<TextureRegion> gif4;
     Animation<TextureRegion> gameOver;
-    Animation<TextureRegion> background;
+    Animation<TextureRegion> background1;
+    Animation<TextureRegion> background2;
+    Animation<TextureRegion> background3;
+    Animation<TextureRegion> background4;
     Texture pic1;
     Texture pic2;
 
@@ -111,7 +121,7 @@ public class Duel implements Screen, Input.TextInputListener {
         summon = Gdx.audio.newSound(Gdx.files.internal("sound/summon.wav"));
         set = Gdx.audio.newSound(Gdx.files.internal("sound/set.mp3"));
         gameOverSound = Gdx.audio.newSound(Gdx.files.internal("sound/gameOver.mp3"));
-        direct = Gdx.audio.newSound(Gdx.files.internal("sound/direct.mp3"));
+        direct = Gdx.audio.newSound(Gdx.files.internal("sound/direct.wav"));
         changePhaseSound = Gdx.audio.newSound(Gdx.files.internal("sound/changePhase.wav"));
         attack = Gdx.audio.newSound(Gdx.files.internal("sound/attack.wav"));
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
@@ -128,13 +138,18 @@ public class Duel implements Screen, Input.TextInputListener {
         pause = new Texture("buttons/pause.png");
         play = new Texture("buttons/play.png");
         leftButtonBar = new Texture("buttons/leftButtonBar.png");
+        rightButtonBar = new Texture("buttons/rightButtonBar.png");
         card = new Texture("Cards/Monsters/BabyDragon.jpg");
         changePhase = new Texture("buttons/changePhase.png");
         gif1 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif1.gif").read());
         gif2 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif2.gif").read());
         gif3 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif3.gif").read());
+        gif4 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif4.gif").read());
         gameOver = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gameOver.gif").read());
-        background = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/background.gif").read());
+        background1 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/background.gif").read());
+        background2 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif5.gif").read());
+        background3 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif6.gif").read());
+        background4 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif7.gif").read());
         this.isAi = isAi;
         this.rounds = rounds;
         mat = new Texture("mat.png");
@@ -164,7 +179,15 @@ public class Duel implements Screen, Input.TextInputListener {
 
         batch.begin();
 
-        batch.draw(background.getKeyFrame(elapsed), 0, -200, 1600, 1160);
+        int field = fieldCardType();
+        if (field == 0)
+            batch.draw(background1.getKeyFrame(elapsed), 0, -200, 1600, 1160);
+        if (field == 1)
+            batch.draw(background2.getKeyFrame(elapsed), 0, -200, 1600, 1160);
+        if (field == 2)
+            batch.draw(background3.getKeyFrame(elapsed), 0, -200, 1600, 1160);
+        if (field == 3)
+            batch.draw(background4.getKeyFrame(elapsed), 0, -200, 1600, 1160);
         text.getData().setScale(0.15f);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         if (duelMenu.currentTurnPlayer.currentSelectedCard != null) {
@@ -183,6 +206,7 @@ public class Duel implements Screen, Input.TextInputListener {
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(changeMat, 1500, 50);
         batch.draw(leftButtonBar, 50, 250);
+        batch.draw(rightButtonBar, 1550 - rightButtonBar.getWidth(), 250);
         batch.draw(agree, 100, 100, 200, 100);
         batch.draw(mat, 300, 250);
         batch.draw(changePhase, 1320, 650, 250, 100);
@@ -196,7 +220,7 @@ public class Duel implements Screen, Input.TextInputListener {
         loadMonsters();
         loadSpells();
         loadGraveyard();
-        loadDeck();
+        loadField();
         loadHand();
 
         batch.begin();
@@ -216,6 +240,12 @@ public class Duel implements Screen, Input.TextInputListener {
             batch.draw(gif3.getKeyFrame(elapsed), xM1, yH, xM5 - xM1 + width, yM - yH + height);
             if (System.currentTimeMillis() - gif3Time >= gif3.getAnimationDuration() * 1000) {
                 gif3ShouldPlay = false;
+            }
+        }
+        if (gif4ShouldPlay) {
+            batch.draw(gif4.getKeyFrame(elapsed), xM1, yH, xM5 - xM1 + width, yM - yH + height);
+            if (System.currentTimeMillis() - gif4Time >= gif4.getAnimationDuration() * 1000) {
+                gif4ShouldPlay = false;
             }
         }
         if (isPaused) {
@@ -292,10 +322,28 @@ public class Duel implements Screen, Input.TextInputListener {
                     }
                     if (y < 710 - 3f * leftBarHeight / 4 && y > 710 - 4f * leftBarHeight / 4) {
                         //SET
+                        message = duelMenu.phase2Set();
                         if (!isMute)
                             set.play();
                     }
 
+                }
+
+                if (x >= 1550 - rightButtonBar.getWidth() && x <= 1550) {
+                    if (y < 710 && y > 710 - leftBarHeight / 4f) {
+                        //CHANGE POSITION
+                    }
+                    if (y < 710 - leftBarHeight / 4f && y > 710 - 2f * leftBarHeight / 4) {
+                        //SURRENDER
+                    }
+                    if (y < 710 - 2f * leftBarHeight / 4 && y > 710 - 3f * leftBarHeight / 4) {
+                        //FLIP SUMMON
+                    }
+                    if (y < 710 - 3f * leftBarHeight / 4 && y > 710 - 4f * leftBarHeight / 4) {
+                        //ACTIVE EFFECT
+                        gif4ShouldPlay = true;
+                        gif4Time = System.currentTimeMillis();
+                    }
                 }
 
                 if (x >= 1320 && x <= 1570 && y >= 210 && y <= 310) {
@@ -399,32 +447,52 @@ public class Duel implements Screen, Input.TextInputListener {
         }
         if (x > xH1 && x < xH1 + width && y < 960 - yH && y > 960 - yH - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(0);
+            duelMenu.currentTurnPlayer.setHandNumber(1);
         }
         if (x > xH2 && x < xH2 + width && y < 960 - yH && y > 960 - yH - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(1);
+            duelMenu.currentTurnPlayer.setHandNumber(2);
         }
         if (x > xH3 && x < xH3 + width && y < 960 - yH && y > 960 - yH - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(2);
+            duelMenu.currentTurnPlayer.setHandNumber(3);
         }
         if (x > xH4 && x < xH4 + width && y < 960 - yH && y > 960 - yH - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(3);
+            duelMenu.currentTurnPlayer.setHandNumber(4);
         }
         if (x > xH5 && x < xH5 + width && y < 960 - yH && y > 960 - yH - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(4);
+            duelMenu.currentTurnPlayer.setHandNumber(5);
         }
         if (x > xH6 && x < xH6 + width && y < 960 - yH && y > 960 - yH - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(5);
+            duelMenu.currentTurnPlayer.setHandNumber(6);
         }
     }
 
-    private void loadDeck() {
-        ArrayList<Card> mainDeckCards = showingPlayer.getMainDeckCard();
-        if (!mainDeckCards.isEmpty()) {
-            Card card = mainDeckCards.get(mainDeckCards.size() - 1);
+    private int fieldCardType() {
+        Mat mat = showingPlayer.getMat();
+        Card card = mat.getFieldZone();
+        if (card == null)
+            return 0;
+        if (card instanceof Monster)
+            return 1;
+        if (card instanceof Spell)
+            return 2;
+        if (card instanceof Trap)
+            return 3;
+        return -1;
+    }
+
+    private void loadField() {
+        Mat mat = showingPlayer.getMat();
+        Card card = mat.getFieldZone();
+        if (card != null) {
             String address = getCardImageFileAddressLandscape(card.getName());
             Texture texture = new Texture(Gdx.files.internal(address + ".jpg"));
             batch.begin();
-            batch.draw(texture, xDeck, yDeck, height, width);
+            batch.draw(texture, xField, yField, height, width);
             batch.end();
         }
     }
@@ -473,15 +541,15 @@ public class Duel implements Screen, Input.TextInputListener {
                 String address = getCardImageFileAddress(card.getName());
                 Texture texture = new Texture(Gdx.files.internal(address + ".jpg"));
                 if (i == 0)
-                    batch.draw(texture, xM1, yM);
+                    batch.draw(texture, xM1, yM, width, height);
                 if (i == 1)
-                    batch.draw(texture, xM2, yM);
+                    batch.draw(texture, xM2, yM, width, height);
                 if (i == 2)
-                    batch.draw(texture, xM3, yM);
+                    batch.draw(texture, xM3, yM, width, height);
                 if (i == 3)
-                    batch.draw(texture, xM4, yM);
+                    batch.draw(texture, xM4, yM, width, height);
                 if (i == 4)
-                    batch.draw(texture, xM5, yM);
+                    batch.draw(texture, xM5, yM, width, height);
             }
         }
         batch.end();
