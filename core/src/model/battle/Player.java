@@ -14,7 +14,7 @@ import java.util.Collections;
 public class Player {
     private User user;
     private ArrayList<Card> selectedCards = new ArrayList<>();
-    private Card currentSelectedCard;
+    public Card currentSelectedCard;
     private int numberOfMonsterZone;
     private Mat mat;
     private String selectedName;

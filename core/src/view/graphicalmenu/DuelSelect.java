@@ -106,11 +106,11 @@ public class DuelSelect implements Screen, Input.TextInputListener {
                     game.setScreen(new Duel(game, isMute, currentLoggedInUser, true, "AI",1));
             }
             if (x > 100 && x < 100 + duelButtons.getWidth() && y < 810 - 2 * height / 4 && y > 810 - 3 * height / 4) {
-                Gdx.input.getTextInput(this, "opponent username", "Enter opponent username", "");
+                Gdx.input.getTextInput(this, "opponent username", "", "");
                 rounds = 3;
             }
             if (x > 100 && x < 100 + duelButtons.getWidth() && y < 810 - 3 * height / 4 && y > 810 - 4 * height / 4) {
-                Gdx.input.getTextInput(this, "opponent username", "Enter opponent username", "");
+                Gdx.input.getTextInput(this, "opponent username", "", "");
                 rounds = 1;
             }
 
