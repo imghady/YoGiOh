@@ -364,6 +364,7 @@ public class Duel implements Screen, Input.TextInputListener {
                         }
                         if (y < 710 - 3f * leftBarHeight / 4 && y > 710 - 4f * leftBarHeight / 4) {
                             //ACTIVE EFFECT
+
                             message = duelMenu.phase2ActiveEffect();
                             gif4ShouldPlay = true;
                             gif4Time = System.currentTimeMillis();
@@ -441,7 +442,17 @@ public class Duel implements Screen, Input.TextInputListener {
             Mola.music.play();
             batch.end();
         }
+        String data = duelMenu.hasGameEndedPhase2();
+        if (!data.equals("")){
+            if (duelMenu.isGameEnd()){
+                game.setScreen(new GameOver(game,isMute,currentLoggedInUser,data));
+            }else {
+                message = data;
+                showingPlayer = duelMenu.firstPlayer;
+            }
+        }
     }
+
 
     private void changePhase() {
         phaseMessage = duelMenu.phase2NextPhase();
