@@ -47,6 +47,7 @@ public class DuelMenu {
     public Card summonedMonster;
     public User firstRoundWinner;
     public User secondRoundWinner;
+    private boolean isGameEnd = false;
     public boolean canCardBeSetAfterTerratiger = true;
     public static ArrayList<Card> monsterEffect1 = new ArrayList<>();
     public static ArrayList<Card> monsterEffect2 = new ArrayList<>();
@@ -1772,9 +1773,9 @@ public class DuelMenu {
         if (opponentMat.getMonsterZone(number) == null) {
             return "there is no card to attack here";
         }
-        if (!isAi) {
-            checkForQuickChangeTurn();
-        }
+       // if (!isAi) {
+       //     checkForQuickChangeTurn();
+       // }
         if (!permissionForAttack) {
             return "No permission";
         }
@@ -2129,9 +2130,74 @@ public class DuelMenu {
         }
     }
 
-    public boolean hasGameEnded() {
+    public boolean isGameEnd() {
+        return isGameEnd;
+    }
+
+    public String hasGameEndedPhase2() {
         int firstPlayerHealth = firstPlayer.getLifePoint();
         int secondPlayerHealth = secondPlayer.getLifePoint();
+        terminalOutput = "";
+        if (firstPlayerHealth <= 0 ||
+                (currentTurnPlayer.isEqual(firstPlayer) && phase.getCurrentPhase().equals("Draw Phase") && isEndCard())) {
+            secondPlayerWins++;
+            secondPlayerMaxLP = Math.max(secondPlayerMaxLP, secondPlayer.getLifePoint());
+            String username = secondUser.getUsername();
+            terminalOutput += "\n" + username + " won the game and the score is: " + firstPlayerWins + "-" + secondPlayerWins + "\n";
+            if (numberOfRounds == 1 || (numberOfRounds == 2 && firstRoundWinner == secondPlayer.getUser())) {
+                terminalOutput += username + " won the whole match and the score is: " + firstPlayerWins + "-" + secondPlayerWins + "\n";
+                int firstPlayerCredit = 100;
+                int secondPlayerCredit = 1000 + secondPlayerMaxLP;
+                if (wholeNumberOfRounds == 3) {
+                    firstPlayerCredit = 300;
+                    secondPlayerCredit = 3000 + secondPlayerMaxLP;
+                }
+                currentUser.setCredit(currentUser.getCredit() + firstPlayerCredit);
+                secondUser.setCredit(secondUser.getCredit() + secondPlayerCredit);
+                secondUser.setScore(secondUser.getScore() + 1000 * wholeNumberOfRounds);
+                isGameEnd = true;
+                return terminalOutput;
+            }
+            //changeCardPhase2();
+            firstPlayer = new Player(this.currentUser);
+            secondPlayer = new Player(this.secondUser);
+            currentTurnPlayer = firstPlayer;
+            opponentTurnPlayer = secondPlayer;
+            this.phase = new Phase(this);
+            numberOfRounds--;
+        }
+        if (secondPlayerHealth <= 0 ||
+                (currentTurnPlayer.isEqual(firstPlayer) && phase.getCurrentPhase().equals("Draw Phase") && isEndCard())) {
+            firstPlayerWins++;
+            firstPlayerMaxLP = Math.max(firstPlayerMaxLP, firstPlayer.getLifePoint());
+            String username = currentUser.getUsername();
+            terminalOutput += "\n" + username + " won the game and the score is: " + firstPlayerWins + "-" + secondPlayerWins + "\n";
+            if (numberOfRounds == 1 || (numberOfRounds == 2 && firstRoundWinner == firstPlayer.getUser())) {
+                terminalOutput += username + " won the whole match and the score is: " + firstPlayerWins + "-" + secondPlayerWins + "\n";
+                int secondPlayerCredit = 100;
+                int firstPlayerCredit = 1000 + firstPlayerMaxLP;
+                if (wholeNumberOfRounds == 3) {
+                    secondPlayerCredit = 300;
+                    firstPlayerCredit = 3000 + firstPlayerMaxLP;
+                }
+                currentUser.setCredit(currentUser.getCredit() + firstPlayerCredit);
+                secondUser.setCredit(secondUser.getCredit() + secondPlayerCredit);
+                currentUser.setScore(currentUser.getScore() + 1000 * wholeNumberOfRounds);
+                isGameEnd = true;
+                return terminalOutput;
+            }
+            //changeCardPhase2();
+            firstPlayer = new Player(this.currentUser);
+            secondPlayer = new Player(this.secondUser);
+            currentTurnPlayer = firstPlayer;
+            opponentTurnPlayer = secondPlayer;
+            this.phase = new Phase(this);
+            numberOfRounds--;
+        }
+        return terminalOutput;
+    }
+
+    public void changeCardPhase2() {
         if (wholeNumberOfRounds == 3) {
             System.out.println("Do you want to switch cards from side deck?(yes1/no1/yes2/no2)");
             String string = ScanInput.getInput();
@@ -2258,6 +2324,11 @@ public class DuelMenu {
                 }
             }
         }
+    }
+
+    public boolean hasGameEnded() {
+        int firstPlayerHealth = firstPlayer.getLifePoint();
+        int secondPlayerHealth = secondPlayer.getLifePoint();
         if (firstPlayerHealth <= 0 ||
                 (currentTurnPlayer.isEqual(firstPlayer) && phase.getCurrentPhase().equals("Draw Phase") && isEndCard())) {
             secondPlayerWins++;
@@ -2277,6 +2348,7 @@ public class DuelMenu {
                 secondUser.setScore(secondUser.getScore() + 1000 * wholeNumberOfRounds);
                 return true;
             }
+            changeCardPhase2();
             firstPlayer = new Player(this.currentUser);
             secondPlayer = new Player(this.secondUser);
             currentTurnPlayer = firstPlayer;
@@ -2303,6 +2375,7 @@ public class DuelMenu {
                 currentUser.setScore(currentUser.getScore() + 1000 * wholeNumberOfRounds);
                 return true;
             }
+            changeCardPhase2();
             firstPlayer = new Player(this.currentUser);
             secondPlayer = new Player(this.secondUser);
             currentTurnPlayer = firstPlayer;

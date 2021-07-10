@@ -68,10 +68,13 @@ public class ShowAllCards22 implements Screen {
         text2.getData().setScale(0.2f);
         text2.setColor(Color.YELLOW);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "show all cards 22 - Spells and Traps", 500, 900);
+        text.draw(batch, "show all cards 22 - Spells and Traps", 500, 920);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(next, 800, 30, next.getWidth(), next.getHeight());
         batch.draw(pre, 700, 30, pre.getWidth(), pre.getHeight());
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Spell Absorption"), 250, 840);
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Supply Squad"), 750, 840);
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Sword of dark destruction"), 1250, 840);
         batch.draw(spellAbsorption, 100, 150, spellAbsorption.getWidth(), spellAbsorption.getHeight());
         batch.draw(supplySquad, 600, 150, supplySquad.getWidth(), supplySquad.getHeight());
         batch.draw(swordOfDarkDestruction, 1100, 150, swordOfDarkDestruction.getWidth(), swordOfDarkDestruction.getHeight());
