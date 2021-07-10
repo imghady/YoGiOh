@@ -3,6 +3,7 @@ package view.graphicalmenu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -45,6 +46,12 @@ public class Duel implements Screen, Input.TextInputListener {
     Texture leftButtonBar;
     Texture heart;
     Texture healthBar;
+    Sound summon;
+    Sound set;
+    Sound direct;
+    Sound gameOverSound;
+    Sound changePhaseSound;
+    Sound attack;
     DuelMenu duelMenu;
     float width = 110;
     float height = 160;
@@ -101,6 +108,12 @@ public class Duel implements Screen, Input.TextInputListener {
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 960);
+        summon = Gdx.audio.newSound(Gdx.files.internal("sound/summon.wav"));
+        set = Gdx.audio.newSound(Gdx.files.internal("sound/set.mp3"));
+        gameOverSound = Gdx.audio.newSound(Gdx.files.internal("sound/gameOver.mp3"));
+        direct = Gdx.audio.newSound(Gdx.files.internal("sound/direct.mp3"));
+        changePhaseSound = Gdx.audio.newSound(Gdx.files.internal("sound/changePhase.wav"));
+        attack = Gdx.audio.newSound(Gdx.files.internal("sound/attack.wav"));
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
@@ -159,7 +172,7 @@ public class Duel implements Screen, Input.TextInputListener {
         }
         text2.getData().setScale(0.2f);
         text2.setColor(Color.YELLOW);
-        text2.draw(batch, "Showing player username: " + showingPlayer.getUser().getUsername(), 100, 930);
+        text2.draw(batch, "Showing player username: " + showingPlayer.getUser().getUsername(), 110, 930);
         text2.draw(batch, "nickname: " + showingPlayer.getUser().getNickname(), 100, 880);
         if (showingPlayer == duelMenu.firstPlayer) {
             batch.draw(pic1, 50, 600, 200, 250);
@@ -260,24 +273,34 @@ public class Duel implements Screen, Input.TextInputListener {
                         message = duelMenu.phase2DirectAttack();
                         gif1ShouldPlay = true;
                         gif1Time = System.currentTimeMillis();
+                        if (!isMute)
+                            direct.play();
                     }
                     if (y < 710 - leftBarHeight / 4f && y > 710 - 2f * leftBarHeight / 4) {
                         Gdx.input.getTextInput(this, "Card number", "", "");
                         currentButtonClicked = "attack";
+                        if (!isMute)
+                            attack.play();
                     }
                     if (y < 710 - 2f * leftBarHeight / 4 && y > 710 - 3f * leftBarHeight / 4) {
                         //SUMMON
                         message = duelMenu.phase2Summon();
                         gif3ShouldPlay = true;
                         gif3Time = System.currentTimeMillis();
+                        if (!isMute)
+                            summon.play();
                     }
                     if (y < 710 - 3f * leftBarHeight / 4 && y > 710 - 4f * leftBarHeight / 4) {
                         //SET
+                        if (!isMute)
+                            set.play();
                     }
 
                 }
 
                 if (x >= 1320 && x <= 1570 && y >= 210 && y <= 310) {
+                    if (!isMute)
+                        changePhaseSound.play();
                     changePhase();
                 }
                 batch.end();
@@ -324,18 +347,20 @@ public class Duel implements Screen, Input.TextInputListener {
                 Card card = mat.getHandCard(i);
                 String address = getCardImageFileAddress(card.getName());
                 Texture texture = new Texture(Gdx.files.internal(address + ".jpg"));
-                if (i == 0)
-                    batch.draw(texture, xH1, yH, width, height);
-                if (i == 1)
-                    batch.draw(texture, xH2, yH, width, height);
-                if (i == 2)
-                    batch.draw(texture, xH3, yH, width, height);
-                if (i == 3)
-                    batch.draw(texture, xH4, yH, width, height);
-                if (i == 4)
-                    batch.draw(texture, xH5, yH, width, height);
-                if (i == 5)
-                    batch.draw(texture, xH6, yH, width, height);
+                if (showingPlayer == duelMenu.currentTurnPlayer) {
+                    if (i == 0)
+                        batch.draw(texture, xH1, yH, width, height);
+                    if (i == 1)
+                        batch.draw(texture, xH2, yH, width, height);
+                    if (i == 2)
+                        batch.draw(texture, xH3, yH, width, height);
+                    if (i == 3)
+                        batch.draw(texture, xH4, yH, width, height);
+                    if (i == 4)
+                        batch.draw(texture, xH5, yH, width, height);
+                    if (i == 5)
+                        batch.draw(texture, xH6, yH, width, height);
+                }
             }
         }
         batch.end();
