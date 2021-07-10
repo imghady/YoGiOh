@@ -191,9 +191,9 @@ public class AddCardToDeck implements Screen, Input.TextInputListener {
                             message = 8;
                         } else {
                             Deck deck = Deck.getDeckByName(deckNameString, currentLoggedInUser.getUsername());
-                            if (isMainDeck && deck.getMainDeck().getMainDeckSize() == 40) {
+                            if (isMainDeck && deck.getMainDeck().getMainDeckSize() >= 60) {
                                 message = 4;
-                            } else if (!isMainDeck && deck.getSideDeck().getSideDeckSize() == 15) {
+                            } else if (!isMainDeck && deck.getSideDeck().getSideDeckSize() >= 15) {
                                 message = 5;
                             } else {
                                 int countCardsInDeck = 0;
