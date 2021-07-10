@@ -6,9 +6,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.game.Mola;
+import controller.GifDecoder;
 
 public class Start extends Game implements Screen,  Input.TextInputListener  {
 
@@ -22,9 +25,11 @@ public class Start extends Game implements Screen,  Input.TextInputListener  {
     Texture mute;
     Texture unmute;
     boolean isMute = false;
+    long start;
     Texture title;
     Texture about;
-
+    Animation<TextureRegion> welcome;
+    float elapsed;
 
 
     public Start(Mola game, boolean isMute) {
@@ -41,6 +46,8 @@ public class Start extends Game implements Screen,  Input.TextInputListener  {
         unmute = new Texture("buttons/unmute.png");
         title = new Texture("buttons/title.png");
         about = new Texture("buttons/about.png");
+        welcome = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/welcome.gif").read());
+        start = System.currentTimeMillis();
     }
 
 
@@ -51,15 +58,20 @@ public class Start extends Game implements Screen,  Input.TextInputListener  {
 
     @Override
     public void render(float delta) {
+        elapsed += Gdx.graphics.getDeltaTime();
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
+
         batch.draw(wallpaper, 0, 0, 1600,960);
         text.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         batch.draw(login, 110, 300, login.getWidth(),login.getHeight());
         batch.draw(title, 380, 520, title.getWidth(),title.getHeight());
         batch.draw(register, 110, 100, register.getWidth(),register.getHeight());
         batch.draw(about, 1150, 800, about.getWidth(),about.getHeight());
+        if (System.currentTimeMillis() - start <= 2000) {
+            batch.draw(welcome.getKeyFrame(elapsed), 0, 0, 1600, 960);
+        }
         batch.end();
 
         if (Gdx.input.justTouched()) {
