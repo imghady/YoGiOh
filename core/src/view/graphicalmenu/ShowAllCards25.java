@@ -2,6 +2,7 @@ package view.graphicalmenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -17,6 +18,7 @@ public class ShowAllCards25 implements Screen {
     OrthographicCamera camera;
     Texture wallpaper;
     BitmapFont text;
+    BitmapFont text2;
     BitmapFont text1;
     Texture mute;
     Texture unmute;
@@ -40,6 +42,7 @@ public class ShowAllCards25 implements Screen {
         camera.setToOrtho(false, 1600, 960);
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
+        text2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
@@ -64,11 +67,16 @@ public class ShowAllCards25 implements Screen {
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600,960);
         text.getData().setScale(0.3f);
+        text2.getData().setScale(0.2f);
+        text2.setColor(Color.YELLOW);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "show all cards 25 - Spells and Traps", 500, 900);
+        text.draw(batch, "show all cards 25 - Spells and Traps", 500, 920);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(next, 800, 30, next.getWidth(), next.getHeight());
         batch.draw(pre, 700, 30, pre.getWidth(), pre.getHeight());
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Umiiruka"), 250, 840);
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("United We Stand"), 750, 840);
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Vanity's Emptiness"), 1250, 840);
         batch.draw(umiiruka, 100, 150, umiiruka.getWidth(), umiiruka.getHeight());
         batch.draw(unitedWeStand, 600, 150, unitedWeStand.getWidth(), unitedWeStand.getHeight());
         batch.draw(vanitysEmptiness, 1100, 150, vanitysEmptiness.getWidth(), vanitysEmptiness.getHeight());
