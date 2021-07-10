@@ -446,6 +446,7 @@ public class Duel implements Screen, Input.TextInputListener {
                 game.setScreen(new GameOver(game,isMute,currentLoggedInUser,data));
             }else {
                 message = data;
+                showingPlayer = duelMenu.firstPlayer;
             }
         }
     }
