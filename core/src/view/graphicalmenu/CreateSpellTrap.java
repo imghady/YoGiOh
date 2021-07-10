@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
 import model.user.User;
 
-public class ImportExport  implements Screen {
+public class CreateSpellTrap implements Screen {
 
     SpriteBatch batch;
     final Mola game;
@@ -23,8 +23,24 @@ public class ImportExport  implements Screen {
     boolean isMute = false;
     Texture backButton;
     User currentLoggedInUser;
+    boolean isTrap;
+    boolean isHolderName = false;
+    boolean isHolderIcon = false;
+    boolean isHolderDescription = false;
+    boolean isHolderStatus = false;
 
-    public ImportExport(Mola game, boolean isMute, User currentLoggedInUser) {
+    String holder = "";
+    String name = "";
+    String icon = "";
+    String status = "";
+    String description = "";
+    String cardDetail = "";
+
+    int price = 0;
+    int message = 0;
+
+    public CreateSpellTrap(Mola game, boolean isMute, User currentLoggedInUser, boolean isTrap) {
+        this.isTrap = isTrap;
         this.currentLoggedInUser = currentLoggedInUser;
         this.isMute = isMute;
         this.game = game;
@@ -37,7 +53,7 @@ public class ImportExport  implements Screen {
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
-        buttons = new Texture("buttons/importButtons.png");
+        buttons = new Texture("buttons/spellTrapFields.png");
     }
 
     @Override
@@ -53,9 +69,13 @@ public class ImportExport  implements Screen {
         batch.draw(wallpaper, 0, 0, 1600, 960);
         text.getData().setScale(0.2f);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "Import Export Menu", 150, 850);
+        if (isTrap) {
+            text.draw(batch, "Create Trap Card", 150, 850);
+        } else {
+            text.draw(batch, "Create Spell Card", 150, 850);
+        }
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
-        batch.draw(buttons, 150, 200, buttons.getWidth(), buttons.getHeight());
+        batch.draw(buttons, 150, 150, buttons.getWidth(), buttons.getHeight());
         batch.end();
 
         if (Gdx.input.justTouched()) {
@@ -67,21 +87,14 @@ public class ImportExport  implements Screen {
 
             if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
                 if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
-                    game.setScreen(new MainMenu(game, isMute, currentLoggedInUser));
-                    dispose();
-                }
-            }
-
-            if (Gdx.input.getX() > 150 && Gdx.input.getX() < 150 + buttons.getWidth()) {
-                if (Gdx.input.getY() > 760 - buttons.getHeight() / 2 && Gdx.input.getY() < 760) {
-
                     game.setScreen(new SelectType(game, isMute, currentLoggedInUser));
                     dispose();
-                } else if (Gdx.input.getY() > 760 - buttons.getHeight() && Gdx.input.getY() < 760 - buttons.getHeight() / 2) {
-                    game.setScreen(new ImportWithJSON(game, isMute, currentLoggedInUser));
-                    dispose();
                 }
             }
+
+
+
+
 
         }
 
@@ -124,4 +137,5 @@ public class ImportExport  implements Screen {
 
     }
 }
+
 

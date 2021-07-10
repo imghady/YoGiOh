@@ -9,13 +9,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
 import model.user.User;
 
-public class ImportExport  implements Screen {
+public class SelectType implements Screen {
 
     SpriteBatch batch;
     final Mola game;
     OrthographicCamera camera;
     Texture wallpaper;
-    Texture buttons;
+    Texture types;
     BitmapFont text;
     BitmapFont text1;
     Texture mute;
@@ -24,7 +24,7 @@ public class ImportExport  implements Screen {
     Texture backButton;
     User currentLoggedInUser;
 
-    public ImportExport(Mola game, boolean isMute, User currentLoggedInUser) {
+    public SelectType(Mola game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
         this.isMute = isMute;
         this.game = game;
@@ -37,7 +37,7 @@ public class ImportExport  implements Screen {
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
-        buttons = new Texture("buttons/importButtons.png");
+        types = new Texture("buttons/types.png");
     }
 
     @Override
@@ -53,9 +53,9 @@ public class ImportExport  implements Screen {
         batch.draw(wallpaper, 0, 0, 1600, 960);
         text.getData().setScale(0.2f);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "Import Export Menu", 150, 850);
+        text.draw(batch, "select type for create card", 150, 850);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
-        batch.draw(buttons, 150, 200, buttons.getWidth(), buttons.getHeight());
+        batch.draw(types, 150, 200, types.getWidth(), types.getHeight());
         batch.end();
 
         if (Gdx.input.justTouched()) {
@@ -67,18 +67,20 @@ public class ImportExport  implements Screen {
 
             if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
                 if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
-                    game.setScreen(new MainMenu(game, isMute, currentLoggedInUser));
+                    game.setScreen(new ImportExport(game, isMute, currentLoggedInUser));
                     dispose();
                 }
             }
 
-            if (Gdx.input.getX() > 150 && Gdx.input.getX() < 150 + buttons.getWidth()) {
-                if (Gdx.input.getY() > 760 - buttons.getHeight() / 2 && Gdx.input.getY() < 760) {
-
-                    game.setScreen(new SelectType(game, isMute, currentLoggedInUser));
+            if (Gdx.input.getX() > 150 && Gdx.input.getX() < 150 + types.getWidth()) {
+                if (Gdx.input.getY() > 760 - types.getHeight() / 3 && Gdx.input.getY() < 760) {
+                    game.setScreen(new CreateSpellTrap(game, isMute, currentLoggedInUser, true));
                     dispose();
-                } else if (Gdx.input.getY() > 760 - buttons.getHeight() && Gdx.input.getY() < 760 - buttons.getHeight() / 2) {
-                    game.setScreen(new ImportWithJSON(game, isMute, currentLoggedInUser));
+                } else if (Gdx.input.getY() > 760 - 2 * types.getHeight() / 3 && Gdx.input.getY() < 760 - types.getHeight() / 3) {
+                    game.setScreen(new CreateSpellTrap(game, isMute, currentLoggedInUser, false));
+                    dispose();
+                } else if (Gdx.input.getY() > 760 - types.getHeight() && Gdx.input.getY() < 760 - 2 * types.getHeight() / 3) {
+                    game.setScreen(new CreateMonster(game, isMute, currentLoggedInUser));
                     dispose();
                 }
             }
@@ -124,4 +126,3 @@ public class ImportExport  implements Screen {
 
     }
 }
-

@@ -30,16 +30,21 @@ public class Duel implements Screen, Input.TextInputListener {
     BitmapFont text2;
     Texture mute;
     Texture unmute;
+    Texture pause;
+    Texture play;
     Texture agree;
     boolean isMute;
     boolean isAi;
     int rounds;
     Texture backButton;
     Texture changeMat;
+    Texture changePhase;
     User currentLoggedInUser;
     Texture mat;
     Texture card;
     Texture leftButtonBar;
+    Texture heart;
+    Texture healthBar;
     DuelMenu duelMenu;
     float width = 110;
     float height = 160;
@@ -71,16 +76,23 @@ public class Duel implements Screen, Input.TextInputListener {
     boolean gif1ShouldPlay = false;
     boolean gif2ShouldPlay = false;
     boolean gif3ShouldPlay = false;
+    boolean isPaused = false;
     long gif1Time;
     long gif2Time;
     long gif3Time;
     Player showingPlayer;
     String message = "";
+    String phaseMessage = "";
+    String charPic1;
+    String charPic2;
     String currentButtonClicked = "";
     Animation<TextureRegion> gif1;
     Animation<TextureRegion> gif2;
     Animation<TextureRegion> gif3;
     Animation<TextureRegion> gameOver;
+    Animation<TextureRegion> background;
+    Texture pic1;
+    Texture pic2;
 
     public Duel(Mola game, boolean isMute, User currentLoggedInUser, boolean isAi, String secondUserUsername, int rounds) {
         this.currentLoggedInUser = currentLoggedInUser;
@@ -97,13 +109,19 @@ public class Duel implements Screen, Input.TextInputListener {
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
         agree = new Texture("buttons/agree.png");
+        heart = new Texture("heart.png");
+        healthBar = new Texture("healthBar.png");
         changeMat = new Texture("buttons/changeMat.png");
+        pause = new Texture("buttons/pause.png");
+        play = new Texture("buttons/play.png");
         leftButtonBar = new Texture("buttons/leftButtonBar.png");
         card = new Texture("Cards/Monsters/BabyDragon.jpg");
+        changePhase = new Texture("buttons/changePhase.png");
         gif1 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif1.gif").read());
         gif2 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif2.gif").read());
         gif3 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif3.gif").read());
         gameOver = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gameOver.gif").read());
+        background = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/background.gif").read());
         this.isAi = isAi;
         this.rounds = rounds;
         mat = new Texture("mat.png");
@@ -111,6 +129,11 @@ public class Duel implements Screen, Input.TextInputListener {
         String secondUser = secondUserUsername;
         duelMenu = new DuelMenu(firstUser, secondUser, rounds, isAi);
         showingPlayer = duelMenu.currentTurnPlayer;
+        charPic1 = currentLoggedInUser.getCharacterFileAddress();
+        pic1 = new Texture(charPic1);
+        User user = User.getUserByUsername(secondUserUsername);
+        charPic2 = user.getCharacterFileAddress();
+        pic2 = new Texture(charPic2);
     }
 
 
@@ -125,24 +148,37 @@ public class Duel implements Screen, Input.TextInputListener {
 
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
+
         batch.begin();
 
-        batch.draw(wallpaper, 0, 0, 1600, 960);
-        text.getData().setScale(0.3f);
+        batch.draw(background.getKeyFrame(elapsed), 0, -200, 1600, 1160);
+        text.getData().setScale(0.15f);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         if (duelMenu.currentTurnPlayer.currentSelectedCard != null) {
-            text1.draw(batch, "Selected card: " +  duelMenu.currentTurnPlayer.currentSelectedCard.getName(), 600, 700);
+            text1.draw(batch, "Selected card: " + duelMenu.currentTurnPlayer.currentSelectedCard.getName(), 600, 700);
         }
-        text.draw(batch, "Duel", 150, 900);
         text2.getData().setScale(0.2f);
         text2.setColor(Color.YELLOW);
-        text2.draw(batch, "Showing player: " + showingPlayer.getUser().getNickname(), 400, 920);
+        text2.draw(batch, "Showing player username: " + showingPlayer.getUser().getUsername(), 100, 930);
+        text2.draw(batch, "nickname: " + showingPlayer.getUser().getNickname(), 100, 880);
+        if (showingPlayer == duelMenu.firstPlayer) {
+            batch.draw(pic1, 50, 600, 200, 250);
+        } else {
+            batch.draw(pic2, 50, 600, 200, 250);
+        }
         text2.draw(batch, message, 590, 800);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(changeMat, 1500, 50);
         batch.draw(leftButtonBar, 50, 250);
-        batch.draw(agree, 80, 100, 200, 100);
+        batch.draw(agree, 100, 100, 200, 100);
         batch.draw(mat, 300, 250);
+        batch.draw(changePhase, 1320, 650, 250, 100);
+
+        batch.draw(healthBar, 650, 830, showingPlayer.getLifePoint()/8000f * 600 , 40);
+        batch.draw(heart, 600, 800, 100, 100);
+        batch.draw(pause, 10, 100);
+        text.draw(batch, phaseMessage, 700, 650);
+
         batch.end();
         loadMonsters();
         loadSpells();
@@ -169,60 +205,84 @@ public class Duel implements Screen, Input.TextInputListener {
                 gif3ShouldPlay = false;
             }
         }
+        if (isPaused) {
+            batch.draw(play, 400, 200, 800, 660);
+        }
         batch.end();
+
 
         if (Gdx.input.justTouched()) {
 
             float x = Gdx.input.getX();
             float y = Gdx.input.getY();
 
-            handleCardSelection(x, y);
-
-            System.out.println(Gdx.input.getX() + " " + Gdx.input.getY());
-
-            if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + mute.getWidth()
-                    && Gdx.input.getY() < 110 && Gdx.input.getY() > 110 - mute.getHeight()) {
-                isMute = !isMute;
-            }
-
-            if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
-                if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
-                    game.setScreen(new DuelSelect(game, isMute, currentLoggedInUser));
-                    dispose();
+            if (isPaused) {
+                if (x > 400 && x < 1200 && y > 200 && y < 760) {
+                    isPaused = false;
                 }
             }
 
-            if (x >= 80 && x <= 280 && y >= 760 && y <= 860)
-                agree();
+            else {
+                handleCardSelection(x, y);
 
-            if (x >= 1500 && x <= 1500 + changeMat.getWidth() && y <= 910 && y >= 910 - changeMat.getHeight()) {
-                if (showingPlayer == duelMenu.firstPlayer)
-                    showingPlayer = duelMenu.secondPlayer;
-                else
-                    showingPlayer = duelMenu.firstPlayer;
+                System.out.println(Gdx.input.getX() + " " + Gdx.input.getY());
+
+                if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + mute.getWidth()
+                        && Gdx.input.getY() < 110 && Gdx.input.getY() > 110 - mute.getHeight()) {
+                    isMute = !isMute;
+                }
+
+                if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
+                    if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
+                        game.setScreen(new DuelSelect(game, isMute, currentLoggedInUser));
+                        dispose();
+                    }
+                }
+
+                if (x >= 80 && x <= 280 && y >= 760 && y <= 860)
+                    agree();
+
+                if (x >= 1500 && x <= 1500 + changeMat.getWidth() && y <= 910 && y >= 910 - changeMat.getHeight()) {
+                    if (showingPlayer == duelMenu.firstPlayer)
+                        showingPlayer = duelMenu.secondPlayer;
+                    else
+                        showingPlayer = duelMenu.firstPlayer;
+                }
+
+                if (x > 10 && x < 10 + pause.getWidth() && y < 860 && y > 860 - pause.getHeight()) {
+                    isPaused = true;
+                }
+
+                batch.begin();
+                int leftBarHeight = leftButtonBar.getHeight();
+                if (x >= 50 && x <= 50 + leftButtonBar.getWidth()) {
+                    if (y < 710 && y > 710 - leftBarHeight / 4f) {
+                        message = duelMenu.phase2DirectAttack();
+                        gif1ShouldPlay = true;
+                        gif1Time = System.currentTimeMillis();
+                    }
+                    if (y < 710 - leftBarHeight / 4f && y > 710 - 2f * leftBarHeight / 4) {
+                        Gdx.input.getTextInput(this, "Card number", "", "");
+                        currentButtonClicked = "attack";
+                    }
+                    if (y < 710 - 2f * leftBarHeight / 4 && y > 710 - 3f * leftBarHeight / 4) {
+                        //SUMMON
+                        message = duelMenu.phase2Summon();
+                        gif3ShouldPlay = true;
+                        gif3Time = System.currentTimeMillis();
+                    }
+                    if (y < 710 - 3f * leftBarHeight / 4 && y > 710 - 4f * leftBarHeight / 4) {
+                        //SET
+                    }
+
+                }
+
+                if (x >= 1320 && x <= 1570 && y >= 210 && y <= 310) {
+                    changePhase();
+                }
+                batch.end();
             }
 
-            batch.begin();
-            int leftBarHeight = leftButtonBar.getHeight();
-            if (x >= 50 && x <= 50 + leftButtonBar.getWidth()) {
-                if (y < 710 && y > 710 - leftBarHeight / 4f) {
-                    message = duelMenu.phase2DirectAttack();
-                    gif1ShouldPlay = true;
-                    gif1Time = System.currentTimeMillis();
-                }
-                if (y < 710 - leftBarHeight / 4f && y > 710 - 2f * leftBarHeight / 4) {
-                    Gdx.input.getTextInput(this, "Card number", "", "");
-                    currentButtonClicked = "attack";
-                }
-                if (y < 710 - 2f * leftBarHeight / 4 && y > 710 - 3f * leftBarHeight / 4) {
-                    //SUMMON
-                }
-                if (y < 710 - 3f * leftBarHeight / 4 && y > 710 - 4f * leftBarHeight / 4) {
-                    //SET
-                }
-
-            }
-            batch.end();
 
         }
 
@@ -240,10 +300,15 @@ public class Duel implements Screen, Input.TextInputListener {
         }
     }
 
+    private void changePhase() {
+        phaseMessage = duelMenu.phase2NextPhase();
+        System.out.println(phaseMessage);
+    }
+
     private void agree() {
         if (currentButtonClicked.equals("attack")) {
             if (attackInput != -1)
-            message = duelMenu.phase2Attack(attackInput);
+                message = duelMenu.phase2Attack(attackInput);
             gif2ShouldPlay = true;
             gif2Time = System.currentTimeMillis();
             attackInput = -1;
