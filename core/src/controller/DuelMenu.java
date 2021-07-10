@@ -1448,6 +1448,7 @@ public class DuelMenu {
             }
             monster.setAttack(false);
             monster.setOn(false);
+            System.out.println(card.getCardType());
             mat.addMonster(monster);
             currentTurnPlayer.setCurrentSelectedCard(null);
             currentTurnPlayer.setSelectedName(null);
@@ -1554,6 +1555,14 @@ public class DuelMenu {
             currentTurnPlayer.setSelectedName(null);
             currentTurnPlayer.getMat().deleteHandCard(currentTurnPlayer.getHandNumber());
             currentTurnPlayer.setHandNumber(-1);
+            int flag = 0;
+            for (int i = 0; i < 5; i++) {
+                if (currentTurnPlayer.getMat().getSpellAndTrapZone(i) == null){
+                    flag = i;
+                    break;
+                }
+            }
+            currentTurnPlayer.getMat().setSpellAndTrapZone(flag,card);
             currentTurnPlayer.setSummoned(true);
             return "set successfully";
         }
