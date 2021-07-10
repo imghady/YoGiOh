@@ -1,15 +1,17 @@
 package view.graphicalmenu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.mygdx.game.Mola;
 import model.user.User;
 
-public class CreateSpellTrap implements Screen {
+public class CreateSpellTrap implements Screen, Input.TextInputListener {
 
     SpriteBatch batch;
     final Mola game;
@@ -76,7 +78,27 @@ public class CreateSpellTrap implements Screen {
         }
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(buttons, 150, 150, buttons.getWidth(), buttons.getHeight());
+        text.draw(batch, cardDetail, 700, 750);
         batch.end();
+
+        if (isTrap) {
+            cardDetail = "";
+            cardDetail += "Name : " + name + "\n";
+            cardDetail += "Trap" + "\n";
+            cardDetail += "Icon : " + icon + "\n";
+            cardDetail += "Status : " + status + "\n";
+            cardDetail += "Description : " + description + "\n";
+            cardDetail += "Price : " + price;
+        } else {
+            cardDetail = "";
+            cardDetail += "Name : " + name + "\n";
+            cardDetail += "Spell" + "\n";
+            cardDetail += "Icon : " + icon + "\n";
+            cardDetail += "Status : " + status + "\n";
+            cardDetail += "Description : " + description + "\n";
+            cardDetail += "Price : " + price;
+        }
+
 
         if (Gdx.input.justTouched()) {
 
@@ -92,7 +114,21 @@ public class CreateSpellTrap implements Screen {
                 }
             }
 
-
+            if (Gdx.input.getX() > 150 && Gdx.input.getX() < 150 + buttons.getWidth()) {
+                if (Gdx.input.getY() > 810 - buttons.getHeight() / 4 && Gdx.input.getY() < 810) {
+                    isHolderDescription = true;
+                    Gdx.input.getTextInput(this, "Description", "", "");
+                } else if (Gdx.input.getY() > 810 - 2 * buttons.getHeight() / 4 && Gdx.input.getY() < 810 - buttons.getHeight() / 4) {
+                    isHolderStatus = true;
+                    Gdx.input.getTextInput(this, "Status", "", "");
+                } else if (Gdx.input.getY() > 810 - 3 * buttons.getHeight() / 4 && Gdx.input.getY() < 810 - 2 * buttons.getHeight() / 4) {
+                    isHolderIcon = true;
+                    Gdx.input.getTextInput(this, "Icon", "", "");
+                } else if (Gdx.input.getY() > 810 - buttons.getHeight() && Gdx.input.getY() < 810 - 3 * buttons.getHeight() / 4) {
+                    isHolderName = true;
+                    Gdx.input.getTextInput(this, "Name", "", "");
+                }
+            }
 
 
 
@@ -134,6 +170,30 @@ public class CreateSpellTrap implements Screen {
 
     @Override
     public void dispose() {
+
+    }
+
+    @Override
+    public void input(String text) {
+        this.holder = text;
+
+        if (isHolderName) {
+            name = holder;
+            isHolderName = false;
+        } else if (isHolderIcon) {
+            icon = holder;
+            isHolderIcon = false;
+        } else if (isHolderStatus) {
+            status = holder;
+            isHolderStatus = false;
+        } else if (isHolderDescription) {
+            description = holder;
+            isHolderDescription = false;
+        }
+    }
+
+    @Override
+    public void canceled() {
 
     }
 }
