@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
+import controller.DuelMenu;
 import model.card.Monster;
 import model.user.User;
 
@@ -30,6 +31,7 @@ public class CreateMonster implements Screen, Input.TextInputListener {
     boolean isMute = false;
     Texture backButton;
     Texture effectMonster;
+    Texture create;
     Texture add;
     User currentLoggedInUser;
     boolean isHolderName = false;
@@ -42,12 +44,14 @@ public class CreateMonster implements Screen, Input.TextInputListener {
     String holder = "";
     String name = "";
     String level = "";
-    String type = "";
+    String monsterType = "";
     String attack = "";
     String defence = "";
     String description = "";
     String cardDetail = "";
+    String attribute = "aaaa";
     String monsterForEffectName = "";
+    String createResult = "";
     int price = 0;
     int message1 = 0;
     int message2 = 0;
@@ -72,6 +76,7 @@ public class CreateMonster implements Screen, Input.TextInputListener {
         buttons = new Texture("buttons/monsterFields.png");
         effectMonster = new Texture("buttons/monsterEffect.png");
         add = new Texture("buttons/agree.png");
+        create = new Texture("buttons/create.png");
     }
 
     @Override
@@ -102,13 +107,17 @@ public class CreateMonster implements Screen, Input.TextInputListener {
             error1.setColor(Color.GREEN);
             error1.draw(batch, "add successfully", 1200, 100);
         }
+        batch.draw(create, 1250, 600);
+        if (!createResult.isEmpty()) {
+            text.draw(batch, createResult, 1100, 800);
+        }
         batch.end();
 
         cardDetail = "";
         cardDetail += "Name : " + name + "\n";
         cardDetail += "Monster" + "\n";
         cardDetail += "Level : " + level + "\n";
-        cardDetail += "Type : " + type + "\n";
+        cardDetail += "Type : " + monsterType + "\n";
         cardDetail += "ATK : " + attack + "\n";
         cardDetail += "DEF : " + defence + "\n";
         cardDetail += "Description : " + description + "\n";
@@ -179,7 +188,10 @@ public class CreateMonster implements Screen, Input.TextInputListener {
                 }
             }
 
-
+            if (Gdx.input.getX() > 1250 && Gdx.input.getX() < 1250 + create.getWidth() &&
+                    Gdx.input.getY() < 360 && Gdx.input.getY() > 360 - create.getHeight()) {
+                createResult = createCard();
+            }
 
         }
 
@@ -195,6 +207,76 @@ public class CreateMonster implements Screen, Input.TextInputListener {
             Mola.music.play();
             batch.end();
         }
+    }
+
+    private String createCard() {
+        int lvl = 0;
+        int atk = 0;
+        int def = 0;
+        if (name.isEmpty() || level.isEmpty() || description.isEmpty() || monsterType.isEmpty() || attack.isEmpty() || defence.isEmpty() || attribute.isEmpty() || monsterType.isEmpty())
+            return "Fill all fields";
+        try {
+            lvl = Integer.parseInt(level);
+        } catch (Exception e) {
+            return "Level should be a number";
+        }
+        try {
+            atk = Integer.parseInt(attack);
+        } catch (Exception e) {
+            return "Attack should be a number";
+        }
+        try {
+            def = Integer.parseInt(defence);
+        } catch (Exception e) {
+            return "Defence should be a number";
+        }
+        int prc = atk + def + (monstersForEffect.size() + lvl) * 300;
+        price = prc;
+        String cardType = "Normal";
+        if (monstersForEffect.size() > 0)
+            cardType = "Effect";
+        Monster newMonster = new Monster(name, lvl, attribute, monsterType, cardType, atk, def, description, prc);
+        if (prc > currentLoggedInUser.getCredit() / 10) {
+            return "not enough money";
+        }
+        currentLoggedInUser.setCredit(currentLoggedInUser.getCredit() - prc / 10);
+        for (Monster monster : monstersForEffect) {
+            if (DuelMenu.isCardInArray(monster, DuelMenu.monsterEffect1))
+                DuelMenu.monsterEffect1.add(newMonster);
+            if (DuelMenu.isCardInArray(monster, DuelMenu.monsterEffect2))
+                DuelMenu.monsterEffect2.add(newMonster);
+            if (DuelMenu.isCardInArray(monster, DuelMenu.monsterEffect3))
+                DuelMenu.monsterEffect3.add(newMonster);
+            if (DuelMenu.isCardInArray(monster, DuelMenu.monsterEffect4))
+                DuelMenu.monsterEffect4.add(newMonster);
+            if (DuelMenu.isCardInArray(monster, DuelMenu.monsterEffect5))
+                DuelMenu.monsterEffect5.add(newMonster);
+            if (DuelMenu.isCardInArray(monster, DuelMenu.monsterEffect6))
+                DuelMenu.monsterEffect6.add(newMonster);
+            if (DuelMenu.isCardInArray(monster, DuelMenu.monsterEffect7))
+                DuelMenu.monsterEffect7.add(newMonster);
+            if (DuelMenu.isCardInArray(monster, DuelMenu.monsterEffect8))
+                DuelMenu.monsterEffect8.add(newMonster);
+            if (DuelMenu.isCardInArray(monster, DuelMenu.monsterEffect9))
+                DuelMenu.monsterEffect9.add(newMonster);
+            if (DuelMenu.isCardInArray(monster, DuelMenu.monsterEffect10))
+                DuelMenu.monsterEffect10.add(newMonster);
+            if (DuelMenu.isCardInArray(monster, DuelMenu.monsterEffect11))
+                DuelMenu.monsterEffect11.add(newMonster);
+            if (DuelMenu.isCardInArray(monster, DuelMenu.monsterEffect12))
+                DuelMenu.monsterEffect12.add(newMonster);
+            if (DuelMenu.isCardInArray(monster, DuelMenu.monsterEffect13))
+                DuelMenu.monsterEffect13.add(newMonster);
+            if (DuelMenu.isCardInArray(monster, DuelMenu.monsterEffect14))
+                DuelMenu.monsterEffect14.add(newMonster);
+            if (DuelMenu.isCardInArray(monster, DuelMenu.monsterEffect15))
+                DuelMenu.monsterEffect15.add(newMonster);
+            if (DuelMenu.isCardInArray(monster, DuelMenu.monsterEffect16))
+                DuelMenu.monsterEffect16.add(newMonster);
+            if (DuelMenu.isCardInArray(monster, DuelMenu.monsterEffect17))
+                DuelMenu.monsterEffect17.add(newMonster);
+        }
+        return "Success";
     }
 
     @Override
@@ -233,7 +315,7 @@ public class CreateMonster implements Screen, Input.TextInputListener {
             level = holder;
             isHolderLevel = false;
         } else if (isHolderType) {
-            type = holder;
+            monsterType = holder;
             isHolderType = false;
         } else if (isHolderAttack) {
             attack = holder;
