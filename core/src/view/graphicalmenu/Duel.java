@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.game.Mola;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 import controller.DuelMenu;
 import controller.GifDecoder;
 import model.battle.Player;
@@ -23,6 +24,7 @@ import model.mat.Mat;
 import model.user.User;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 
 public class Duel implements Screen, Input.TextInputListener {
     SpriteBatch batch;
@@ -269,11 +271,10 @@ public class Duel implements Screen, Input.TextInputListener {
             }
             batch.end();
 
-        if (Gdx.input.isKeyPressed(Input.Keys.C) && Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-            isHolderCheatInput = true;
-            Gdx.input.getTextInput(this, "enter cheat", "", "");
-        }
-
+            if (Gdx.input.isKeyPressed(Input.Keys.C) && Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+                isHolderCheatInput = true;
+                Gdx.input.getTextInput(this, "enter cheat", "", "");
+            }
 
 
             if (Gdx.input.justTouched()) {
@@ -328,13 +329,13 @@ public class Duel implements Screen, Input.TextInputListener {
                                 direct.play();
                         }
                         if (y < 710 - leftBarHeight / 4f && y > 710 - 2f * leftBarHeight / 4) {
-                        isHolderAttackInput = true;
-                        Gdx.input.getTextInput(this, "Card number", "", "");
-                        currentButtonClicked = "attack";
-                        if (!isMute)
-                            attack.play();
+                            isHolderAttackInput = true;
+                            Gdx.input.getTextInput(this, "Card number", "", "");
+                            currentButtonClicked = "attack";
+                            if (!isMute)
+                                attack.play();
 
-                    }
+                        }
                         if (y < 710 - 2f * leftBarHeight / 4 && y > 710 - 3f * leftBarHeight / 4) {
                             //SUMMON
                             message = duelMenu.phase2Summon();
@@ -349,7 +350,8 @@ public class Duel implements Screen, Input.TextInputListener {
                             if (!isMute)
                                 set.play();
                         }
-                    
+                    }
+
 
                     if (x >= 1550 - rightButtonBar.getWidth() && x <= 1550) {
                         if (y < 710 && y > 710 - leftBarHeight / 4f) {
@@ -378,23 +380,41 @@ public class Duel implements Screen, Input.TextInputListener {
 
 
             }
+            if (!cheatInput.isEmpty()) {
+                if (cheatInput.matches("increase (--money|-m) ([\\d]+)")) {
+                    Matcher matcher = duelMenu.getMatcher(cheatInput, "increase (--money|-m) ([\\d]+)");
+                    matcher.find();
+                    duelMenu.increaseMoney(Integer.parseInt(matcher.group(1)));
+                }
+                else if (cheatInput.matches("increase (--LP|-l) ([\\d]+)")) {
+                    Matcher matcher = duelMenu.getMatcher(cheatInput, "increase (--LP|-l) ([\\d]+)");
+                    matcher.find();
+                    duelMenu.increaseLifePoint(Integer.parseInt(matcher.group(1)));
+                }
+                else if (cheatInput.matches("duel set-winner ([\\w+])")) {
+                    Matcher matcher = duelMenu.getMatcher(cheatInput, "duel set-winner ([\\w+])");
+                    matcher.find();
+                    duelMenu.setWinner(matcher.group(1));
+                }
+                else
+                    cheatInput = "";
+            }
         } else {
             batch.begin();
             batch.draw(wallpaper, 0, 0, 1600, 960);
             if (coinShouldPlay) {
-                System.out.println("kir");
-                batch.draw(coin.getKeyFrame(elapsed), 400, 300, 800, 400);
-                if (System.currentTimeMillis() - coinTime < 5000) {
+                batch.draw(coin.getKeyFrame(elapsed), 500, 300 , 550, 400);
+                if (System.currentTimeMillis() - coinTime > 2000) {
                     coinShouldPlay = false;
                 }
             } else {
                 text.getData().setScale(0.3f);
                 if (duelMenu.currentTurnPlayer == duelMenu.firstPlayer) {
                     batch.draw(coin1, 700, 400, 200, 200);
-                    text.draw(batch, "First player starts",600, 700 );
+                    text.draw(batch, "First player starts", 600, 700);
                 } else {
                     batch.draw(coin2, 700, 400, 200, 200);
-                    text.draw(batch, "Second player starts",600, 700 );
+                    text.draw(batch, "Second player starts", 600, 700);
                 }
                 batch.draw(agree, 700, 200);
                 if (Gdx.input.justTouched()) {

@@ -2210,7 +2210,7 @@ public class DuelMenu {
         }
     }
 
-    private Matcher getMatcher(String input, String regex) {
+    public Matcher getMatcher(String input, String regex) {
         Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(input);
     }
