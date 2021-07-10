@@ -269,11 +269,10 @@ public class Duel implements Screen, Input.TextInputListener {
             }
             batch.end();
 
-        if (Gdx.input.isKeyPressed(Input.Keys.C) && Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-            isHolderCheatInput = true;
-            Gdx.input.getTextInput(this, "enter cheat", "", "");
-        }
-
+            if (Gdx.input.isKeyPressed(Input.Keys.C) && Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+                isHolderCheatInput = true;
+                Gdx.input.getTextInput(this, "enter cheat", "", "");
+            }
 
 
             if (Gdx.input.justTouched()) {
@@ -328,13 +327,13 @@ public class Duel implements Screen, Input.TextInputListener {
                                 direct.play();
                         }
                         if (y < 710 - leftBarHeight / 4f && y > 710 - 2f * leftBarHeight / 4) {
-                        isHolderAttackInput = true;
-                        Gdx.input.getTextInput(this, "Card number", "", "");
-                        currentButtonClicked = "attack";
-                        if (!isMute)
-                            attack.play();
+                            isHolderAttackInput = true;
+                            Gdx.input.getTextInput(this, "Card number", "", "");
+                            currentButtonClicked = "attack";
+                            if (!isMute)
+                                attack.play();
 
-                    }
+                        }
                         if (y < 710 - 2f * leftBarHeight / 4 && y > 710 - 3f * leftBarHeight / 4) {
                             //SUMMON
                             message = duelMenu.phase2Summon();
@@ -349,7 +348,7 @@ public class Duel implements Screen, Input.TextInputListener {
                             if (!isMute)
                                 set.play();
                         }
-                    
+                    }
 
                     if (x >= 1550 - rightButtonBar.getWidth() && x <= 1550) {
                         if (y < 710 && y > 710 - leftBarHeight / 4f) {
@@ -391,10 +390,10 @@ public class Duel implements Screen, Input.TextInputListener {
                 text.getData().setScale(0.3f);
                 if (duelMenu.currentTurnPlayer == duelMenu.firstPlayer) {
                     batch.draw(coin1, 700, 400, 200, 200);
-                    text.draw(batch, "First player starts",600, 700 );
+                    text.draw(batch, "First player starts", 600, 700);
                 } else {
                     batch.draw(coin2, 700, 400, 200, 200);
-                    text.draw(batch, "Second player starts",600, 700 );
+                    text.draw(batch, "Second player starts", 600, 700);
                 }
                 batch.draw(agree, 700, 200);
                 if (Gdx.input.justTouched()) {
@@ -421,7 +420,16 @@ public class Duel implements Screen, Input.TextInputListener {
             Mola.music.play();
             batch.end();
         }
+        String data = duelMenu.hasGameEndedPhase2();
+        if (!data.equals("")){
+            if (duelMenu.isGameEnd()){
+                game.setScreen(new GameOver(game,isMute,currentLoggedInUser,data));
+            }else {
+                message = data;
+            }
+        }
     }
+
 
     private void changePhase() {
         phaseMessage = duelMenu.phase2NextPhase();
