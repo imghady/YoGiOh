@@ -49,56 +49,56 @@ public class DuelMenu {
     public User secondRoundWinner;
     private boolean isGameEnd = false;
     public boolean canCardBeSetAfterTerratiger = true;
-    public ArrayList<Card> monsterEffect1 = new ArrayList<>();
-    public ArrayList<Card> monsterEffect2 = new ArrayList<>();
-    public ArrayList<Card> monsterEffect3 = new ArrayList<>();
-    public ArrayList<Card> monsterEffect4 = new ArrayList<>();
-    public ArrayList<Card> monsterEffect5 = new ArrayList<>();
-    public ArrayList<Card> monsterEffect6 = new ArrayList<>();
-    public ArrayList<Card> monsterEffect7 = new ArrayList<>();
-    public ArrayList<Card> monsterEffect8 = new ArrayList<>();
-    public ArrayList<Card> monsterEffect9 = new ArrayList<>();
-    public ArrayList<Card> monsterEffect10 = new ArrayList<>();
-    public ArrayList<Card> monsterEffect11 = new ArrayList<>();
-    public ArrayList<Card> monsterEffect12 = new ArrayList<>();
-    public ArrayList<Card> monsterEffect13 = new ArrayList<>();
-    public ArrayList<Card> monsterEffect14 = new ArrayList<>();
-    public ArrayList<Card> monsterEffect15 = new ArrayList<>();
-    public ArrayList<Card> monsterEffect16 = new ArrayList<>();
-    public ArrayList<Card> monsterEffect17 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect1 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect2 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect3 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect4 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect5 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect6 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect7 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect8 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect9 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect10 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect11 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect12 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect13 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect14 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect15 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect16 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect17 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect18 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect19 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect20 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect21 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect22 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect23 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect24 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect25 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect26 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect27 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect28 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect29 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect30 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect31 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect32 = new ArrayList<>();
-    public ArrayList<Card> spellTrapEffect33 = new ArrayList<>();
+    public static ArrayList<Card> monsterEffect1 = new ArrayList<>();
+    public static ArrayList<Card> monsterEffect2 = new ArrayList<>();
+    public static ArrayList<Card> monsterEffect3 = new ArrayList<>();
+    public static ArrayList<Card> monsterEffect4 = new ArrayList<>();
+    public static ArrayList<Card> monsterEffect5 = new ArrayList<>();
+    public static ArrayList<Card> monsterEffect6 = new ArrayList<>();
+    public static ArrayList<Card> monsterEffect7 = new ArrayList<>();
+    public static ArrayList<Card> monsterEffect8 = new ArrayList<>();
+    public static ArrayList<Card> monsterEffect9 = new ArrayList<>();
+    public static ArrayList<Card> monsterEffect10 = new ArrayList<>();
+    public static ArrayList<Card> monsterEffect11 = new ArrayList<>();
+    public static ArrayList<Card> monsterEffect12 = new ArrayList<>();
+    public static ArrayList<Card> monsterEffect13 = new ArrayList<>();
+    public static ArrayList<Card> monsterEffect14 = new ArrayList<>();
+    public static ArrayList<Card> monsterEffect15 = new ArrayList<>();
+    public static ArrayList<Card> monsterEffect16 = new ArrayList<>();
+    public static ArrayList<Card> monsterEffect17 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect1 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect2 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect3 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect4 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect5 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect6 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect7 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect8 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect9 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect10 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect11 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect12 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect13 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect14 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect15 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect16 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect17 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect18 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect19 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect20 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect21 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect22 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect23 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect24 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect25 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect26 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect27 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect28 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect29 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect30 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect31 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect32 = new ArrayList<>();
+    public static ArrayList<Card> spellTrapEffect33 = new ArrayList<>();
 
     public DuelMenu(String currentUser, String secondUser, int numberOfRounds, boolean isAi) {
         this.isAi = isAi;
@@ -162,10 +162,9 @@ public class DuelMenu {
             opponentTurnPlayer = secondPlayer;
         }
 
-        configureEffects();
     }
 
-    private void configureEffects() {
+    public static void configureEffects() {
         monsterEffect1.add(Card.getCardByName("Command Knight"));
         monsterEffect2.add(Card.getCardByName("Yomi Ship"));
         monsterEffect3.add(Card.getCardByName("Suijin"));
@@ -219,9 +218,9 @@ public class DuelMenu {
         spellTrapEffect33.add(Card.getCardByName("Call of the Haunted"));
     }
 
-    public boolean isCardInArray(Card card, ArrayList<Card> arrayList) {
+    public static boolean isCardInArray(Card card, ArrayList<Card> arrayList) {
         for (Card card1 : arrayList) {
-            if (card1.getName().equals(card.getName()))
+            if (card1 != null && card1.getName().equals(card.getName()))
                 return true;
         }
         return false;
@@ -1774,9 +1773,9 @@ public class DuelMenu {
         if (opponentMat.getMonsterZone(number) == null) {
             return "there is no card to attack here";
         }
-        if (!isAi) {
-            checkForQuickChangeTurn();
-        }
+        // if (!isAi) {
+        //     checkForQuickChangeTurn();
+        // }
         if (!permissionForAttack) {
             return "No permission";
         }
@@ -1934,6 +1933,50 @@ public class DuelMenu {
         }
         effectCheckerInActiveEffect(selectedCard);
         terminalOutput = "spell activated";
+    }
+
+
+    public String phase2ActiveEffect() {
+        Card selectedCard = currentTurnPlayer.getCurrentSelectedCard();
+        if (selectedCard == null) {
+            return "no card is selected yet";
+
+        }
+        if (!selectedCard.getCardType().equals("Spell") && !selectedCard.getCardType().equals("Trap")) {
+            return "activate effect is only for spell cards.";
+
+        }
+        if (!phase.getCurrentPhase().equals("First Main Phase") && !phase.getCurrentPhase().equals("Battle Phase")) {
+            return "you can’t activate an effect on this turn";
+
+        }
+        Mat opponentMat = opponentTurnPlayer.getMat();
+        for (int i = 0; i < 5; i++) {
+            Monster monster = opponentMat.getMonsterZone(i);
+            if (monster != null && monster.getName().equals("Mirage Dragon")) {
+
+                return "opponent has mirage dragon";
+
+            }
+        }
+        Mat mat = currentTurnPlayer.getMat();
+        for (int i = 0; i < 5; i++) {
+            if (mat.getSpellAndTrapZone(i) != null && mat.getSpellAndTrapZone(i).getName().equals(selectedCard.getName())) {
+                if (mat.getActivate(i)) {
+                    return "you have already activated this card";
+
+                }
+                mat.setActivate(i);
+            }
+        }
+        if (mat.isSpellAndTrapZoneIsFull() && !selectedCard.isField()) {
+            terminalOutput = "spell card zone is full";
+            return terminalOutput;
+        }
+        effectCheckerInActiveEffect(selectedCard);
+        currentTurnPlayer.getMat().deleteHandCard(currentTurnPlayer.getHandNumber());
+        terminalOutput = "spell activated";
+        return terminalOutput;
     }
 
     public void checkForQuickChangeTurn() {

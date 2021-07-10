@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.game.Mola;
+import controller.DuelMenu;
 import controller.GifDecoder;
 
 public class Start extends Game implements Screen,  Input.TextInputListener  {
@@ -49,6 +50,7 @@ public class Start extends Game implements Screen,  Input.TextInputListener  {
         about = new Texture("buttons/about.png");
         welcome = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/welcome.gif").read());
         start = System.currentTimeMillis();
+        DuelMenu.configureEffects();
     }
 
 
