@@ -1372,6 +1372,82 @@ public class DuelMenu {
         }
     }
 
+    public String phase2Set() {
+        Card card = currentTurnPlayer.getCurrentSelectedCard();
+        Mat mat = currentTurnPlayer.getMat();
+        if (!canCardBeSetAfterTerratiger) {
+            canCardBeSetAfterTerratiger = true;
+            return "";
+        }
+        if (card instanceof Monster || card == null) {
+            if (card == null) {
+                return  "no card selected yet";
+
+            }
+            if (!currentTurnPlayer.getSelectedName().equals("Hand")) {
+                return  "you can't set this card";
+
+            }
+            if (card instanceof Monster && (!phase.getCurrentPhase().equals("First Main Phase") && !phase.getCurrentPhase().equals("Second Main Phase"))) {
+                return  "you can't do this action phase";
+
+            }
+            if (mat.isMonsterZoneIsFull()) {
+                return  "monster card zone is full";
+
+            }
+            if (currentTurnPlayer.isSummoned()) {
+                return  "you already summoned/set on this turn";
+
+            }
+            if (!isEnoughCardForTribute()) {
+                return "there are not enough cards for tribute";
+
+            }
+            Monster monster = (Monster) currentTurnPlayer.getCurrentSelectedCard();
+            if (monster.getLevel() > 4) {
+                setWithTribute(monster);
+                return "";
+            }
+            monster.setAttack(false);
+            monster.setOn(false);
+            mat.addMonster(monster);
+            currentTurnPlayer.setCurrentSelectedCard(null);
+            currentTurnPlayer.setSelectedName(null);
+            currentTurnPlayer.getMat().deleteHandCard(currentTurnPlayer.getHandNumber());
+            currentTurnPlayer.setHandNumber(-1);
+            currentTurnPlayer.setSummoned(true);
+            return  "set successfully";
+        } else if (card instanceof Spell || card instanceof Trap) {
+            if (!currentTurnPlayer.getSelectedName().equals("Hand")) {
+                return  "you can't set this card";
+
+            }
+            if ((!phase.getCurrentPhase().equals("First Main Phase") && !phase.getCurrentPhase().equals("Second Main Phase"))) {
+                return  "you can't do this action phase";
+
+            }
+            if (mat.isSpellAndTrapZoneIsFull()) {
+                return  "spell card zone is full";
+
+            }
+            card.setOn(false);
+            if (card.getType().equals("Field")) {
+                mat.setFieldZone(null);
+                mat.setFieldZone(card);
+            } else {
+                mat.addSpellOrTrap(card);
+            }
+            currentTurnPlayer.setCurrentSelectedCard(null);
+            currentTurnPlayer.setSelectedName(null);
+            currentTurnPlayer.getMat().deleteHandCard(currentTurnPlayer.getHandNumber());
+            currentTurnPlayer.setHandNumber(-1);
+            currentTurnPlayer.setSummoned(true);
+            return  "set successfully";
+        }
+        return "";
+    }
+
     public void setWithTribute(Monster monster) {
         int counter = 0;
         String input;

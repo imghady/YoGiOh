@@ -322,6 +322,7 @@ public class Duel implements Screen, Input.TextInputListener {
                     }
                     if (y < 710 - 3f * leftBarHeight / 4 && y > 710 - 4f * leftBarHeight / 4) {
                         //SET
+                        message = duelMenu.phase2Set();
                         if (!isMute)
                             set.play();
                     }
@@ -540,15 +541,15 @@ public class Duel implements Screen, Input.TextInputListener {
                 String address = getCardImageFileAddress(card.getName());
                 Texture texture = new Texture(Gdx.files.internal(address + ".jpg"));
                 if (i == 0)
-                    batch.draw(texture, xM1, yM);
+                    batch.draw(texture, xM1, yM, width, height);
                 if (i == 1)
-                    batch.draw(texture, xM2, yM);
+                    batch.draw(texture, xM2, yM, width, height);
                 if (i == 2)
-                    batch.draw(texture, xM3, yM);
+                    batch.draw(texture, xM3, yM, width, height);
                 if (i == 3)
-                    batch.draw(texture, xM4, yM);
+                    batch.draw(texture, xM4, yM, width, height);
                 if (i == 4)
-                    batch.draw(texture, xM5, yM);
+                    batch.draw(texture, xM5, yM, width, height);
             }
         }
         batch.end();
