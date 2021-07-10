@@ -220,7 +220,7 @@ public class DuelMenu {
 
     public static boolean isCardInArray(Card card, ArrayList<Card> arrayList) {
         for (Card card1 : arrayList) {
-            if (card1.getName().equals(card.getName()))
+            if (card1 != null && card1.getName().equals(card.getName()))
                 return true;
         }
         return false;
@@ -1773,9 +1773,9 @@ public class DuelMenu {
         if (opponentMat.getMonsterZone(number) == null) {
             return "there is no card to attack here";
         }
-       // if (!isAi) {
-       //     checkForQuickChangeTurn();
-       // }
+        // if (!isAi) {
+        //     checkForQuickChangeTurn();
+        // }
         if (!permissionForAttack) {
             return "No permission";
         }
@@ -1935,6 +1935,7 @@ public class DuelMenu {
         terminalOutput = "spell activated";
     }
 
+
     public String phase2ActiveEffect() {
         Card selectedCard = currentTurnPlayer.getCurrentSelectedCard();
         if (selectedCard == null) {
@@ -1953,6 +1954,7 @@ public class DuelMenu {
         for (int i = 0; i < 5; i++) {
             Monster monster = opponentMat.getMonsterZone(i);
             if (monster != null && monster.getName().equals("Mirage Dragon")) {
+
                 return "opponent has mirage dragon";
 
             }
@@ -1968,11 +1970,13 @@ public class DuelMenu {
             }
         }
         if (mat.isSpellAndTrapZoneIsFull() && !selectedCard.isField()) {
-            return "spell card zone is full";
-
+            terminalOutput = "spell card zone is full";
+            return terminalOutput;
         }
         effectCheckerInActiveEffect(selectedCard);
-        return "spell activated";
+        currentTurnPlayer.getMat().deleteHandCard(currentTurnPlayer.getHandNumber());
+        terminalOutput = "spell activated";
+        return terminalOutput;
     }
 
     public void checkForQuickChangeTurn() {
