@@ -328,13 +328,13 @@ public class Duel implements Screen, Input.TextInputListener {
                                 direct.play();
                         }
                         if (y < 710 - leftBarHeight / 4f && y > 710 - 2f * leftBarHeight / 4) {
-                        isHolderAttackInput = true;
-                        Gdx.input.getTextInput(this, "Card number", "", "");
-                        currentButtonClicked = "attack";
-                        if (!isMute)
-                            attack.play();
+                            isHolderAttackInput = true;
+                            Gdx.input.getTextInput(this, "Card number", "", "");
+                            currentButtonClicked = "attack";
+                            if (!isMute)
+                                attack.play();
 
-                    }
+                        }
                         if (y < 710 - 2f * leftBarHeight / 4 && y > 710 - 3f * leftBarHeight / 4) {
                             //SUMMON
                             message = duelMenu.phase2Summon();
@@ -349,7 +349,7 @@ public class Duel implements Screen, Input.TextInputListener {
                             if (!isMute)
                                 set.play();
                         }
-                    
+                    }
 
                     if (x >= 1550 - rightButtonBar.getWidth() && x <= 1550) {
                         if (y < 710 && y > 710 - leftBarHeight / 4f) {
