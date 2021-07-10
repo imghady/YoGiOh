@@ -36,6 +36,7 @@ public class Duel implements Screen, Input.TextInputListener {
     int rounds;
     Texture backButton;
     Texture changeMat;
+    Texture changePhase;
     User currentLoggedInUser;
     Texture mat;
     Texture card;
@@ -76,6 +77,7 @@ public class Duel implements Screen, Input.TextInputListener {
     long gif3Time;
     Player showingPlayer;
     String message = "";
+    String phaseMessage;
     String charPic1;
     String charPic2;
     String currentButtonClicked = "";
@@ -105,6 +107,7 @@ public class Duel implements Screen, Input.TextInputListener {
         changeMat = new Texture("buttons/changeMat.png");
         leftButtonBar = new Texture("buttons/leftButtonBar.png");
         card = new Texture("Cards/Monsters/BabyDragon.jpg");
+        changePhase = new Texture("buttons/changePhase.png");
         gif1 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif1.gif").read());
         gif2 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif2.gif").read());
         gif3 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("gifs/gif3.gif").read());
@@ -160,6 +163,7 @@ public class Duel implements Screen, Input.TextInputListener {
         batch.draw(leftButtonBar, 50, 250);
         batch.draw(agree, 80, 100, 200, 100);
         batch.draw(mat, 300, 250);
+        batch.draw(changePhase, 1320, 650, 250, 100);
         batch.end();
         loadMonsters();
         loadSpells();
@@ -242,6 +246,10 @@ public class Duel implements Screen, Input.TextInputListener {
                 }
 
             }
+
+            if (x >= 1320 && x <= 1570 && y >= 210 && y <= 310) {
+                changePhase();
+            }
             batch.end();
 
         }
@@ -258,6 +266,10 @@ public class Duel implements Screen, Input.TextInputListener {
             Mola.music.play();
             batch.end();
         }
+    }
+
+    private void changePhase() {
+        phaseMessage = duelMenu.phase2NextPhase();
     }
 
     private void agree() {
