@@ -15,7 +15,7 @@ import view.TerminalOutput;
 
 import java.io.IOException;
 
-public class changePassword implements Screen, Input.TextInputListener {
+public class ChangePassword implements Screen, Input.TextInputListener {
 
     SpriteBatch batch;
     final Mola game;
@@ -38,7 +38,7 @@ public class changePassword implements Screen, Input.TextInputListener {
     boolean isNew;
     int message;
 
-    public changePassword(Mola game, boolean isMute, User currentLoggedInUser) {
+    public ChangePassword(Mola game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
         this.isMute = isMute;
         this.game = game;

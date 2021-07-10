@@ -74,10 +74,10 @@ public class Profile implements Screen {
 
             if (Gdx.input.getX() > 150 && Gdx.input.getX() < 150 + changes.getWidth()) {
                 if (Gdx.input.getY() > 760 - changes.getHeight() / 2 && Gdx.input.getY() < 760) {
-                    game.setScreen(new changePassword(game, isMute, currentLoggedInUser));
+                    game.setScreen(new ChangePassword(game, isMute, currentLoggedInUser));
                     dispose();
                 } else if (Gdx.input.getY() > 760 - changes.getHeight() && Gdx.input.getY() < 760 - changes.getHeight() / 2) {
-                    game.setScreen(new changeNickname(game, isMute, currentLoggedInUser));
+                    game.setScreen(new ChangeNickname(game, isMute, currentLoggedInUser));
                     dispose();
                 }
             }

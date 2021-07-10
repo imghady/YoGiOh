@@ -216,12 +216,12 @@ public class Register implements Screen, Input.TextInputListener {
             isHolderUsername = false;
         }
 
-        if (isHolderPassword) {
+        else if (isHolderPassword) {
             password = holder;
             isHolderPassword = false;
         }
 
-        if (isHolderNickname) {
+        else if (isHolderNickname) {
             nickname = holder;
             isHolderNickname = false;
         }

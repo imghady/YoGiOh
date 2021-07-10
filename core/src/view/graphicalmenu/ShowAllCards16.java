@@ -2,6 +2,7 @@ package view.graphicalmenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -19,6 +20,7 @@ public class ShowAllCards16 implements Screen {
     Texture mute;
     Texture unmute;
     boolean isMute;
+    BitmapFont text2;
     Texture backButton;
     Texture next;
     Texture pre;
@@ -37,6 +39,7 @@ public class ShowAllCards16 implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 960);
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        text2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         mute = new Texture("buttons/mute.png");
@@ -62,11 +65,16 @@ public class ShowAllCards16 implements Screen {
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600,960);
         text.getData().setScale(0.3f);
+        text2.getData().setScale(0.2f);
+        text2.setColor(Color.YELLOW);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "show all cards 16 - Spells and Traps", 500, 900);
+        text.draw(batch, "show all cards 16 - Spells and Traps", 500, 920);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(next, 800, 30, next.getWidth(), next.getHeight());
         batch.draw(pre, 700, 30, pre.getWidth(), pre.getHeight());
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Change of Heart"), 250, 840);
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Closed Forest"), 750, 840);
+        text2.draw(batch, "asset: " + currentLoggedInUser.showNumberOfCard("Dark Hole"), 1250, 840);
         batch.draw(changeOfHeart, 100, 150, changeOfHeart.getWidth(), changeOfHeart.getHeight());
         batch.draw(closedForest, 600, 150, closedForest.getWidth(), closedForest.getHeight());
         batch.draw(darkHole, 1100, 150, darkHole.getWidth(), darkHole.getHeight());
