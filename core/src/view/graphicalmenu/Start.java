@@ -70,7 +70,6 @@ public class Start extends Game implements Screen,  Input.TextInputListener  {
         batch.draw(register, 110, 100, register.getWidth(),register.getHeight());
         batch.draw(about, 1150, 800, about.getWidth(),about.getHeight());
         if (System.currentTimeMillis() - start <= 2000) {
-            System.out.println("gay");
             batch.draw(welcome.getKeyFrame(elapsed), 0, 0, 1600, 960);
         }
         batch.end();

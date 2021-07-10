@@ -76,12 +76,16 @@ public class Duel implements Screen, Input.TextInputListener {
     long gif3Time;
     Player showingPlayer;
     String message = "";
+    String charPic1;
+    String charPic2;
     String currentButtonClicked = "";
     Animation<TextureRegion> gif1;
     Animation<TextureRegion> gif2;
     Animation<TextureRegion> gif3;
     Animation<TextureRegion> gameOver;
     Animation<TextureRegion> background;
+    Texture pic1;
+    Texture pic2;
 
     public Duel(Mola game, boolean isMute, User currentLoggedInUser, boolean isAi, String secondUserUsername, int rounds) {
         this.currentLoggedInUser = currentLoggedInUser;
@@ -113,6 +117,11 @@ public class Duel implements Screen, Input.TextInputListener {
         String secondUser = secondUserUsername;
         duelMenu = new DuelMenu(firstUser, secondUser, rounds, isAi);
         showingPlayer = duelMenu.currentTurnPlayer;
+        charPic1 = currentLoggedInUser.getCharacterFileAddress();
+        pic1 = new Texture(charPic1);
+        User user = User.getUserByUsername(secondUserUsername);
+        charPic2 = user.getCharacterFileAddress();
+        pic2 = new Texture(charPic2);
     }
 
 
@@ -138,7 +147,13 @@ public class Duel implements Screen, Input.TextInputListener {
         text.draw(batch, "Duel", 150, 900);
         text2.getData().setScale(0.2f);
         text2.setColor(Color.YELLOW);
-        text2.draw(batch, "Showing player: " + showingPlayer.getUser().getNickname(), 400, 920);
+        text2.draw(batch, "Showing player username: " + showingPlayer.getUser().getUsername(), 400, 920);
+        text2.draw(batch, "nickname: " + showingPlayer.getUser().getNickname(), 400, 850);
+        if (showingPlayer == duelMenu.firstPlayer) {
+            batch.draw(pic1, 50, 600, 200, 250);
+        } else {
+            batch.draw(pic2, 50, 600, 200, 250);
+        }
         text2.draw(batch, message, 590, 800);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(changeMat, 1500, 50);
