@@ -322,6 +322,10 @@ public class Duel implements Screen, Input.TextInputListener {
                         isPaused = true;
                     }
 
+                    if (x >= 1020 && x <= 1300 && y >= 210 && y <= 310) {
+                        game.setScreen(new graveyardShow(game,isMute,currentLoggedInUser,this,showingPlayer.getMat().getGraveyard(),showingPlayer));
+                    }
+
 
                     batch.begin();
                     int leftBarHeight = leftButtonBar.getHeight();
