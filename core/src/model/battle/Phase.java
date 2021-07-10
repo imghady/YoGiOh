@@ -39,7 +39,7 @@ public class Phase {
 
 
     public String getCurrentPhase() {
-        return currentPhase + "\n";
+        return currentPhase;
     }
 
     public String drawPhase(Player player) {
