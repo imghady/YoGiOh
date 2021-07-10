@@ -364,6 +364,7 @@ public class Duel implements Screen, Input.TextInputListener {
                         }
                         if (y < 710 - 3f * leftBarHeight / 4 && y > 710 - 4f * leftBarHeight / 4) {
                             //ACTIVE EFFECT
+                            message = duelMenu.activeEffectPhase2();
                             gif4ShouldPlay = true;
                             gif4Time = System.currentTimeMillis();
                         }

@@ -221,7 +221,7 @@ public class DuelMenu {
 
     public boolean isCardInArray(Card card, ArrayList<Card> arrayList) {
         for (Card card1 : arrayList) {
-            if (card1.getName().equals(card.getName()))
+            if (card1 != null && card1.getName().equals(card.getName()))
                 return true;
         }
         return false;
@@ -1774,9 +1774,9 @@ public class DuelMenu {
         if (opponentMat.getMonsterZone(number) == null) {
             return "there is no card to attack here";
         }
-       // if (!isAi) {
-       //     checkForQuickChangeTurn();
-       // }
+        // if (!isAi) {
+        //     checkForQuickChangeTurn();
+        // }
         if (!permissionForAttack) {
             return "No permission";
         }
@@ -1934,6 +1934,47 @@ public class DuelMenu {
         }
         effectCheckerInActiveEffect(selectedCard);
         terminalOutput = "spell activated";
+    }
+
+    public String activeEffectPhase2() {
+        Card selectedCard = currentTurnPlayer.getCurrentSelectedCard();
+        if (selectedCard == null) {
+            return "no card is selected yet";
+        }
+        if (!selectedCard.getCardType().equals("Spell") && !selectedCard.getCardType().equals("Trap")) {
+            terminalOutput = "activate effect is only for spell cards.";
+            return terminalOutput;
+        }
+        if (!phase.getCurrentPhase().equals("First Main Phase") && !phase.getCurrentPhase().equals("Battle Phase")) {
+            terminalOutput = "you can’t activate an effect on this turn";
+            return terminalOutput;
+        }
+        Mat opponentMat = opponentTurnPlayer.getMat();
+        for (int i = 0; i < 5; i++) {
+            Monster monster = opponentMat.getMonsterZone(i);
+            if (monster != null && monster.getName().equals("Mirage Dragon")) {
+                terminalOutput = "opponent has mirage dragon";
+                return terminalOutput;
+            }
+        }
+        Mat mat = currentTurnPlayer.getMat();
+        for (int i = 0; i < 5; i++) {
+            if (mat.getSpellAndTrapZone(i) != null && mat.getSpellAndTrapZone(i).getName().equals(selectedCard.getName())) {
+                if (mat.getActivate(i)) {
+                    terminalOutput = "you have already activated this card";
+                    return terminalOutput;
+                }
+                mat.setActivate(i);
+            }
+        }
+        if (mat.isSpellAndTrapZoneIsFull() && !selectedCard.isField()) {
+            terminalOutput = "spell card zone is full";
+            return terminalOutput;
+        }
+        effectCheckerInActiveEffect(selectedCard);
+        currentTurnPlayer.getMat().deleteHandCard(currentTurnPlayer.getHandNumber());
+        terminalOutput = "spell activated";
+        return terminalOutput;
     }
 
     public void checkForQuickChangeTurn() {
