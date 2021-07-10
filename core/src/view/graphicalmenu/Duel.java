@@ -446,21 +446,27 @@ public class Duel implements Screen, Input.TextInputListener {
         }
         if (x > xH1 && x < xH1 + width && y < 960 - yH && y > 960 - yH - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(0);
+            duelMenu.currentTurnPlayer.setHandNumber(1);
         }
         if (x > xH2 && x < xH2 + width && y < 960 - yH && y > 960 - yH - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(1);
+            duelMenu.currentTurnPlayer.setHandNumber(2);
         }
         if (x > xH3 && x < xH3 + width && y < 960 - yH && y > 960 - yH - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(2);
+            duelMenu.currentTurnPlayer.setHandNumber(3);
         }
         if (x > xH4 && x < xH4 + width && y < 960 - yH && y > 960 - yH - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(3);
+            duelMenu.currentTurnPlayer.setHandNumber(4);
         }
         if (x > xH5 && x < xH5 + width && y < 960 - yH && y > 960 - yH - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(4);
+            duelMenu.currentTurnPlayer.setHandNumber(5);
         }
         if (x > xH6 && x < xH6 + width && y < 960 - yH && y > 960 - yH - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(5);
+            duelMenu.currentTurnPlayer.setHandNumber(6);
         }
     }
 
