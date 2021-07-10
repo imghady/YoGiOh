@@ -149,7 +149,7 @@ public class ImportWithJSON implements Screen, Input.TextInputListener {
                                     cardDetail += "DEF : " + card.get("defence") + "\n";
                                     cardDetail += "Description : " + card.get("description") + "\n";
                                     cardDetail += "Price : " + card.get("price");
-                                    
+
 
                                 } else {
                                     message = 2;
@@ -165,10 +165,10 @@ public class ImportWithJSON implements Screen, Input.TextInputListener {
 
                                             cardDetail += card.get("name") + "\n";
                                             cardDetail += "Spell" + "\n";
+                                            cardDetail += "Icon : " + card.get("icon") + "\n";
                                             cardDetail += "Status : " + card.get("status") + "\n";
                                             cardDetail += "Description : " + card.get("description") + "\n";
                                             cardDetail += "Price : " + card.get("price");
-
 
 
                                         } else {
@@ -182,6 +182,7 @@ public class ImportWithJSON implements Screen, Input.TextInputListener {
 
                                             cardDetail += card.get("name") + "\n";
                                             cardDetail += "Trap" + "\n";
+                                            cardDetail += "Icon : " + card.get("icon") + "\n";
                                             cardDetail += "Status : " + card.get("status") + "\n";
                                             cardDetail += "Description : " + card.get("description") + "\n";
                                             cardDetail += "Price : " + card.get("price");
