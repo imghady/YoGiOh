@@ -74,7 +74,7 @@ public class ImportExport  implements Screen {
 
             if (Gdx.input.getX() > 150 && Gdx.input.getX() < 150 + buttons.getWidth()) {
                 if (Gdx.input.getY() > 760 - buttons.getHeight() / 2 && Gdx.input.getY() < 760) {
-                    game.setScreen(new CreateCard(game, isMute, currentLoggedInUser));
+                    game.setScreen(new SelectType(game, isMute, currentLoggedInUser));
                     dispose();
                 } else if (Gdx.input.getY() > 760 - buttons.getHeight() && Gdx.input.getY() < 760 - buttons.getHeight() / 2) {
                     game.setScreen(new ImportWithJSON(game, isMute, currentLoggedInUser));
