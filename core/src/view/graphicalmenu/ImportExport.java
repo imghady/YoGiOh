@@ -22,6 +22,7 @@ public class ImportExport  implements Screen {
     Texture unmute;
     boolean isMute = false;
     Texture backButton;
+    Texture export;
     User currentLoggedInUser;
 
     public ImportExport(Mola game, boolean isMute, User currentLoggedInUser) {
@@ -38,6 +39,7 @@ public class ImportExport  implements Screen {
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
         buttons = new Texture("buttons/importButtons.png");
+        export = new Texture("buttons/exportCard.png");
     }
 
     @Override
@@ -56,6 +58,7 @@ public class ImportExport  implements Screen {
         text.draw(batch, "Import Export Menu", 150, 850);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(buttons, 150, 200, buttons.getWidth(), buttons.getHeight());
+        batch.draw(export, 150, 465, export.getWidth(), export.getHeight());
         batch.end();
 
         if (Gdx.input.justTouched()) {
@@ -72,9 +75,15 @@ public class ImportExport  implements Screen {
                 }
             }
 
+            if (Gdx.input.getY() > 495 - export.getHeight() && Gdx.input.getY() < 495) {
+                if (Gdx.input.getX() > 150 && Gdx.input.getX() < 150 + export.getWidth()) {
+                    game.setScreen(new Export(game, isMute, currentLoggedInUser));
+                    dispose();
+                }
+            }
+
             if (Gdx.input.getX() > 150 && Gdx.input.getX() < 150 + buttons.getWidth()) {
                 if (Gdx.input.getY() > 760 - buttons.getHeight() / 2 && Gdx.input.getY() < 760) {
-
                     game.setScreen(new SelectType(game, isMute, currentLoggedInUser));
                     dispose();
                 } else if (Gdx.input.getY() > 760 - buttons.getHeight() && Gdx.input.getY() < 760 - buttons.getHeight() / 2) {
