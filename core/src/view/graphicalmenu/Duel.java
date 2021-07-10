@@ -417,57 +417,73 @@ public class Duel implements Screen, Input.TextInputListener {
     private void handleCardSelection(float x, float y) {
         if (x > xM1 && x < xM1 + width && y < 960 - yM && y > 960 - yM - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getMonsterZone(0);
+            duelMenu.currentTurnPlayer.setSelectedName("Monster");
         }
         if (x > xM2 && x < xM2 + width && y < 960 - yM && y > 960 - yM - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getMonsterZone(1);
+            duelMenu.currentTurnPlayer.setSelectedName("Monster");
         }
         if (x > xM3 && x < xM3 + width && y < 960 - yM && y > 960 - yM - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getMonsterZone(2);
+            duelMenu.currentTurnPlayer.setSelectedName("Monster");
         }
         if (x > xM4 && x < xM4 + width && y < 960 - yM && y > 960 - yM - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getMonsterZone(3);
+            duelMenu.currentTurnPlayer.setSelectedName("Monster");
         }
         if (x > xM5 && x < xM5 + width && y < 960 - yM && y > 960 - yM - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getMonsterZone(4);
+            duelMenu.currentTurnPlayer.setSelectedName("Monster");
         }
         if (x > xS1 && x < xS1 + width && y < 960 - yS && y > 960 - yS - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getSpellAndTrapZone(0);
+            duelMenu.currentTurnPlayer.setSelectedName("Spell");
         }
         if (x > xS2 && x < xS2 + width && y < 960 - yS && y > 960 - yS - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getSpellAndTrapZone(1);
+            duelMenu.currentTurnPlayer.setSelectedName("Spell");
         }
         if (x > xS3 && x < xS3 + width && y < 960 - yS && y > 960 - yS - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getSpellAndTrapZone(2);
+            duelMenu.currentTurnPlayer.setSelectedName("Spell");
         }
         if (x > xS4 && x < xS4 + width && y < 960 - yS && y > 960 - yS - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getSpellAndTrapZone(3);
+            duelMenu.currentTurnPlayer.setSelectedName("Spell");
         }
         if (x > xS5 && x < xS5 + width && y < 960 - yS && y > 960 - yS - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getSpellAndTrapZone(4);
+            duelMenu.currentTurnPlayer.setSelectedName("Spell");
         }
         if (x > xH1 && x < xH1 + width && y < 960 - yH && y > 960 - yH - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(0);
             duelMenu.currentTurnPlayer.setHandNumber(1);
+            duelMenu.currentTurnPlayer.setSelectedName("Hand");
         }
         if (x > xH2 && x < xH2 + width && y < 960 - yH && y > 960 - yH - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(1);
             duelMenu.currentTurnPlayer.setHandNumber(2);
+            duelMenu.currentTurnPlayer.setSelectedName("Hand");
         }
         if (x > xH3 && x < xH3 + width && y < 960 - yH && y > 960 - yH - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(2);
             duelMenu.currentTurnPlayer.setHandNumber(3);
+            duelMenu.currentTurnPlayer.setSelectedName("Hand");
         }
         if (x > xH4 && x < xH4 + width && y < 960 - yH && y > 960 - yH - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(3);
             duelMenu.currentTurnPlayer.setHandNumber(4);
+            duelMenu.currentTurnPlayer.setSelectedName("Hand");
         }
         if (x > xH5 && x < xH5 + width && y < 960 - yH && y > 960 - yH - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(4);
             duelMenu.currentTurnPlayer.setHandNumber(5);
+            duelMenu.currentTurnPlayer.setSelectedName("Hand");
         }
         if (x > xH6 && x < xH6 + width && y < 960 - yH && y > 960 - yH - height) {
             duelMenu.currentTurnPlayer.currentSelectedCard = duelMenu.currentTurnPlayer.getMat().getHandCard(5);
             duelMenu.currentTurnPlayer.setHandNumber(6);
+            duelMenu.currentTurnPlayer.setSelectedName("Hand");
         }
     }
 
