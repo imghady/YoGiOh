@@ -440,7 +440,16 @@ public class Duel implements Screen, Input.TextInputListener {
             Mola.music.play();
             batch.end();
         }
+        String data = duelMenu.hasGameEndedPhase2();
+        if (!data.equals("")){
+            if (duelMenu.isGameEnd()){
+                game.setScreen(new GameOver(game,isMute,currentLoggedInUser,data));
+            }else {
+                message = data;
+            }
+        }
     }
+
 
     private void changePhase() {
         phaseMessage = duelMenu.phase2NextPhase();
