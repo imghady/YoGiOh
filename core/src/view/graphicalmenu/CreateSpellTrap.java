@@ -77,7 +77,7 @@ public class CreateSpellTrap implements Screen, Input.TextInputListener {
         effectMonster = new Texture("buttons/monsterEffect.png");
         add = new Texture("buttons/agree.png");
         buttons = new Texture("buttons/spellTrapFields.png");
-        
+
     }
 
     @Override
