@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
 import controller.AppClient;
+import controller.Logout;
 import model.user.User;
 import org.json.simple.JSONObject;
 
@@ -85,6 +86,7 @@ public class ChooseCharacter implements Screen {
 
             if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
                 if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
+                    Logout.logout(user.getUsername());
                     game.setScreen(new Start(game, isMute));
                     dispose();
                 }

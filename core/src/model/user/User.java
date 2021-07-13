@@ -206,4 +206,8 @@ public class User {
         }
         return cnt;
     }
+
+    public static void setAllUsers(ArrayList<User> allUsers) {
+        User.allUsers = allUsers;
+    }
 }
