@@ -27,7 +27,6 @@ public class Scoreboard implements Screen {
     boolean isMute = false;
     Texture backButton;
     User currentLoggedInUser;
-   // User[] users;
     String[] users;
 
     public Scoreboard(Mola game, boolean isMute, User currentLoggedInUser) {

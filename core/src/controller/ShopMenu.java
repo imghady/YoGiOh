@@ -41,17 +41,14 @@ public class ShopMenu {
                 return jsonObject.get("message").toString();
             }
             else if (jsonObject.get("type").equals("monster")){
-                System.out.println("kir1");
                 Gson gson = new Gson();
                 currentUser.addCard(gson.fromJson(data[1],Monster.class));
                 return "success";
             }else if (jsonObject.get("type").equals("trap")){
-                System.out.println("kir2");
                 Gson gson = new Gson();
                 currentUser.addCard(gson.fromJson(data[1],Trap.class));
                 return "success";
             }else if (jsonObject.get("type").equals("spell")){
-                System.out.println("kir3");
                 Gson gson = new Gson();
                 currentUser.addCard(gson.fromJson(data[1],Spell.class));
                 return "success";

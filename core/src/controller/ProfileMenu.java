@@ -11,69 +11,56 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class ProfileMenu {
+    public JSONParser parser = new JSONParser();
     private User currentUser;
 
     public ProfileMenu(String username) {
         currentUser = User.getUserByUsername(username);
     }
 
-    public void profileChangeNickname(String nickname) {
-        if (!canChangeNickname(nickname)) {
-            TerminalOutput.output("user with nickname " + nickname + " already exists");
-            return;
-        }
-        String fileAddress = "resources/users/" + currentUser.getUsername() + ".json";
-        currentUser.setNickname(nickname);
-        JSONParser jsonParser = new JSONParser();
-
-        try (FileReader reader = new FileReader(fileAddress)) {
-            Object obj = jsonParser.parse(reader);
-            JSONObject userData = (JSONObject) obj;
-            userData.put("nickname", nickname);
-            try (FileWriter file = new FileWriter(fileAddress)) {
-                file.write(userData.toJSONString());
-                file.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
+    public String profileChangeNickname(String nickname) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("command", "changeNickname");
+        jsonObject.put("nickname", nickname);
+        jsonObject.put("token",AppClient.getToken());
+        String result = "";
+        try {
+            AppClient.dataOutputStream.writeUTF(jsonObject.toJSONString());
+            AppClient.dataOutputStream.flush();
+            result = AppClient.dataInputStream.readUTF();
+            JSONObject jsonInput = (JSONObject) parser.parse(result);
+            if (jsonInput.get("type").equals("Successful")){
+                return "success";
             }
-
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
+            else {
+                return "error";
+            }
+        } catch (Exception e) {
+            return "";
         }
-
-        TerminalOutput.output("nickname changed successfully");
     }
 
-    public void profileChangePassword(String currentPassword, String newPassword) {
-        if (isPasswordWrong(currentPassword)) {
-            TerminalOutput.output("current password invalid");
-            return;
-        }
-        if (currentPassword.equals(newPassword)) {
-            TerminalOutput.output("please enter new password");
-            return;
-        }
-        currentUser.setPassword(newPassword);
-
-        String fileAddress = "resources/users/" + currentUser.getUsername() + ".json";
-        JSONParser jsonParser = new JSONParser();
-
-        try (FileReader reader = new FileReader(fileAddress)) {
-            Object obj = jsonParser.parse(reader);
-            JSONObject userData = (JSONObject) obj;
-            userData.put("password", newPassword);
-            try (FileWriter file = new FileWriter(fileAddress)) {
-                file.write(userData.toJSONString());
-                file.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
+    public String profileChangePassword(String currentPassword, String newPassword) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("command", "changePassword");
+        jsonObject.put("currentPassword", currentPassword);
+        jsonObject.put("newPassword",newPassword);
+        jsonObject.put("token",AppClient.getToken());
+        String result = "";
+        try {
+            AppClient.dataOutputStream.writeUTF(jsonObject.toJSONString());
+            AppClient.dataOutputStream.flush();
+            result = AppClient.dataInputStream.readUTF();
+            JSONObject jsonInput = (JSONObject) parser.parse(result);
+            if (jsonInput.get("type").equals("Successful")){
+                return "success";
             }
-
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
+            else {
+                return jsonInput.get("message").toString();
+            }
+        } catch (Exception e) {
+            return "";
         }
-
-        TerminalOutput.output("password changed successfully!");
     }
 
     public boolean canChangeNickname(String nickname) {
