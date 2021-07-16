@@ -9,12 +9,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
 import model.user.User;
 
-public class Shop implements Screen {
+public class Auction implements Screen {
 
     SpriteBatch batch;
     final Mola game;
     OrthographicCamera camera;
     Texture wallpaper;
+    Texture changes;
     BitmapFont text;
     BitmapFont text1;
     Texture mute;
@@ -22,11 +23,8 @@ public class Shop implements Screen {
     boolean isMute = false;
     Texture backButton;
     User currentLoggedInUser;
-    Texture test;
-    Texture buttons;
-    Texture auction;
 
-    public Shop(Mola game, boolean isMute, User currentLoggedInUser) {
+    public Auction(Mola game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
         this.isMute = isMute;
         this.game = game;
@@ -39,9 +37,7 @@ public class Shop implements Screen {
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
-        buttons = new Texture("buttons/shopList.png");
-        auction = new Texture("buttons/Auction.png");
-        test = new Texture("Cards/Monsters/Suijin.jpg");
+        changes = new Texture("buttons/auctionButtons.png");
     }
 
     @Override
@@ -54,14 +50,12 @@ public class Shop implements Screen {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        batch.draw(wallpaper, 0, 0, 1600,960);
-        text.getData().setScale(0.3f);
+        batch.draw(wallpaper, 0, 0, 1600, 960);
+        text.getData().setScale(0.2f);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "Shop Menu\nyour credit: " + currentLoggedInUser.getCredit(), 200, 850);
+        text.draw(batch, "Auction", 150, 850);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
-        batch.draw(buttons, 200, 150, buttons.getWidth(), buttons.getHeight());
-        batch.draw(auction, 1170, 250, auction.getWidth(), auction.getHeight());
-
+        batch.draw(changes, 150, 200, changes.getWidth(), changes.getHeight());
         batch.end();
 
         if (Gdx.input.justTouched()) {
@@ -78,22 +72,12 @@ public class Shop implements Screen {
                 }
             }
 
-            if (Gdx.input.getY() > 710 - auction.getHeight() && Gdx.input.getY() < 710) {
-                if (Gdx.input.getX() > 1170 && Gdx.input.getX() < 1170 + auction.getWidth()) {
-                    game.setScreen(new Auction(game, isMute, currentLoggedInUser));
+            if (Gdx.input.getX() > 150 && Gdx.input.getX() < 150 + changes.getWidth()) {
+                if (Gdx.input.getY() > 760 - changes.getHeight() / 2 && Gdx.input.getY() < 760) {
+                    game.setScreen(new AddAuction(game, isMute, currentLoggedInUser));
                     dispose();
-                }
-            }
-
-            if (Gdx.input.getX() > 200 && Gdx.input.getX() < 200 + buttons.getWidth()) {
-                if (Gdx.input.getY() > 810 - buttons.getHeight() / 3 && Gdx.input.getY() < 810) {
-                    game.setScreen(new ShowAllCards1(game, isMute, currentLoggedInUser, "shop"));
-                    dispose();
-                } else if (Gdx.input.getY() > 810 - 2 * buttons.getHeight() / 3 && Gdx.input.getY() < 810 - buttons.getHeight() / 3) {
-                    game.setScreen(new ShowOneCard(game, isMute, currentLoggedInUser));
-                    dispose();
-                } else if (Gdx.input.getY() > 810 - buttons.getHeight() && Gdx.input.getY() < 810 - 2 * buttons.getHeight() / 3) {
-                    game.setScreen(new BuyCard(game, isMute, currentLoggedInUser));
+                } else if (Gdx.input.getY() > 760 - changes.getHeight() && Gdx.input.getY() < 760 - changes.getHeight() / 2) {
+                    game.setScreen(new ActiveAuction(game, isMute, currentLoggedInUser));
                     dispose();
                 }
             }
@@ -115,7 +99,7 @@ public class Shop implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void resize(int i, int i1) {
 
     }
 
