@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
+import controller.ProfileMenu;
 import model.Finisher;
 import model.user.User;
 
@@ -109,18 +110,22 @@ public class ChangeNickname implements Screen, Input.TextInputListener {
 
             if (Gdx.input.getY() > 860 - agree.getHeight() && Gdx.input.getY() < 860) {
                 if (Gdx.input.getX() > 650 && Gdx.input.getX() < 650 + agree.getWidth()) {
-                    if (nickname.equals("")) {
-                        message = 3;
-                    } else if (!canChangeNickname(nickname)) {
-                        message = 1;
-                    } else {
-                        message = 2;
-                        currentLoggedInUser.setNickname(nickname);
-                        try {
-                            Finisher.finish();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                    if (!nickname.equals("")) {
+                        ProfileMenu profileMenu = new ProfileMenu(currentLoggedInUser.getUsername());
+                        String result = profileMenu.profileChangeNickname(nickname);
+                        if (result.equals("success")) {
+                            message = 2;
+                            currentLoggedInUser.setNickname(nickname);
+                            try {
+                                Finisher.finish();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            message = 1;
                         }
+                    } else {
+                        message = 3;
                     }
                 }
             }

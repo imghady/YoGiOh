@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
+import com.sun.org.apache.xml.internal.dtm.ref.sax2dtm.SAX2RTFDTM;
 import controller.ScoreboardMenu;
 import model.user.User;
 
@@ -26,7 +27,7 @@ public class Scoreboard implements Screen {
     boolean isMute = false;
     Texture backButton;
     User currentLoggedInUser;
-    User[] users;
+    String[] users;
 
     public Scoreboard(Mola game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
@@ -66,36 +67,15 @@ public class Scoreboard implements Screen {
         title.draw(batch, "Scoreboard", 150, 850);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         int counter = 0;
-        int rank = 1;
-        User previousUser = users[0];
-        if (currentLoggedInUser.getUsername().equals(previousUser.getUsername())) {
-            text2.draw(batch, rank + "- " + previousUser.getNickname() + " : " + previousUser.getScore(), 200, 700 - 60 * counter);
-        } else {
-            text.draw(batch, rank + "- " + previousUser.getNickname() + " : " + previousUser.getScore(), 200, 700 - 60 * counter);
-        }
-        counter++;
-        boolean isFirstUser = true;
-        for (User user : users) {
-            if (isFirstUser) {
-                isFirstUser = false;
+        for (String user : users) {
+            String[] check = user.split(" ");
+            if (check[1].equals(currentLoggedInUser.getNickname())) {
+                text2.draw(batch, user, 200, 700 - 60 * counter);
             } else {
-                if (previousUser.getScore() != user.getScore()) {
-                    rank++;
-                }
-                if (currentLoggedInUser.getUsername().equals(user.getUsername())) {
-                    text2.draw(batch, rank + "- " + user.getNickname() + " : " + user.getScore(), 200, 700 - 60 * counter);
-
-                } else {
-                    text.draw(batch, rank + "- " + user.getNickname() + " : " + user.getScore(), 200, 700 - 60 * counter);
-                }
-                counter++;
-                if (counter == 10) {
-                    break;
-                }
-                previousUser = user;
+                text.draw(batch, user, 200, 700 - 60 * counter);
             }
+            counter++;
         }
-
         batch.end();
 
         if (Gdx.input.justTouched()) {

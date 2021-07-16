@@ -8,7 +8,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
+import controller.AppClient;
+import controller.Logout;
 import model.user.User;
+import org.json.simple.JSONObject;
+
+import java.io.IOException;
 
 public class ChooseCharacter implements Screen {
     SpriteBatch batch;
@@ -81,29 +86,73 @@ public class ChooseCharacter implements Screen {
 
             if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
                 if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
+                    Logout.logout(user.getUsername());
                     game.setScreen(new Start(game, isMute));
                     dispose();
                 }
             }
 
             if (Gdx.input.getY() > 760 - char1.getHeight() && Gdx.input.getY() < 760) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("command","updatePicture");
+                jsonObject.put("username",user.getUsername());
                 if (Gdx.input.getX() > 50 && Gdx.input.getX() < 350) {
+                    jsonObject.put("address","characters/Char1.png");
+                    try {
+                        AppClient.dataOutputStream.writeUTF(jsonObject.toJSONString());
+                        AppClient.dataOutputStream.flush();
+                        System.out.println(AppClient.dataInputStream.readUTF());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     user.setCharacterFileAddress("characters/Char1.png");
                     game.setScreen(new MainMenu(game, isMute, user));
                     dispose();
                 } else if (Gdx.input.getX() > 350 && Gdx.input.getX() < 650) {
+                    jsonObject.put("address","characters/Char2.png");
+                    try {
+                        AppClient.dataOutputStream.writeUTF(jsonObject.toJSONString());
+                        AppClient.dataOutputStream.flush();
+                        System.out.println(AppClient.dataInputStream.readUTF());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     user.setCharacterFileAddress("characters/Char2.png");
                     game.setScreen(new MainMenu(game, isMute, user));
                     dispose();
                 } else if (Gdx.input.getX() > 650 && Gdx.input.getX() < 950) {
+                    jsonObject.put("address","characters/Char3.png");
+                    try {
+                        AppClient.dataOutputStream.writeUTF(jsonObject.toJSONString());
+                        AppClient.dataOutputStream.flush();
+                        System.out.println(AppClient.dataInputStream.readUTF());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     user.setCharacterFileAddress("characters/Char3.png");
                     game.setScreen(new MainMenu(game, isMute, user));
                     dispose();
                 } else if (Gdx.input.getX() > 950 && Gdx.input.getX() < 1250) {
+                    jsonObject.put("address","characters/Char4.png");
+                    try {
+                        AppClient.dataOutputStream.writeUTF(jsonObject.toJSONString());
+                        AppClient.dataOutputStream.flush();
+                        System.out.println(AppClient.dataInputStream.readUTF());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     user.setCharacterFileAddress("characters/Char4.png");
                     game.setScreen(new MainMenu(game, isMute, user));
                     dispose();
                 } else if (Gdx.input.getX() > 1250 && Gdx.input.getX() < 1550) {
+                    jsonObject.put("address","characters/Char5.png");
+                    try {
+                        AppClient.dataOutputStream.writeUTF(jsonObject.toJSONString());
+                        AppClient.dataOutputStream.flush();
+                        System.out.println(AppClient.dataInputStream.readUTF());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     user.setCharacterFileAddress("characters/Char5.png");
                     game.setScreen(new MainMenu(game, isMute, user));
                     dispose();
