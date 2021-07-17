@@ -46,6 +46,20 @@ public class ScoreboardMenu {
         return data;
     }
 
+    public static String[] getOnlineUser() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("command", "getOnline");
+        try {
+            AppClient.dataOutputStream.writeUTF(jsonObject.toJSONString());
+            AppClient.dataOutputStream.flush();
+            String result = AppClient.dataInputStream.readUTF();
+            String[] data = result.split("\n");
+            return data;
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
     private void printScoreboard(User[] allUserSorted) {
         int rankCounter = 2;
         int rankHolder = 1;
@@ -64,4 +78,5 @@ public class ScoreboardMenu {
     private String toStringForOneUser(User user) {
         return user.getNickname() + ": " + user.getScore();
     }
+
 }
