@@ -2,46 +2,49 @@ package view.graphicalmenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
+import controller.ScoreboardMenu;
 import model.user.User;
 
-public class Shop implements Screen {
-
+public class OnlineUser implements Screen {
     SpriteBatch batch;
     final Mola game;
     OrthographicCamera camera;
     Texture wallpaper;
+    BitmapFont title;
     BitmapFont text;
     BitmapFont text1;
+    BitmapFont text2;
     Texture mute;
     Texture unmute;
     boolean isMute = false;
     Texture backButton;
     User currentLoggedInUser;
-    Texture test;
-    Texture buttons;
-    Texture auction;
+    String[] users;
+    long now;
 
-    public Shop(Mola game, boolean isMute, User currentLoggedInUser) {
+    public OnlineUser(Mola game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
         this.isMute = isMute;
         this.game = game;
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 960);
+        title = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        text2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
-        buttons = new Texture("buttons/shopList.png");
-        auction = new Texture("buttons/Auction.png");
-        test = new Texture("Cards/Monsters/Suijin.jpg");
+        users = ScoreboardMenu.getOnlineUser();
+        now = System.currentTimeMillis();
     }
 
     @Override
@@ -54,14 +57,36 @@ public class Shop implements Screen {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        batch.draw(wallpaper, 0, 0, 1600,960);
-        text.getData().setScale(0.3f);
+        batch.draw(wallpaper, 0, 0, 1600, 960);
+        title.getData().setScale(0.3f);
+        text.getData().setScale(0.2f);
+        text2.getData().setScale(0.2f);
+        text.setColor(Color.YELLOW);
+        text2.setColor(Color.GREEN);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "Shop Menu\nyour credit: " + currentLoggedInUser.getCredit(), 200, 850);
+        title.draw(batch, "Scoreboard", 150, 850);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
-        batch.draw(buttons, 200, 150, buttons.getWidth(), buttons.getHeight());
-        batch.draw(auction, 1170, 250, auction.getWidth(), auction.getHeight());
-
+        int counter = 0;
+        for (int i = 0; i < 10; i++) {
+            if (i == users.length) {
+                break;
+            }
+            if (users[i].equals(currentLoggedInUser.getNickname())) {
+                text2.draw(batch, (i+1) + ". " + users[i], 200, 700 - 60 * counter);
+            } else {
+                text.draw(batch, (i+1) + ". " + users[i], 200, 700 - 60 * counter);
+            }
+            counter++;
+        }
+        counter = 0;
+        for (int i = 10; i < users.length; i++) {
+            if (users[i].equals(currentLoggedInUser.getNickname())) {
+                text2.draw(batch, (i+1) + ". " + users[i], 550, 700 - 60 * counter);
+            } else {
+                text.draw(batch, (i+1) + ". " + users[i], 550, 700 - 60 * counter);
+            }
+            counter++;
+        }
         batch.end();
 
         if (Gdx.input.justTouched()) {
@@ -78,28 +103,12 @@ public class Shop implements Screen {
                 }
             }
 
-            if (Gdx.input.getY() > 710 - auction.getHeight() && Gdx.input.getY() < 710) {
-                if (Gdx.input.getX() > 1170 && Gdx.input.getX() < 1170 + auction.getWidth()) {
-                    game.setScreen(new Auction(game, isMute, currentLoggedInUser));
-                    dispose();
-                }
-            }
-
-            if (Gdx.input.getX() > 200 && Gdx.input.getX() < 200 + buttons.getWidth()) {
-                if (Gdx.input.getY() > 810 - buttons.getHeight() / 3 && Gdx.input.getY() < 810) {
-                    game.setScreen(new ShowAllCards1(game, isMute, currentLoggedInUser, "shop"));
-                    dispose();
-                } else if (Gdx.input.getY() > 810 - 2 * buttons.getHeight() / 3 && Gdx.input.getY() < 810 - buttons.getHeight() / 3) {
-                    game.setScreen(new ShowOneCard(game, isMute, currentLoggedInUser));
-                    dispose();
-                } else if (Gdx.input.getY() > 810 - buttons.getHeight() && Gdx.input.getY() < 810 - 2 * buttons.getHeight() / 3) {
-                    game.setScreen(new BuyCard(game, isMute, currentLoggedInUser));
-                    dispose();
-                }
-            }
-
         }
 
+        if (System.currentTimeMillis() - now >= 10000){
+            users = ScoreboardMenu.getOnlineUser();
+            now = System.currentTimeMillis();
+        }
 
         if (isMute) {
             batch.begin();

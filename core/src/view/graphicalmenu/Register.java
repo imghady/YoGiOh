@@ -112,23 +112,16 @@ public class Register implements Screen, Input.TextInputListener {
                 if (Gdx.input.getX() > 800 && Gdx.input.getX() < 800 + register.getWidth()) {
                     if (username != null && password != null && nickname != null && !username.equals("") &&
                     !password.equals("") && !nickname.equals("")) {
-                        if (User.getUserByUsername(username) == null) {
-                            if (User.getUserByNickname(nickname) == null) {
-                                message = 4;
-                                LoginMenu loginMenu = new LoginMenu();
-                                loginMenu.registerNewUser(username, nickname, password);
-                                game.setScreen(new ChooseCharacter(game, isMute, User.getUserByUsername(username)));
-                                dispose();
-                                try {
-                                    Finisher.finish();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            } else {
-                                message = 3;
-                            }
-                        } else {
+                        LoginMenu loginMenu = new LoginMenu();
+                        String result = loginMenu.registerNewUser(username,nickname,password);
+                        if (result.equals("success")){
+                            message = 4;
+                            game.setScreen(new ChooseCharacter(game, isMute, User.getUserByUsername(username)));
+                            dispose();
+                        }else if (result.equals("username!")){
                             message = 2;
+                        }else {
+                            message = 3;
                         }
                     } else {
                         message = 1;

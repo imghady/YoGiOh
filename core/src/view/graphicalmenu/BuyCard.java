@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
+import controller.ShopMenu;
 import model.Finisher;
 import model.card.Card;
 import model.user.User;
@@ -25,6 +26,7 @@ public class BuyCard implements Screen, Input.TextInputListener {
     BitmapFont text;
     BitmapFont text1;
     BitmapFont text2;
+    BitmapFont text3;
     BitmapFont type;
     BitmapFont error;
     Texture mute;
@@ -32,6 +34,8 @@ public class BuyCard implements Screen, Input.TextInputListener {
     boolean isMute;
     Texture backButton;
     Texture buy;
+    Texture deck;
+    Texture deck1;
     Texture cardName;
     User currentLoggedInUser;
     String name = "";
@@ -39,6 +43,8 @@ public class BuyCard implements Screen, Input.TextInputListener {
     boolean isNameCorrect = false;
     String address = null;
     Texture card;
+    boolean isCardFix = true;
+    boolean isShowBigger = false;
 
     public BuyCard(Mola game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
@@ -50,13 +56,16 @@ public class BuyCard implements Screen, Input.TextInputListener {
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         error = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        text3 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         type = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
+        deck = new Texture("deckpic.png");
+        deck1 = new Texture("deckpic1.png");
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
-        buy = new Texture("buttons/buy.png");
+        buy = new Texture("buttons/show.png");
         cardName = new Texture("buttons/cardName.png");
     }
 
@@ -73,22 +82,18 @@ public class BuyCard implements Screen, Input.TextInputListener {
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600, 960);
         text.getData().setScale(0.3f);
-        text2.getData().setScale(0.2f);
+        text2.getData().setScale(0.15f);
         error.getData().setScale(0.2f);
         type.getData().setScale(0.15f);
+        text3.setColor(Color.YELLOW);
         text2.setColor(Color.GREEN);
+        text3.getData().setScale(0.2f);
         type.setColor(Color.YELLOW);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "Buy card\nyour credit: " + currentLoggedInUser.getCredit(), 150, 850);
-        text2.draw(batch, "enter a card name to buy:", 150, 500);
+        text.draw(batch, "Buy card\nyour credit: " + currentLoggedInUser.getCredit(), 150, 900);
+        text2.draw(batch, "enter a card name to Show\nthen drag and drop to by", 150, 520);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(cardName, 50, 300, cardName.getWidth(), cardName.getHeight());
-        batch.draw(buy, 660, 180, buy.getWidth(), buy.getHeight());
-        type.draw(batch, name, 340, 380);
-        if (isNameCorrect && address != null) {
-            card = new Texture(address);
-            batch.draw(card, 1100, 150, card.getWidth(), card.getHeight());
-        }
         if (message == 1) {
             error.setColor(Color.RED);
             error.draw(batch, "enter a name", 150, 280);
@@ -102,6 +107,73 @@ public class BuyCard implements Screen, Input.TextInputListener {
             error.setColor(Color.GREEN);
             error.draw(batch, "card successfully bought", 150, 280);
         }
+
+        batch.draw(buy, 660, 180, buy.getWidth(), buy.getHeight());
+        type.draw(batch, name, 340, 380);
+        if (isNameCorrect && address != null) {
+            card = new Texture(address);
+            if (isCardFix) {
+                text3.draw(batch, "price: " + Objects.requireNonNull(Card.getCardByName(name)).getPrice(), 1120, 850);
+                batch.draw(card, 1100, 150, card.getWidth(), card.getHeight());
+            } else {
+                text3.draw(batch, "price: " + Objects.requireNonNull(Card.getCardByName(name)).getPrice(), 1120, 850);
+                batch.draw(card, Gdx.input.getX() - 210, 960 - Gdx.input.getY() - 300, card.getWidth(), card.getHeight());
+
+                if (Gdx.input.getY() > 460 - deck1.getHeight() - 70 && Gdx.input.getY() < 460 + 70) {
+                    if (Gdx.input.getX() > 280 - 70 && Gdx.input.getX() < 280 + deck1.getWidth() + 70) {
+                        isShowBigger = true;
+                    }
+                }
+
+                if (isShowBigger) {
+                    if (Gdx.input.getY() > 460 - deck1.getHeight() && Gdx.input.getY() < 460 && Gdx.input.getX() > 280 && Gdx.input.getX() < 280 + deck1.getWidth()) {
+
+                    } else {
+
+                        isShowBigger = false;
+
+                    }
+
+                    if (Gdx.input.justTouched()) {
+                        Card newCard = Objects.requireNonNull(Card.getCardByName(name));
+                        ShopMenu shopMenu = new ShopMenu(currentLoggedInUser.getUsername());
+                        String result = shopMenu.buyCard(name);
+                        if (result.equals("success")) {
+                            message = 4;
+                            try {
+                                Finisher.finish();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else if (result.equals("not enough money")){
+                            message = 3;
+                        }
+                    }
+                }
+
+                if (Gdx.input.justTouched()) {
+                    isCardFix = true;
+                    isShowBigger = false;
+                }
+            }
+
+            if (Gdx.input.justTouched()) {
+                if (Gdx.input.getY() > 810 - card.getHeight() && Gdx.input.getY() < 810) {
+                    if (Gdx.input.getX() > 1100 && Gdx.input.getX() < 1100 + card.getWidth()) {
+                        isCardFix = false;
+                    }
+                }
+            }
+
+        }
+
+        if (isShowBigger) {
+            batch.draw(deck1, 280, 500, deck1.getWidth(), deck1.getHeight());
+        } else {
+            batch.draw(deck, 280, 500, deck.getWidth(), deck.getHeight());
+        }
+
         batch.end();
 
         if (Gdx.input.justTouched()) {
@@ -133,19 +205,8 @@ public class BuyCard implements Screen, Input.TextInputListener {
                         message = 2;
                     } else {
                         Card newCard = Objects.requireNonNull(Card.getCardByName(name));
-                        if (newCard.getPrice() > currentLoggedInUser.getCredit()) {
-                            message = 3;
-                        } else {
-                            message = 4;
-                            isNameCorrect = true;
-                            currentLoggedInUser.addCard(newCard);
-                            try {
-                                Finisher.finish();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            address = getCardImageFileAddress(name) + ".jpg";
-                        }
+                        isNameCorrect = true;
+                        address = getCardImageFileAddress(name) + ".jpg";
                     }
                 }
             }

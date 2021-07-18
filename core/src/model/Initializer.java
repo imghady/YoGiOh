@@ -1,6 +1,9 @@
 package model;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.reflect.TypeToken;
+import controller.AppClient;
 import model.card.Monster;
 import model.card.Spell;
 import model.card.Trap;
@@ -11,11 +14,15 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Initializer {
+
+    private static JSONObject jsonObject;
+    public static JSONParser parser = new JSONParser();
 
     public static void initialize() throws IOException, ParseException {
         initializeMonster();
@@ -142,7 +149,29 @@ public class Initializer {
         }
     }
 
-    private static void addUsers() throws IOException {
+    public static void addUsers() throws FileNotFoundException {
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("command","countUsers");
+//        try {
+//            AppClient.dataOutputStream.writeUTF(jsonObject.toJSONString());
+//            AppClient.dataOutputStream.flush();
+//            String num = AppClient.dataInputStream.readUTF();
+//            jsonObject = (JSONObject) parser.parse(num);
+//            int number =Integer.parseInt(jsonObject.get("number").toString());
+//            ArrayList<User> users = new ArrayList<>();
+//            for (int i = 0; i < number; i++) {
+//                jsonObject.clear();
+//                jsonObject.put("command","updateUsers");
+//                jsonObject.put("number",i);
+//                AppClient.dataOutputStream.writeUTF(jsonObject.toJSONString());
+//                AppClient.dataOutputStream.flush();
+//                Object object = AppClient.objectInputStream.readObject();
+//                users.add((User) object);
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         File directoryPath = new File("resources/users");
         File[] filesList = directoryPath.listFiles();
         assert filesList != null;
