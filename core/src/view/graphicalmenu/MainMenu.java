@@ -27,6 +27,7 @@ public class MainMenu implements Screen {
     Texture play;
     Texture character;
     Texture importB;
+    Texture chatroom;
     String charPic;
 
     public MainMenu(Mola game, boolean isMute, User user) {
@@ -46,6 +47,7 @@ public class MainMenu implements Screen {
         fields = new Texture("buttons/mainFields.png");
         play = new Texture("buttons/play.png");
         importB = new Texture("buttons/import.png");
+        chatroom = new Texture("buttons/chatroom.png");
         character = new Texture(charPic);
     }
 
@@ -70,6 +72,7 @@ public class MainMenu implements Screen {
         batch.draw(fields, 170, 140, fields.getWidth(), fields.getHeight());
         batch.draw(character, 1250, 400, character.getWidth(), character.getHeight());
         batch.draw(importB, 1200, 70, importB.getWidth(), importB.getHeight());
+        batch.draw(chatroom, 750, 70, chatroom.getWidth(), chatroom.getHeight());
         batch.draw(play, 1210, 170, 300, 300);
         batch.end();
 
@@ -91,6 +94,13 @@ public class MainMenu implements Screen {
             if (Gdx.input.getY() > 790 - play.getHeight() && Gdx.input.getY() < 790) {
                 if (Gdx.input.getX() > 1210 && Gdx.input.getX() < 1210 + play.getWidth()) {
                     game.setScreen(new DuelSelect(game, isMute, currentLoggedInUser));
+                    dispose();
+                }
+            }
+
+            if (Gdx.input.getY() > 890 - chatroom.getHeight() && Gdx.input.getY() < 890) {
+                if (Gdx.input.getX() > 750 && Gdx.input.getX() < 750 + chatroom.getWidth()) {
+                    game.setScreen(new ChatRoom(game, isMute, currentLoggedInUser));
                     dispose();
                 }
             }
