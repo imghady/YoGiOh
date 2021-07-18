@@ -8,12 +8,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
-import com.sun.org.apache.xml.internal.dtm.ref.sax2dtm.SAX2RTFDTM;
 import controller.ScoreboardMenu;
 import model.user.User;
 
-public class Scoreboard implements Screen {
-
+public class OnlineUser implements Screen {
     SpriteBatch batch;
     final Mola game;
     OrthographicCamera camera;
@@ -30,7 +28,7 @@ public class Scoreboard implements Screen {
     String[] users;
     long now;
 
-    public Scoreboard(Mola game, boolean isMute, User currentLoggedInUser) {
+    public OnlineUser(Mola game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
         this.isMute = isMute;
         this.game = game;
@@ -45,7 +43,7 @@ public class Scoreboard implements Screen {
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
-        users = ScoreboardMenu.getSortUsersByScore();
+        users = ScoreboardMenu.getOnlineUser();
         now = System.currentTimeMillis();
     }
 
@@ -69,12 +67,23 @@ public class Scoreboard implements Screen {
         title.draw(batch, "Scoreboard", 150, 850);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         int counter = 0;
-        for (String user : users) {
-            String[] check = user.split(" ");
-            if (check[1].equals(currentLoggedInUser.getNickname())) {
-                text2.draw(batch, user, 200, 700 - 60 * counter);
+        for (int i = 0; i < 10; i++) {
+            if (i == users.length) {
+                break;
+            }
+            if (users[i].equals(currentLoggedInUser.getNickname())) {
+                text2.draw(batch, (i+1) + ". " + users[i], 200, 700 - 60 * counter);
             } else {
-                text.draw(batch, user, 200, 700 - 60 * counter);
+                text.draw(batch, (i+1) + ". " + users[i], 200, 700 - 60 * counter);
+            }
+            counter++;
+        }
+        counter = 0;
+        for (int i = 10; i < users.length; i++) {
+            if (users[i].equals(currentLoggedInUser.getNickname())) {
+                text2.draw(batch, (i+1) + ". " + users[i], 550, 700 - 60 * counter);
+            } else {
+                text.draw(batch, (i+1) + ". " + users[i], 550, 700 - 60 * counter);
             }
             counter++;
         }
@@ -95,11 +104,11 @@ public class Scoreboard implements Screen {
             }
 
         }
+
         if (System.currentTimeMillis() - now >= 10000){
-            users = ScoreboardMenu.getSortUsersByScore();
+            users = ScoreboardMenu.getOnlineUser();
             now = System.currentTimeMillis();
         }
-
 
         if (isMute) {
             batch.begin();
@@ -113,7 +122,6 @@ public class Scoreboard implements Screen {
             batch.end();
         }
     }
-
 
     @Override
     public void resize(int width, int height) {
@@ -139,5 +147,4 @@ public class Scoreboard implements Screen {
     public void dispose() {
 
     }
-
 }

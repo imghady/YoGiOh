@@ -22,17 +22,16 @@ public class ProfileMenu {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("command", "changeNickname");
         jsonObject.put("nickname", nickname);
-        jsonObject.put("token",AppClient.getToken());
+        jsonObject.put("token", AppClient.getToken());
         String result = "";
         try {
             AppClient.dataOutputStream.writeUTF(jsonObject.toJSONString());
             AppClient.dataOutputStream.flush();
             result = AppClient.dataInputStream.readUTF();
             JSONObject jsonInput = (JSONObject) parser.parse(result);
-            if (jsonInput.get("type").equals("Successful")){
+            if (jsonInput.get("type").equals("Successful")) {
                 return "success";
-            }
-            else {
+            } else {
                 return "error";
             }
         } catch (Exception e) {
@@ -44,18 +43,17 @@ public class ProfileMenu {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("command", "changePassword");
         jsonObject.put("currentPassword", currentPassword);
-        jsonObject.put("newPassword",newPassword);
-        jsonObject.put("token",AppClient.getToken());
+        jsonObject.put("newPassword", newPassword);
+        jsonObject.put("token", AppClient.getToken());
         String result = "";
         try {
             AppClient.dataOutputStream.writeUTF(jsonObject.toJSONString());
             AppClient.dataOutputStream.flush();
             result = AppClient.dataInputStream.readUTF();
             JSONObject jsonInput = (JSONObject) parser.parse(result);
-            if (jsonInput.get("type").equals("Successful")){
+            if (jsonInput.get("type").equals("Successful")) {
                 return "success";
-            }
-            else {
+            } else {
                 return jsonInput.get("message").toString();
             }
         } catch (Exception e) {
