@@ -97,17 +97,18 @@ public class Login implements Screen, Input.TextInputListener {
             if (Gdx.input.getX() > 800 && Gdx.input.getX() < 800 + login.getWidth()
                     && Gdx.input.getY() < 860 && Gdx.input.getY() > 860 - login.getHeight()) {
                 if (username != null && password != null && !username.equals("") && !password.equals("")) {
-                    if (User.getUserByUsername(username) != null) {
-                        LoginMenu loginMenu = new LoginMenu();
-                        if (loginMenu.isUsernameAndPasswordMatch(username, password)) {
-                            Objects.requireNonNull(User.getUserByUsername(username)).setUserLoggedIn(true);
-                            message = 4;
-                            game.setScreen(new MainMenu(game, isMute, User.getUserByUsername(username)));
-                            dispose();
-                        } else {
-                            message = 3;
-                        }
-                    } else {
+                    LoginMenu loginMenu = new LoginMenu();
+                    String result = loginMenu.loginUser(username,password);
+                    if (result.equals("success")){
+                        Objects.requireNonNull(User.getUserByUsername(username)).setUserLoggedIn(true);
+                        message = 4;
+                        game.setScreen(new MainMenu(game, isMute, User.getUserByUsername(username)));
+                        dispose();
+                    }
+                    else if (result.equals("pass")){
+                        message = 3;
+                    }
+                    else if (result.equals("user")){
                         message = 2;
                     }
                 } else {
@@ -151,7 +152,7 @@ public class Login implements Screen, Input.TextInputListener {
         } else if (message == 2) {
             batch.begin();
             text.setColor(com.badlogic.gdx.graphics.Color.RED);
-            text.draw(batch, "user with username " + username + " does not exists!", 130, 280);
+            text.draw(batch, "user already login", 130, 280);
             batch.end();
         } else if (message == 3) {
             batch.begin();

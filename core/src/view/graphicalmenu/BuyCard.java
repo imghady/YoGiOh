@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
+import controller.ShopMenu;
 import model.Finisher;
 import model.card.Card;
 import model.user.User;
@@ -135,16 +136,18 @@ public class BuyCard implements Screen, Input.TextInputListener {
 
                     if (Gdx.input.justTouched()) {
                         Card newCard = Objects.requireNonNull(Card.getCardByName(name));
-                        if (newCard.getPrice() > currentLoggedInUser.getCredit()) {
-                            message = 3;
-                        } else {
+                        ShopMenu shopMenu = new ShopMenu(currentLoggedInUser.getUsername());
+                        String result = shopMenu.buyCard(name);
+                        if (result.equals("success")) {
                             message = 4;
-                            currentLoggedInUser.addCard(newCard);
                             try {
                                 Finisher.finish();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
+                        }
+                        else if (result.equals("not enough money")){
+                            message = 3;
                         }
                     }
                 }
