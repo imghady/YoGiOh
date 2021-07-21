@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
+import controller.AdminController;
 import model.user.User;
 
 public class BanAdmin implements Screen, Input.TextInputListener {
@@ -117,8 +118,8 @@ public class BanAdmin implements Screen, Input.TextInputListener {
                     if (cardName.equals("")) {
                         message = 1;
                     } else {
-
-
+                        String result = AdminController.ban(cardName);
+                        // TODO message = result
                     }
                 }
             }

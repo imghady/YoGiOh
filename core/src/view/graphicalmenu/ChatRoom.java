@@ -30,6 +30,9 @@ public class ChatRoom implements Screen, Input.TextInputListener {
     User currentLoggedInUser;
     String message = "";
     int message1 = 0;
+    controller.ChatRoom chatRoom = new controller.ChatRoom();
+    long lastRefresh;
+    String allChats = "";
 
     public ChatRoom(Mola game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
@@ -48,6 +51,7 @@ public class ChatRoom implements Screen, Input.TextInputListener {
         backButton = new Texture("buttons/back.png");
         messageField = new Texture("buttons/messageField.png");
         send = new Texture("buttons/send.png");
+        lastRefresh = System.currentTimeMillis();
     }
 
     @Override
@@ -58,15 +62,22 @@ public class ChatRoom implements Screen, Input.TextInputListener {
     @Override
     public void render(float delta) {
 
+        if (System.currentTimeMillis() - lastRefresh > 1000) {
+            allChats = chatRoom.getChat();
+        }
+
+
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(wallpaper, 0, 0, 1600, 960);
         text.getData().setScale(0.2f);
-        text2.getData().setScale(0.1f);
+        text2.getData().setScale(0.2f);
         text3.getData().setScale(0.2f);
         text.setColor(Color.GREEN);
         text3.setColor(Color.RED);
+
+        text3.draw(batch, allChats, 200, 700);
 
         text.draw(batch, "Chat Room", 150, 850);
         text.draw(batch, "enter your message:", 150, 280);
@@ -106,7 +117,9 @@ public class ChatRoom implements Screen, Input.TextInputListener {
 
             if (Gdx.input.getY() > 950 - send.getHeight() && Gdx.input.getY() < 950) {
                 if (Gdx.input.getX() > 1200 && Gdx.input.getX() < 1200 + send.getWidth()) {
-
+                    if (!message.isEmpty()) {
+                        chatRoom.addChat(currentLoggedInUser.getUsername(), message);
+                    }
                 }
             }
 
