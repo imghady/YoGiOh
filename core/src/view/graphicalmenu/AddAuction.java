@@ -22,6 +22,7 @@ public class AddAuction implements Screen {
     boolean isMute = false;
     Texture backButton;
     User currentLoggedInUser;
+    controller.Auction auction = new controller.Auction();
 
     public AddAuction(Mola game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
@@ -36,7 +37,6 @@ public class AddAuction implements Screen {
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
-
     }
 
     @Override
