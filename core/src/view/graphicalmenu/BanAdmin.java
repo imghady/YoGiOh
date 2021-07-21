@@ -9,9 +9,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
+import controller.AdminController;
 import model.user.User;
 
-public class AddAuction implements Screen, Input.TextInputListener {
+public class BanAdmin implements Screen, Input.TextInputListener {
 
     SpriteBatch batch;
     final Mola game;
@@ -30,13 +31,11 @@ public class AddAuction implements Screen, Input.TextInputListener {
     int message = 0;
     String messageString = "";
     boolean isHolderName = false;
-    boolean isHolderPrice = false;
     String holder = "";
-    String price = "";
     String cardName = "";
     controller.Auction auction = new controller.Auction();
 
-    public AddAuction(Mola game, boolean isMute, User currentLoggedInUser) {
+    public BanAdmin(Mola game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
         this.isMute = isMute;
         this.game = game;
@@ -51,7 +50,7 @@ public class AddAuction implements Screen, Input.TextInputListener {
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
         agree = new Texture("buttons/agree.png");
-        field = new Texture("buttons/addAuctionFields.png");
+        field = new Texture("buttons/cardName.png");
     }
 
     @Override
@@ -68,12 +67,11 @@ public class AddAuction implements Screen, Input.TextInputListener {
         text.getData().setScale(0.2f);
         error.getData().setScale(0.2f);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "Add Auction", 150, 850);
+        text.draw(batch, "Admin Ban Or Unban", 150, 850);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
         batch.draw(field, 100, 300, field.getWidth(), field.getHeight());
         batch.draw(agree, 450, 200, agree.getWidth(), agree.getHeight());
-        text.draw(batch, cardName, 370, 495);
-        text.draw(batch, price, 370, 375);
+        text.draw(batch, cardName, 390, 390);
         if (message == 1) {
             batch.begin();
             error.draw(batch, "please complete all fields.", 130, 280);
@@ -101,36 +99,27 @@ public class AddAuction implements Screen, Input.TextInputListener {
 
             if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
                 if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
-                    game.setScreen(new Auction(game, isMute, currentLoggedInUser));
+                    game.setScreen(new Admin(game, isMute, currentLoggedInUser));
                     dispose();
                 }
             }
 
-            if (Gdx.input.getX() > 100 && Gdx.input.getX() < 100 + field.getWidth()) {
-                if (Gdx.input.getY() > 610 - field.getHeight() / 2 && Gdx.input.getY() < 610) {
+
+            if (Gdx.input.getY() > 660 - field.getHeight() && Gdx.input.getY() < 660) {
+                if (Gdx.input.getX() > 100 && Gdx.input.getX() < 100 + field.getWidth()) {
                     message = 0;
-                    isHolderPrice = true;
-                    Gdx.input.getTextInput(this, "First Price", "", "");
-                } else if (Gdx.input.getY() > 610 - field.getHeight() && Gdx.input.getY() < 610 - field.getHeight() / 2) {
-                    message = 0;
-                    isHolderName = true;
                     Gdx.input.getTextInput(this, "Card Name", "", "");
                 }
             }
 
+
             if (Gdx.input.getY() > 950 - agree.getHeight() && Gdx.input.getY() < 950) {
                 if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + agree.getWidth()) {
-                    if (price.equals("") || cardName.equals("")) {
+                    if (cardName.equals("")) {
                         message = 1;
                     } else {
-                        String result = auction.addAuction(cardName, price);
-                        if (result.equals("success")) {
-                            message = 1;
-                            messageString = result;
-                        } else {
-                            message = 2;
-                            messageString = result;
-                        }
+                        String result = AdminController.ban(cardName);
+                        // TODO message = result
                     }
                 }
             }
@@ -178,15 +167,8 @@ public class AddAuction implements Screen, Input.TextInputListener {
 
     @Override
     public void input(String s) {
-        this.holder = s;
+        this.cardName = s;
 
-        if (isHolderName) {
-            cardName = holder;
-            isHolderName = false;
-        } else if (isHolderPrice) {
-            price = holder;
-            isHolderPrice = false;
-        }
     }
 
     @Override
