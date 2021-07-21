@@ -98,17 +98,19 @@ public class Login implements Screen, Input.TextInputListener {
                     && Gdx.input.getY() < 860 && Gdx.input.getY() > 860 - login.getHeight()) {
                 if (username != null && password != null && !username.equals("") && !password.equals("")) {
                     LoginMenu loginMenu = new LoginMenu();
-                    String result = loginMenu.loginUser(username,password);
-                    if (result.equals("success")){
-                        Objects.requireNonNull(User.getUserByUsername(username)).setUserLoggedIn(true);
-                        message = 4;
-                        game.setScreen(new MainMenu(game, isMute, User.getUserByUsername(username)));
+                    String result = loginMenu.loginUser(username, password);
+                    if (result.equals("success")) {
+                        if (username.equals("Admin")) {
+                            game.setScreen(new Admin(game, isMute, User.getUserByUsername(username)));
+                        } else {
+                            Objects.requireNonNull(User.getUserByUsername(username)).setUserLoggedIn(true);
+                            message = 4;
+                            game.setScreen(new MainMenu(game, isMute, User.getUserByUsername(username)));
+                        }
                         dispose();
-                    }
-                    else if (result.equals("pass")){
+                    } else if (result.equals("pass")) {
                         message = 3;
-                    }
-                    else if (result.equals("user")){
+                    } else if (result.equals("user")) {
                         message = 2;
                     }
                 } else {
