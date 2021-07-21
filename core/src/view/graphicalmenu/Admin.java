@@ -21,6 +21,7 @@ public class Admin implements Screen {
     Texture unmute;
     boolean isMute = false;
     Texture backButton;
+    Texture buttons;
     User currentLoggedInUser;
 
     public Admin(Mola game, boolean isMute, User currentLoggedInUser) {
@@ -36,6 +37,7 @@ public class Admin implements Screen {
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
+        buttons = new Texture("buttons/adminButtons.png");
 
     }
 
@@ -54,6 +56,7 @@ public class Admin implements Screen {
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
         text.draw(batch, "Admin Panel", 150, 850);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
+        batch.draw(buttons, 200, 100, buttons.getWidth(), buttons.getHeight());
         batch.end();
 
         if (Gdx.input.justTouched()) {
@@ -72,6 +75,20 @@ public class Admin implements Screen {
 
         }
 
+        if (Gdx.input.justTouched()) {
+            if (Gdx.input.getX() > 200 && Gdx.input.getX() < 200 + buttons.getWidth()) {
+                if (Gdx.input.getY() > 810 - buttons.getHeight() / 3 && Gdx.input.getY() < 810) {
+                    game.setScreen(new BanAdmin(game, isMute, currentLoggedInUser));
+                    dispose();
+                } else if (Gdx.input.getY() > 810 - 2 * buttons.getHeight() / 3 && Gdx.input.getY() < 810 - buttons.getHeight() / 3) {
+                    game.setScreen(new RemoveCardAdmin(game, isMute, currentLoggedInUser));
+                    dispose();
+                } else if (Gdx.input.getY() > 810 - buttons.getHeight() && Gdx.input.getY() < 810 - 2 * buttons.getHeight() / 3) {
+                    game.setScreen(new AddCardAdmin(game, isMute, currentLoggedInUser));
+                    dispose();
+                }
+            }
+        }
 
         if (isMute) {
             batch.begin();
