@@ -26,16 +26,13 @@ public class AddAuction implements Screen, Input.TextInputListener {
     Texture field;
     Texture agree;
     User currentLoggedInUser;
-<<<<<<< HEAD
     int message = 0;
     boolean isHolderName = false;
     boolean isHolderPrice = false;
     String holder = "";
     String price = "";
     String cardName = "";
-=======
     controller.Auction auction = new controller.Auction();
->>>>>>> f9b82605069491105945f0ccc17199f9232b4986
 
     public AddAuction(Mola game, boolean isMute, User currentLoggedInUser) {
         this.currentLoggedInUser = currentLoggedInUser;
@@ -51,12 +48,8 @@ public class AddAuction implements Screen, Input.TextInputListener {
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
-<<<<<<< HEAD
         agree = new Texture("buttons/agree.png");
         field = new Texture("buttons/addAuctionFields.png");
-
-=======
->>>>>>> f9b82605069491105945f0ccc17199f9232b4986
     }
 
     @Override
@@ -80,6 +73,8 @@ public class AddAuction implements Screen, Input.TextInputListener {
         text.draw(batch, cardName, 370, 495);
         text.draw(batch, price, 370, 375);
         batch.end();
+
+
 
         if (Gdx.input.justTouched()) {
 
@@ -111,6 +106,15 @@ public class AddAuction implements Screen, Input.TextInputListener {
                 if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + agree.getWidth()) {
                     if (price.equals("") || cardName.equals("")) {
                         message = 1;
+                    }
+                    else{
+                        String result = auction.addAuction(cardName,price);
+                        if (result.equals("success")){
+                            // TODO message = success
+                        }
+                        else {
+                            // TODO message = result
+                        }
                     }
                 }
             }
