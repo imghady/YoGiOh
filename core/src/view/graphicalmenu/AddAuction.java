@@ -3,6 +3,7 @@ package view.graphicalmenu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -27,6 +28,7 @@ public class AddAuction implements Screen, Input.TextInputListener {
     Texture agree;
     User currentLoggedInUser;
     int message = 0;
+    String messageString = "";
     boolean isHolderName = false;
     boolean isHolderPrice = false;
     String holder = "";
@@ -72,6 +74,21 @@ public class AddAuction implements Screen, Input.TextInputListener {
         batch.draw(agree, 450, 200, agree.getWidth(), agree.getHeight());
         text.draw(batch, cardName, 370, 495);
         text.draw(batch, price, 370, 375);
+        if (message == 1) {
+            batch.begin();
+            error.draw(batch, "please complete all fields.", 130, 280);
+            batch.end();
+        } else if (message == 2) {
+            batch.begin();
+            error.setColor(com.badlogic.gdx.graphics.Color.RED);
+            error.draw(batch, messageString, 130, 600);
+            batch.end();
+        } else if (message == 3) {
+            batch.begin();
+            error.setColor(Color.RED);
+            error.draw(batch, messageString, 130, 600);
+            batch.end();
+        }
         batch.end();
 
 
@@ -110,10 +127,12 @@ public class AddAuction implements Screen, Input.TextInputListener {
                     else{
                         String result = auction.addAuction(cardName,price);
                         if (result.equals("success")){
-                            // TODO message = success
+                            message = 1;
+                            messageString = result;
                         }
                         else {
-                            // TODO message = result
+                            message = 2;
+                            messageString = result;
                         }
                     }
                 }
