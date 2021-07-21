@@ -1,15 +1,22 @@
 package view.graphicalmenu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
+import model.battle.Player;
+import model.card.Card;
+import model.user.Deck;
 import model.user.User;
 
-public class Shop implements Screen {
+import java.util.ArrayList;
+
+public class graveyardShow  implements Screen, Input.TextInputListener{
 
     SpriteBatch batch;
     final Mola game;
@@ -17,16 +24,29 @@ public class Shop implements Screen {
     Texture wallpaper;
     BitmapFont text;
     BitmapFont text1;
+    BitmapFont text2;
+    BitmapFont text3;
+    BitmapFont text4;
     Texture mute;
     Texture unmute;
-    boolean isMute = false;
+    boolean isMute;
+    Deck deck;
     Texture backButton;
     User currentLoggedInUser;
-    Texture test;
-    Texture buttons;
-    Texture auction;
+    String deckInfo = "";
+    String mainDeckCard = "";
+    String sideDeckCard = "";
+    String mainDeckCard2 = "";
+    String mainDeckCard3 = "";
+    String sideDeckCard2 = "";
+    Duel duel;
+    ArrayList<Card> cards = new ArrayList<>();
+    String username;
 
-    public Shop(Mola game, boolean isMute, User currentLoggedInUser) {
+    public graveyardShow(Mola game, boolean isMute, User currentLoggedInUser, Duel duel, ArrayList<Card> cards , Player player) {
+        this.duel = duel;
+        this.cards = cards;
+        username = player.getUser().getUsername();
         this.currentLoggedInUser = currentLoggedInUser;
         this.isMute = isMute;
         this.game = game;
@@ -34,14 +54,25 @@ public class Shop implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 960);
         text = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        text2 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        text3 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
+        text4 = new BitmapFont(Gdx.files.internal("Agency.fnt"));
         text1 = new BitmapFont(Gdx.files.internal("times.fnt"));
         wallpaper = new Texture("wallpaper.jpg");
         mute = new Texture("buttons/mute.png");
         unmute = new Texture("buttons/unmute.png");
         backButton = new Texture("buttons/back.png");
-        buttons = new Texture("buttons/shopList.png");
-        auction = new Texture("buttons/Auction.png");
-        test = new Texture("Cards/Monsters/Suijin.jpg");
+    }
+
+
+    @Override
+    public void input(String text) {
+
+    }
+
+    @Override
+    public void canceled() {
+
     }
 
     @Override
@@ -54,16 +85,31 @@ public class Shop implements Screen {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        batch.draw(wallpaper, 0, 0, 1600,960);
+        batch.draw(wallpaper, 0, 0, 1600, 960);
         text.getData().setScale(0.3f);
+        text2.getData().setScale(0.17f);
+        text3.getData().setScale(0.17f);
+        text4.getData().setScale(0.12f);
+        text2.setColor(Color.GREEN);
+        text3.setColor(Color.YELLOW);
+        text4.setColor(Color.CHARTREUSE);
         text1.draw(batch, "la nature est l'eglise de satan...", 1200, 30);
-        text.draw(batch, "Shop Menu\nyour credit: " + currentLoggedInUser.getCredit(), 200, 850);
+        text.draw(batch, username+"s'Graveyard", 150, 900);
+        mainDeckCard = "Cards:\n\n";
+        mainDeckCard2 = "\n\n";
+        for (int i = 0; i < 20; i++) {
+            if (cards.size()==i){
+                break;
+            }
+            mainDeckCard += cards.get(i).getName();
+        }
+        for (int i = 20; i < cards.size(); i++) {
+            mainDeckCard2 += cards.get(i).getName();
+        }
+        text4.draw(batch, mainDeckCard, 450, 900);
+        text4.draw(batch, mainDeckCard2, 750, 815);
         batch.draw(backButton, 10, 10, backButton.getWidth(), backButton.getHeight());
-        batch.draw(buttons, 200, 150, buttons.getWidth(), buttons.getHeight());
-        batch.draw(auction, 1170, 250, auction.getWidth(), auction.getHeight());
-
         batch.end();
-
         if (Gdx.input.justTouched()) {
 
             if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + mute.getWidth()
@@ -73,44 +119,11 @@ public class Shop implements Screen {
 
             if (Gdx.input.getY() > 950 - backButton.getHeight() && Gdx.input.getY() < 950) {
                 if (Gdx.input.getX() > 10 && Gdx.input.getX() < 10 + backButton.getWidth()) {
-                    game.setScreen(new MainMenu(game, isMute, currentLoggedInUser));
+                    game.setScreen(duel);
                     dispose();
                 }
             }
 
-            if (Gdx.input.getY() > 710 - auction.getHeight() && Gdx.input.getY() < 710) {
-                if (Gdx.input.getX() > 1170 && Gdx.input.getX() < 1170 + auction.getWidth()) {
-                    game.setScreen(new Auction(game, isMute, currentLoggedInUser));
-                    dispose();
-                }
-            }
-
-            if (Gdx.input.getX() > 200 && Gdx.input.getX() < 200 + buttons.getWidth()) {
-                if (Gdx.input.getY() > 810 - buttons.getHeight() / 3 && Gdx.input.getY() < 810) {
-                    game.setScreen(new ShowAllCards1(game, isMute, currentLoggedInUser, "shop"));
-                    dispose();
-                } else if (Gdx.input.getY() > 810 - 2 * buttons.getHeight() / 3 && Gdx.input.getY() < 810 - buttons.getHeight() / 3) {
-                    game.setScreen(new ShowOneCard(game, isMute, currentLoggedInUser));
-                    dispose();
-                } else if (Gdx.input.getY() > 810 - buttons.getHeight() && Gdx.input.getY() < 810 - 2 * buttons.getHeight() / 3) {
-                    game.setScreen(new BuyCard(game, isMute, currentLoggedInUser));
-                    dispose();
-                }
-            }
-
-        }
-
-
-        if (isMute) {
-            batch.begin();
-            batch.draw(mute, 10, 850, mute.getWidth(), mute.getHeight());
-            Mola.music.pause();
-            batch.end();
-        } else {
-            batch.begin();
-            batch.draw(unmute, 10, 850, unmute.getWidth(), unmute.getHeight());
-            Mola.music.play();
-            batch.end();
         }
     }
 

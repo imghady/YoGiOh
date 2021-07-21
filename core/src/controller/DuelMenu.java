@@ -1803,7 +1803,7 @@ public class DuelMenu {
 
                 opponentMat.setMonsterZone(number, null);
                 for (int i = 0; i < 5; i++) {
-                    if (mat.getMonsterZone(i).getName().equals(selectedCard.getName())) {
+                    if (mat.getMonsterZone(i) != null && mat.getMonsterZone(i).getName().equals(selectedCard.getName())) {
                         mat.setMonsterZone(i, null);
                         break;
                     }

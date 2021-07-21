@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
+import controller.ProfileMenu;
 import model.Finisher;
 import model.user.User;
 import view.TerminalOutput;
@@ -120,27 +121,26 @@ public class ChangePassword implements Screen, Input.TextInputListener {
 
             if (Gdx.input.getY() > 860 - agree.getHeight() && Gdx.input.getY() < 860) {
                 if (Gdx.input.getX() > 650 && Gdx.input.getX() < 650 + agree.getWidth()) {
-                    if (newPassword.equals("") || currentPassword.equals("")) {
-                        message = 4;
-                    } else {
-                        if (isPasswordWrong(currentPassword)) {
-                            message = 1;
-                        } else {
-                            if (currentPassword.equals(newPassword)) {
-                                message = 2;
-                                TerminalOutput.output("please enter new password");
-                            } else {
-                                message = 3;
-                                currentLoggedInUser.setPassword(newPassword);
-                                try {
-                                    Finisher.finish();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+                    if (!newPassword.equals("") && !currentPassword.equals("")) {
+                        ProfileMenu profileMenu = new ProfileMenu(currentLoggedInUser.getUsername());
+                        String result = profileMenu.profileChangePassword(currentPassword,newPassword);
+                        if (result.equals("success")){
+                            message = 3;
+                            currentLoggedInUser.setPassword(newPassword);
+                            try {
+                                Finisher.finish();
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
                         }
+                        else if (result.equals("wrong password")){
+                            message = 1;
+                        }else if (result.equals("equal password")){
+                            message = 2;
+                        }
+                    }else {
+                        message = 4;
                     }
-
                 }
             }
 
