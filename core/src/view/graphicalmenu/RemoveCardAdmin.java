@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Mola;
+import controller.AdminController;
 import model.user.User;
 
 public class RemoveCardAdmin implements Screen, Input.TextInputListener {
@@ -123,7 +124,8 @@ public class RemoveCardAdmin implements Screen, Input.TextInputListener {
                     if (number.equals("") || cardName.equals("")) {
                         message = 1;
                     } else {
-
+                        String result = AdminController.add(cardName,number);
+                        // TODO message = result
                     }
                 }
             }
